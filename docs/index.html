@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyClaw Design — Timeline Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #f5f3eb;
+    color: #1a1a18;
+    font-family: 'Inter', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 24px 80px;
+  }
+  .badge {
+    font-size: 13px;
+    font-weight: 500;
+    color: #d97757;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: 18px;
+    font-weight: 300;
+    color: #6b6a64;
+    text-align: center;
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 48px;
+  }
+  .video-wrap {
+    width: 100%;
+    max-width: 960px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+    background: #1a1a18;
+  }
+  video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .meta {
+    margin-top: 24px;
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .meta-item {
+    text-align: center;
+  }
+  .meta-item .val {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1a1a18;
+  }
+  .meta-item .label {
+    font-size: 13px;
+    color: #9c9a92;
+    margin-top: 2px;
+  }
+  .divider {
+    width: 120px;
+    height: 2px;
+    background: #d97757;
+    border-radius: 1px;
+    margin: 48px 0;
+  }
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 960px;
+    width: 100%;
+  }
+  .feature {
+    background: #faf9f5;
+    border: 1px solid #ebe8de;
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .feature .icon { font-size: 28px; margin-bottom: 8px; }
+  .feature .name {
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .feature .desc {
+    font-size: 14px;
+    color: #6b6a64;
+    line-height: 1.5;
+  }
+  .footer {
+    margin-top: 64px;
+    text-align: center;
+    font-size: 14px;
+    color: #9c9a92;
+  }
+  .footer a {
+    color: #d97757;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .footer a:hover { text-decoration: underline; }
+  .dl-links {
+    margin-top: 16px;
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .dl-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    border: 1px solid #ebe8de;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1a1a18;
+    text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .dl-links a:hover {
+    border-color: #d97757;
+    background: rgba(217,119,87,0.06);
+  }
+</style>
+</head>
+<body>
+
+<div class="badge">OpenClaw Skill</div>
+<h1>MyClaw Design</h1>
+<p class="subtitle">Say one sentence. Get back a deliverable design — prototypes, animations, slide decks, infographics, all from conversation.</p>
+
+<div class="video-wrap">
+  <video controls autoplay muted playsinline poster="showcase-hero.png">
+    <source src="timeline-demo.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+
+<div class="dl-links" style="margin-top: 20px;">
+  <a href="timeline-demo.mp4" download>⬇ 25fps MP4 (2.8 MB)</a>
+  <a href="timeline-demo-60fps.mp4" download>⬇ 60fps MP4 (2.7 MB)</a>
+</div>
+
+<p style="font-size: 13px; color: #9c9a92; margin-top: 12px; text-align: center;">🔊 Unmute for BGM + 26 synced sound effects</p>
+
+<div class="meta">
+  <div class="meta-item"><div class="val">40s</div><div class="label">Duration</div></div>
+  <div class="meta-item"><div class="val">5</div><div class="label">Scenes</div></div>
+  <div class="meta-item"><div class="val">26</div><div class="label">Sound Effects</div></div>
+  <div class="meta-item"><div class="val">1</div><div class="label">BGM Track</div></div>
+</div>
+
+<div class="divider"></div>
+
+<div class="features">
+  <div class="feature">
+    <div class="icon">📱</div>
+    <div class="name">Interactive Prototypes</div>
+    <div class="desc">iPhone 15 Pro bezel, clickable, Playwright-verified. 10–15 min.</div>
+  </div>
+  <div class="feature">
+    <div class="icon">🎬</div>
+    <div class="name">Timeline Animations</div>
+    <div class="desc">MP4 + GIF, 60fps interpolated, BGM + SFX library. 8–12 min.</div>
+  </div>
+  <div class="feature">
+    <div class="icon">📊</div>
+    <div class="name">Slide Decks</div>
+    <div class="desc">HTML deck with editable PPTX export. 15–25 min.</div>
+  </div>
+  <div class="feature">
+    <div class="icon">🎨</div>
+    <div class="name">Design Variants</div>
+    <div class="desc">3+ side-by-side, live tweaks, cross-dimension. 10 min.</div>
+  </div>
+  <div class="feature">
+    <div class="icon">📐</div>
+    <div class="name">Infographics</div>
+    <div class="desc">Print-ready, PDF / PNG / SVG export. 10 min.</div>
+  </div>
+  <div class="feature">
+    <div class="icon">🔍</div>
+    <div class="name">Expert Review</div>
+    <div class="desc">5D critique, scored /10, actionable fix list. 3 min.</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="footer">
+  <p>Powered by <a href="https://myclaw.ai">MyClaw.ai</a></p>
+  <p style="margin-top: 8px;"><a href="https://github.com/LeoYeAI/myclaw-design">GitHub Repository</a></p>
+</div>
+
+</body>
+</html>
