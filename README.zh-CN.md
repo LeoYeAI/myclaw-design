@@ -23,7 +23,7 @@
 ---
 
 <p align="center">
-  <img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/hero-animation-v10-en.gif" alt="MyClaw Design Hero" width="100%">
+  <a href="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/hero-animation-v10-en.gif"><img src="docs/hero-preview.jpg" alt="MyClaw Design Hero" width="100%"></a>
 </p>
 
 <p align="center"><sub>
@@ -73,43 +73,43 @@ git clone https://github.com/LeoYeAI/myclaw-design.git ~/.openclaw/skills/myclaw
 
 需求模糊时的 fallback：从 5 流派 × 20 种设计哲学里挑 3 个差异化方向，并行生成 3 个 Demo 让你选。
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/w3-fallback-advisor-en.gif" width="100%"></p>
+<p align="center"><img src="docs/w3-fallback-advisor-en.gif" width="100%"></p>
 
 ### iOS App 原型
 
 iPhone 15 Pro 精确机身（灵动岛 / 状态栏 / Home Indicator）· 状态驱动多屏切换 · 真图从 Wikimedia/Met/Unsplash 取 · Playwright 自动点击测试。
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/c1-ios-prototype-en.gif" width="100%"></p>
+<p align="center"><img src="docs/c1-ios-prototype-en.gif" width="100%"></p>
 
 ### Motion Design 引擎
 
 Stage + Sprite 时间片段模型 · `useTime` / `useSprite` / `interpolate` / `Easing` 四 API 覆盖所有动画需求 · 一条命令导出 MP4 / GIF / 60fps 插帧 / 带 BGM+SFX 的成片。
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/c3-motion-design-en.gif" width="100%"></p>
+<p align="center"><img src="docs/c3-motion-design-en.gif" width="100%"></p>
 
 ### 幻灯片 + 可编辑 PPTX
 
 HTML-first 幻灯片，自动缩放 + 键盘导航 + Speaker Notes。导出可编辑 PPTX——原生文本框，不是截图贴底。
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/c2-slides-pptx-en.gif" width="100%"></p>
+<p align="center"><img src="docs/c2-slides-pptx-en.gif" width="100%"></p>
 
 ### 实时 Tweaks
 
 实时调参——切换配色、布局、字体、密度，不用重新生成。修改通过 localStorage 持久化。
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/c4-tweaks-en.gif" width="100%"></p>
+<p align="center"><img src="docs/c4-tweaks-en.gif" width="100%"></p>
 
 ### 信息图
 
 印刷级排版，数据驱动，精确到像素。可导出 PDF/PNG/SVG。
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/c5-infographic-en.gif" width="100%"></p>
+<p align="center"><img src="docs/c5-infographic-en.gif" width="100%"></p>
 
 ### 5 维度专家评审
 
 哲学一致性 / 视觉层级 / 细节执行 / 功能性 / 创新性——各打 0–10 分，雷达图 + Keep 清单 + Fix 清单（按严重度排序）+ Quick Wins。
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/c6-expert-review-en.gif" width="100%"></p>
+<p align="center"><img src="docs/c6-expert-review-en.gif" width="100%"></p>
 
 ---
 
@@ -125,7 +125,7 @@ Skill 不猜你的品牌。它遵循严格的 5 步协议：
 4. **验证** — 检查分辨率、透明度、版本新鲜度
 5. **锁定** — 写入 `brand-spec.md`，CSS 变量强制一致性
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/w1-brand-protocol-en.gif" width="100%"></p>
+<p align="center"><img src="docs/w1-brand-protocol-en.gif" width="100%"></p>
 
 > **为什么重要：** 没有真实品牌资产，所有 AI 生成的设计看起来都一样——通用渐变、占位图标、零品牌识别度。协议前期投入 30 分钟，省下 1–2 小时返工。
 
@@ -138,7 +138,7 @@ Skill 像一个向你汇报的初级设计师：
 3. **中途展示** — 做到一半就给你看，不是做完才交
 4. **验证** — 交付前跑 Playwright 截图 + 控制台错误检查
 
-<p align="center"><img src="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/w2-junior-designer-en.gif" width="100%"></p>
+<p align="center"><img src="docs/w2-junior-designer-en.gif" width="100%"></p>
 
 ### 反 AI Slop
 
