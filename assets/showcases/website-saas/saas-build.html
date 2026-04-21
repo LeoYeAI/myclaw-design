@@ -2,492 +2,411 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1440">
-<title>Meridian — Business Intelligence for Modern Teams</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyClaw — Pricing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    width: 1440px;
-    height: 900px;
-    overflow: hidden;
-    margin: 0;
     font-family: 'Inter', sans-serif;
     background: #FAFAF8;
-    color: #1a1a1a;
+    color: #1A1A1A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
   }
-
-  /* NAV */
+  .page {
+    width: 1440px;
+    min-height: 900px;
+    background: #FAFAF8;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Nav */
   nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 96px;
-    height: 80px;
+    padding: 40px 120px;
   }
-  .nav-logo {
-    font-size: 20px;
+  .nav-brand {
+    font-size: 14px;
     font-weight: 500;
-    letter-spacing: -0.3px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #1a1a1a;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1A1A1A;
   }
-  .nav-logo-icon {
-    width: 32px;
-    height: 32px;
-    background: #E8E4DF;
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .nav-logo-icon svg { width: 18px; height: 18px; color: #D4A574; }
+  .nav-brand span { color: #D4A574; }
   .nav-links {
     display: flex;
     gap: 40px;
     list-style: none;
   }
-  .nav-links a {
-    font-size: 14px;
-    font-weight: 400;
+  .nav-links li a {
+    font-size: 12px;
+    font-weight: 300;
+    color: #8A8078;
     text-decoration: none;
-    color: #777;
-    transition: color 0.2s;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
   }
-  .nav-links a:hover { color: #1a1a1a; }
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
+  .nav-links li a:hover { color: #1A1A1A; }
+  .nav-links li a.active { color: #D4A574; }
+  /* Header */
+  .pricing-header {
+    text-align: center;
+    padding: 80px 120px 64px;
   }
-  .nav-signin {
-    font-size: 14px;
-    font-weight: 400;
-    text-decoration: none;
-    color: #777;
-    transition: color 0.2s;
-  }
-  .nav-signin:hover { color: #1a1a1a; }
-  .nav-cta {
-    font-size: 13px;
-    font-weight: 400;
-    padding: 10px 24px;
-    background: #1a1a1a;
-    color: #FAFAF8;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .nav-cta:hover { background: #333; }
-
-  /* HERO LAYOUT */
-  .hero {
-    padding: 24px 96px 0 96px;
-    display: grid;
-    grid-template-columns: 480px 1fr;
-    gap: 64px;
-    align-items: start;
-    height: calc(900px - 80px);
-    position: relative;
-  }
-
-  /* LEFT TEXT */
-  .hero-text {
-    padding-top: 48px;
-  }
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-    padding: 0;
-    background: transparent;
-    margin-bottom: 32px;
-  }
-  .hero-badge-dot {
-    display: none;
-  }
-  .hero-badge span {
+  .pricing-eyebrow {
     font-size: 10px;
     font-weight: 400;
-    color: #B0ACA4;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     text-transform: uppercase;
-  }
-  .hero-headline {
-    font-size: 48px;
-    font-weight: 300;
-    line-height: 1.15;
-    letter-spacing: -1.5px;
+    color: #D4A574;
     margin-bottom: 24px;
-    color: #1a1a1a;
   }
-  .hero-headline em {
-    font-style: italic;
-    font-weight: 300;
-    color: #1a1a1a;
+  .pricing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 44px;
+    font-weight: 400;
+    color: #1A1A1A;
+    margin-bottom: 16px;
   }
-  .hero-subtitle {
-    font-size: 17px;
+  .pricing-sub {
+    font-size: 15px;
     font-weight: 300;
+    color: #8A8078;
     line-height: 1.7;
-    color: #888;
-    margin-bottom: 48px;
-    max-width: 400px;
   }
-  .hero-ctas {
+  /* Toggle */
+  .toggle-wrap {
     display: flex;
+    justify-content: center;
     gap: 16px;
+    align-items: center;
     margin-bottom: 64px;
   }
-  .btn-primary {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    padding: 14px 32px;
-    background: #1a1a1a;
-    color: #FAFAF8;
-    border: none;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .btn-primary:hover { background: #333; }
-  .btn-secondary {
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    padding: 14px 32px;
-    background: transparent;
-    color: #777;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s;
-  }
-  .btn-secondary:hover { border-color: #aaa; color: #1a1a1a; }
-  .btn-secondary svg { width: 15px; height: 15px; }
-
-  /* METRICS ROW */
-  .metrics {
-    display: flex;
-    gap: 48px;
-  }
-  .metric {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .metric-value {
-    font-size: 36px;
-    font-weight: 200;
-    letter-spacing: -1px;
-    color: #1a1a1a;
-  }
-  .metric-value span { color: #D4A574; }
-  .metric-label {
+  .toggle-label {
     font-size: 12px;
-    font-weight: 400;
-    color: #aaa;
-    letter-spacing: 0.3px;
-  }
-
-  /* RIGHT — DASHBOARD */
-  .hero-dashboard {
-    position: relative;
-    padding-top: 16px;
-  }
-  .dashboard-card {
-    background: #FFFFFF;
-    border-radius: 2px;
-    box-shadow:
-      0 1px 2px rgba(0,0,0,0.02),
-      0 4px 16px rgba(0,0,0,0.04);
-    padding: 28px;
-    width: 100%;
-  }
-
-  /* Dashboard header */
-  .dash-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  .dash-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: #1a1a1a;
-  }
-  .dash-period {
-    font-size: 12px;
-    font-weight: 400;
-    color: #aaa;
-    padding: 4px 12px;
-    border: 1px solid #eee;
-    border-radius: 2px;
-  }
-
-  /* KPI strip */
-  .kpi-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1px;
-    background: #f0eeeb;
-    border-radius: 2px;
-    overflow: hidden;
-    margin-bottom: 24px;
-  }
-  .kpi-item {
-    background: #FAFAF8;
-    padding: 18px 16px;
-    text-align: center;
-  }
-  .kpi-item-value {
-    font-size: 22px;
     font-weight: 300;
-    color: #1a1a1a;
-    letter-spacing: -0.5px;
-    margin-bottom: 4px;
+    color: #8A8078;
+    letter-spacing: 1px;
   }
-  .kpi-item-label {
-    font-size: 10px;
-    font-weight: 500;
-    color: #bbb;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  /* Chart */
-  .chart-container {
-    margin-bottom: 24px;
+  .toggle-label.active { color: #1A1A1A; font-weight: 400; }
+  .toggle {
+    width: 40px;
+    height: 20px;
+    background: #E8E0D8;
+    border-radius: 10px;
     position: relative;
-    height: 200px;
+    cursor: pointer;
   }
-  .chart-svg {
-    width: 100%;
-    height: 100%;
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #D4A574;
+    border-radius: 50%;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s ease;
   }
-
-  /* Bottom section */
-  .dash-bottom-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .insight-card {
-    background: #FAFAF8;
-    border-radius: 2px;
-    padding: 16px;
-  }
-  .insight-icon {
-    width: 28px;
-    height: 28px;
-    background: #F0EBE3;
-    border-radius: 2px;
+  /* Cards */
+  .cards {
     display: flex;
-    align-items: center;
     justify-content: center;
+    gap: 32px;
+    padding: 0 120px 80px;
+    align-items: flex-start;
+  }
+  .card {
+    flex: 1;
+    max-width: 360px;
+    border: 1px solid #E8E0D8;
+    padding: 48px 40px;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+  .card:hover {
+    border-color: #D4A574;
+    box-shadow: 0 8px 40px rgba(212,165,116,0.08);
+  }
+  .card.featured {
+    border-color: #D4A574;
+  }
+  .card-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #FAFAF8;
+    background: #D4A574;
+    padding: 6px 20px;
+  }
+  .card-name {
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #8A8078;
+    margin-bottom: 24px;
+  }
+  .card.featured .card-name { margin-top: 16px; }
+  .card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
     margin-bottom: 8px;
   }
-  .insight-icon svg { width: 14px; height: 14px; color: #D4A574; }
-  .insight-title {
-    font-size: 12px;
-    font-weight: 500;
-    color: #1a1a1a;
+  .card-currency {
+    font-size: 18px;
+    font-weight: 300;
+    color: #8A8078;
+  }
+  .card-amount {
+    font-size: 56px;
+    font-weight: 200;
+    color: #1A1A1A;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+  .card-period {
+    font-size: 13px;
+    font-weight: 300;
+    color: #B0A89E;
+    margin-bottom: 32px;
+  }
+  .card-line {
+    width: 100%;
+    height: 1px;
+    background: #E8E0D8;
+    margin-bottom: 32px;
+  }
+  .card-features {
+    list-style: none;
+    margin-bottom: 40px;
+  }
+  .card-features li {
+    font-size: 13px;
+    font-weight: 300;
+    color: #8A8078;
+    line-height: 1.6;
+    padding: 8px 0;
+    border-bottom: 1px solid #F5F0EB;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .card-features li:last-child { border-bottom: none; }
+  .check {
+    font-size: 10px;
+    color: #D4A574;
+  }
+  .card-btn {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 16px 0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid #E8E0D8;
+    color: #1A1A1A;
+  }
+  .card-btn:hover {
+    border-color: #D4A574;
+    color: #D4A574;
+  }
+  .card.featured .card-btn {
+    background: #D4A574;
+    border-color: #D4A574;
+    color: #FAFAF8;
+  }
+  .card.featured .card-btn:hover { opacity: 0.85; }
+  /* Comparison */
+  .comparison {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 120px 80px;
+  }
+  .comp-header {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #B0A89E;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .comp-table {
+    width: 100%;
+  }
+  .comp-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 120px 120px;
+    gap: 0;
+    border-bottom: 1px solid #F5F0EB;
+    padding: 14px 0;
+    align-items: center;
+  }
+  .comp-row.head {
+    border-bottom: 1px solid #E8E0D8;
+    padding-bottom: 16px;
     margin-bottom: 4px;
   }
-  .insight-desc {
-    font-size: 11px;
+  .comp-feature {
+    font-size: 13px;
     font-weight: 300;
-    color: #999;
-    line-height: 1.5;
+    color: #8A8078;
   }
-
-  /* TRUST BAR */
-  .trust-bar {
-    position: absolute;
-    bottom: 24px;
-    left: 96px;
-    display: flex;
-    align-items: center;
-    gap: 40px;
+  .comp-val {
+    font-size: 12px;
+    font-weight: 300;
+    color: #8A8078;
+    text-align: center;
   }
-  .trust-label {
-    font-size: 11px;
+  .comp-val.head {
     font-weight: 400;
-    color: #ccc;
-    white-space: nowrap;
+    color: #1A1A1A;
+    letter-spacing: 1px;
+    font-size: 10px;
+    text-transform: uppercase;
   }
-  .trust-logos {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-  }
-  .trust-logo {
-    font-size: 14px;
-    font-weight: 400;
-    color: #ccc;
-    letter-spacing: 0.3px;
-  }
+  .comp-val.gold { color: #D4A574; font-weight: 400; }
 </style>
 </head>
 <body>
+  <div class="page">
+    <nav>
+      <div class="nav-brand">My<span>Claw</span></div>
+      <ul class="nav-links">
+        <li><a href="#">Platform</a></li>
+        <li><a href="#">Skills</a></li>
+        <li><a href="#">Docs</a></li>
+        <li><a href="#" class="active">Pricing</a></li>
+      </ul>
+    </nav>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">
-    <div class="nav-logo-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
-      </svg>
+    <section class="pricing-header">
+      <div class="pricing-eyebrow">Simple Pricing</div>
+      <h1 class="pricing-title">Choose Your Plan</h1>
+      <p class="pricing-sub">Every plan includes a dedicated server, full code access, and 24/7 uptime.</p>
+    </section>
+
+    <div class="toggle-wrap">
+      <span class="toggle-label active">Monthly</span>
+      <div class="toggle"></div>
+      <span class="toggle-label">Annual (save 20%)</span>
     </div>
-    Meridian
+
+    <section class="cards">
+      <div class="card">
+        <div class="card-name">Lite</div>
+        <div class="card-price">
+          <span class="card-currency">$</span>
+          <span class="card-amount">19</span>
+        </div>
+        <div class="card-period">per month</div>
+        <div class="card-line"></div>
+        <ul class="card-features">
+          <li><span class="check">✦</span> 1 AI agent</li>
+          <li><span class="check">✦</span> 2 GB storage</li>
+          <li><span class="check">✦</span> 50 skills</li>
+          <li><span class="check">✦</span> Telegram channel</li>
+          <li><span class="check">✦</span> Community support</li>
+        </ul>
+        <a href="#" class="card-btn">Get Started</a>
+      </div>
+
+      <div class="card featured">
+        <div class="card-badge">Recommended</div>
+        <div class="card-name">Pro</div>
+        <div class="card-price">
+          <span class="card-currency">$</span>
+          <span class="card-amount">39</span>
+        </div>
+        <div class="card-period">per month</div>
+        <div class="card-line"></div>
+        <ul class="card-features">
+          <li><span class="check">✦</span> 3 AI agents</li>
+          <li><span class="check">✦</span> 10 GB storage</li>
+          <li><span class="check">✦</span> Unlimited skills</li>
+          <li><span class="check">✦</span> All channels</li>
+          <li><span class="check">✦</span> Priority support</li>
+        </ul>
+        <a href="#" class="card-btn">Get Started</a>
+      </div>
+
+      <div class="card">
+        <div class="card-name">Max</div>
+        <div class="card-price">
+          <span class="card-currency">$</span>
+          <span class="card-amount">79</span>
+        </div>
+        <div class="card-period">per month</div>
+        <div class="card-line"></div>
+        <ul class="card-features">
+          <li><span class="check">✦</span> Unlimited agents</li>
+          <li><span class="check">✦</span> 50 GB storage</li>
+          <li><span class="check">✦</span> Unlimited skills</li>
+          <li><span class="check">✦</span> All channels + API</li>
+          <li><span class="check">✦</span> Dedicated support</li>
+        </ul>
+        <a href="#" class="card-btn">Get Started</a>
+      </div>
+    </section>
+
+    <section class="comparison">
+      <div class="comp-header">Compare Plans</div>
+      <div class="comp-table">
+        <div class="comp-row head">
+          <div class="comp-feature"></div>
+          <div class="comp-val head">Lite</div>
+          <div class="comp-val head">Pro</div>
+          <div class="comp-val head">Max</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-feature">Custom domain</div>
+          <div class="comp-val">—</div>
+          <div class="comp-val gold">✦</div>
+          <div class="comp-val gold">✦</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-feature">Cron scheduling</div>
+          <div class="comp-val">5/day</div>
+          <div class="comp-val gold">Unlimited</div>
+          <div class="comp-val gold">Unlimited</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-feature">Browser automation</div>
+          <div class="comp-val">—</div>
+          <div class="comp-val gold">✦</div>
+          <div class="comp-val gold">✦</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-feature">Voice (TTS/STT)</div>
+          <div class="comp-val">—</div>
+          <div class="comp-val">—</div>
+          <div class="comp-val gold">✦</div>
+        </div>
+        <div class="comp-row">
+          <div class="comp-feature">Team sharing</div>
+          <div class="comp-val">—</div>
+          <div class="comp-val">—</div>
+          <div class="comp-val gold">✦</div>
+        </div>
+      </div>
+    </section>
   </div>
-  <ul class="nav-links">
-    <li><a href="#">Product</a></li>
-    <li><a href="#">Pricing</a></li>
-    <li><a href="#">Docs</a></li>
-    <li><a href="#">Blog</a></li>
-  </ul>
-  <div class="nav-right">
-    <a href="#" class="nav-signin">Sign In</a>
-    <button class="nav-cta">Get Started</button>
-  </div>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-
-  <!-- LEFT -->
-  <div class="hero-text">
-    <div class="hero-badge">
-      <div class="hero-badge-dot"></div>
-      <span>Business Intelligence for Modern Teams</span>
-    </div>
-    <h1 class="hero-headline">Turn data into <em>decisions,</em> not dashboards<span style="color:#D4A574;font-weight:300;">.</span></h1>
-    <p class="hero-subtitle">AI-powered analytics that tells you what matters, when it matters. Less noise, more clarity.</p>
-    <div class="hero-ctas">
-      <button class="btn-primary">Start Free Trial</button>
-      <button class="btn-secondary">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Watch Demo
-      </button>
-    </div>
-    <div class="metrics">
-      <div class="metric">
-        <div class="metric-value">3<span>x</span></div>
-        <div class="metric-label">Faster insights</div>
-      </div>
-      <div class="metric">
-        <div class="metric-value">50<span>%</span></div>
-        <div class="metric-label">Less meeting time</div>
-      </div>
-      <div class="metric">
-        <div class="metric-value">99.9<span>%</span></div>
-        <div class="metric-label">Uptime SLA</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- RIGHT — FLOATING DASHBOARD -->
-  <div class="hero-dashboard">
-    <div class="dashboard-card">
-      <div class="dash-header">
-        <div class="dash-title">Performance Overview</div>
-        <div class="dash-period">Last 30 days</div>
-      </div>
-
-      <div class="kpi-strip">
-        <div class="kpi-item">
-          <div class="kpi-item-value">$2.4M</div>
-          <div class="kpi-item-label">Revenue</div>
-        </div>
-        <div class="kpi-item">
-          <div class="kpi-item-value">84.2K</div>
-          <div class="kpi-item-label">Users</div>
-        </div>
-        <div class="kpi-item">
-          <div class="kpi-item-value">1.2%</div>
-          <div class="kpi-item-label">Churn</div>
-        </div>
-        <div class="kpi-item">
-          <div class="kpi-item-value">$142</div>
-          <div class="kpi-item-label">ARPU</div>
-        </div>
-      </div>
-
-      <!-- SVG Chart -->
-      <div class="chart-container">
-        <svg class="chart-svg" viewBox="0 0 700 200" preserveAspectRatio="none">
-          <!-- Grid lines -->
-          <line x1="0" y1="50" x2="700" y2="50" stroke="#f0eeeb" stroke-width="1"/>
-          <line x1="0" y1="100" x2="700" y2="100" stroke="#f0eeeb" stroke-width="1"/>
-          <line x1="0" y1="150" x2="700" y2="150" stroke="#f0eeeb" stroke-width="1"/>
-
-          <!-- Area fill -->
-          <defs>
-            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#D4A574" stop-opacity="0.15"/>
-              <stop offset="100%" stop-color="#D4A574" stop-opacity="0.01"/>
-            </linearGradient>
-          </defs>
-          <path d="M0,160 C50,155 100,140 150,120 C200,100 250,110 300,85 C350,60 400,70 450,50 C500,30 550,45 600,35 C650,25 680,20 700,15 L700,200 L0,200 Z" fill="url(#areaGrad)"/>
-
-          <!-- Main line -->
-          <path d="M0,160 C50,155 100,140 150,120 C200,100 250,110 300,85 C350,60 400,70 450,50 C500,30 550,45 600,35 C650,25 680,20 700,15" fill="none" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round"/>
-
-          <!-- Secondary line -->
-          <path d="M0,170 C50,165 100,158 150,150 C200,142 250,145 300,135 C350,125 400,128 450,118 C500,108 550,112 600,105 C650,98 680,95 700,90" fill="none" stroke="#e0d5c8" stroke-width="1.5" stroke-dasharray="4,4"/>
-
-          <!-- Data point -->
-          <circle cx="600" cy="35" r="5" fill="#D4A574"/>
-          <circle cx="600" cy="35" r="8" fill="none" stroke="#D4A574" stroke-width="1" opacity="0.4"/>
-        </svg>
-      </div>
-
-      <div class="dash-bottom-row">
-        <div class="insight-card">
-          <div class="insight-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </div>
-          <div class="insight-title">AI Insight: Revenue Acceleration</div>
-          <div class="insight-desc">Enterprise segment grew 23% this quarter, driven by 4 new accounts. Recommend increasing sales capacity.</div>
-        </div>
-        <div class="insight-card">
-          <div class="insight-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-          </div>
-          <div class="insight-title">Predicted: Q3 Target On Track</div>
-          <div class="insight-desc">Based on current trajectory, 89% probability of hitting $3.2M quarterly target. Pipeline looks healthy.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- TRUST BAR -->
-  <div class="trust-bar">
-    <span class="trust-label">Trusted by teams at</span>
-    <div class="trust-logos">
-      <span class="trust-logo">Stripe</span>
-      <span class="trust-logo">Notion</span>
-      <span class="trust-logo">Linear</span>
-      <span class="trust-logo">Vercel</span>
-      <span class="trust-logo">Figma</span>
-    </div>
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    lucide.createIcons();
-  });
-</script>
 </body>
 </html>

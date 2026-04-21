@@ -3,554 +3,240 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1440">
-<title>Meridian — Business Intelligence for Modern Teams</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<title>MyClaw Pricing — Pentagram</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    width: 1440px;
-    height: 900px;
-    overflow: hidden;
-    margin: 0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: #FFFFFF;
-    color: #000000;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #000; -webkit-font-smoothing: antialiased; }
+  .page { width: 1440px; min-height: 900px; position: relative; overflow: hidden; background: #fff; }
 
-  /* NAV */
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 80px;
-    height: 72px;
-    border-bottom: 1px solid #000;
-  }
-  .nav-logo {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 22px;
-    letter-spacing: -0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .nav-logo svg { width: 24px; height: 24px; }
-  .nav-links {
-    display: flex;
-    gap: 40px;
-    list-style: none;
-  }
-  .nav-links a {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-decoration: none;
-    color: #000;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: #E63946; }
-  .nav-signin {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    text-decoration: none;
-    color: #000;
-    padding: 8px 20px;
-    border: 2px solid #000;
-    transition: all 0.2s;
-  }
-  .nav-signin:hover { background: #000; color: #fff; }
+  .gl { position: absolute; background: rgba(0,0,0,0.03); z-index: 0; }
+  .gl.v { width: 1px; top: 0; bottom: 0; }
+  .gv1 { left: 80px; } .gv2 { left: 480px; } .gv3 { left: 960px; } .gv4 { left: 1360px; }
 
-  /* HERO */
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    height: calc(900px - 72px);
-  }
+  /* Nav */
+  .nav { position: relative; z-index: 10; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .nav-logo { font-size: 20px; font-weight: 900; letter-spacing: -1px; }
+  .nav-logo span { color: #E63946; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #000; text-decoration: none; }
+  .nav-links a.active { color: #E63946; }
+  .nav-cta { padding: 10px 24px; background: #000; color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; border: none; cursor: pointer; }
 
-  /* LEFT PANEL */
-  .hero-left {
-    padding: 64px 80px 48px 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-  }
-  .hero-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    color: #E63946;
-    margin-bottom: 24px;
-  }
-  .hero-headline {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 52px;
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    margin-bottom: 20px;
-    max-width: 520px;
-  }
-  .hero-headline span { color: #E63946; }
-  .hero-subtitle {
-    font-size: 17px;
-    font-weight: 400;
-    line-height: 1.6;
-    color: #444;
-    max-width: 440px;
-    margin-bottom: 36px;
-  }
-  .hero-ctas {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 48px;
-  }
-  .btn-primary {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 16px 36px;
-    background: #E63946;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .btn-primary:hover { background: #c4303c; }
-  .btn-secondary {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 16px 36px;
-    background: transparent;
-    color: #000;
-    border: 2px solid #000;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.2s;
-  }
-  .btn-secondary:hover { background: #000; color: #fff; }
-  .btn-secondary svg { width: 16px; height: 16px; }
+  /* Hero */
+  .hero { position: relative; z-index: 5; padding: 64px 80px 48px; display: flex; justify-content: space-between; align-items: flex-start; }
+  .hero-left { max-width: 560px; }
+  .hero-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #E63946; margin-bottom: 20px; }
+  .hero-title { font-size: 56px; font-weight: 900; letter-spacing: -4px; line-height: 0.92; color: #000; }
+  .hero-title em { font-style: normal; color: #E63946; }
+  .hero-desc { margin-top: 20px; font-size: 15px; font-weight: 400; line-height: 1.7; color: #555; }
+  .oc-badge { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; padding: 8px 16px; background: #000; }
+  .oc-badge span { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .oc-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: #E63946; }
 
-  /* BIG NUMBER */
-  .big-number {
-    position: absolute;
-    bottom: 64px;
-    left: 80px;
-    display: flex;
-    align-items: baseline;
-    gap: 40px;
-  }
-  .big-number-main {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 140px;
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -6px;
-    color: #E63946;
-  }
-  .big-number-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #666;
-    max-width: 100px;
-    line-height: 1.5;
-  }
-  .big-number-divider {
-    width: 1px;
-    height: 48px;
-    background: #ccc;
-  }
-  .metric-small {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .metric-small-value {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 32px;
-    font-weight: 700;
-    letter-spacing: -1px;
-  }
-  .metric-small-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #888;
-  }
+  /* Dashboard mockup */
+  .hero-right { width: 480px; flex-shrink: 0; }
+  .dashboard { background: #0a0a0a; border-radius: 8px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+  .dash-bar { height: 32px; background: #1a1a1a; display: flex; align-items: center; padding: 0 12px; gap: 6px; }
+  .dash-dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dash-dot.r { background: #E63946; } .dash-dot.y { background: #f5a623; } .dash-dot.g { background: #00a84f; }
+  .dash-body { padding: 20px; }
+  .dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .dash-title { font-size: 13px; font-weight: 800; color: #fff; }
+  .dash-status { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #00a84f; }
+  .dash-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .dash-card { background: #1a1a1a; padding: 14px; border-radius: 4px; }
+  .dash-card .dc-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+  .dash-card .dc-val { font-size: 22px; font-weight: 900; color: #fff; letter-spacing: -1px; }
+  .dash-card .dc-val.red { color: #E63946; }
+  .dash-chart { margin-top: 12px; display: flex; align-items: flex-end; gap: 4px; height: 60px; }
+  .dash-chart .bar { flex: 1; background: #333; border-radius: 2px 2px 0 0; }
+  .dash-chart .bar.accent { background: #E63946; }
 
-  /* RIGHT PANEL — DASHBOARD */
-  .hero-right {
-    background: #000;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    position: relative;
-  }
+  /* Pricing section */
+  .pricing { position: relative; z-index: 5; padding: 0 80px 48px; }
+  .pricing-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .pricing-title { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #888; }
+  .pricing-toggle { display: flex; gap: 8px; align-items: center; }
+  .pricing-toggle span { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #aaa; }
+  .pricing-toggle span.active { color: #000; }
+  .toggle-track { width: 36px; height: 18px; background: #E63946; border-radius: 9px; position: relative; cursor: pointer; }
+  .toggle-thumb { width: 14px; height: 14px; background: #fff; border-radius: 50%; position: absolute; top: 2px; right: 2px; }
 
-  /* Dashboard grid */
-  .dash-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-  }
-  .dash-title {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #666;
-  }
-  .dash-live {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 11px;
-    font-weight: 500;
-    color: #E63946;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-  .dash-live-dot {
-    width: 6px;
-    height: 6px;
-    background: #E63946;
-    border-radius: 50%;
-  }
+  .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .price-card { border: 1px solid rgba(0,0,0,0.06); padding: 36px 32px; position: relative; }
+  .price-card.featured { border: 2px solid #000; }
+  .price-card.featured::before { content: 'MOST POPULAR'; position: absolute; top: -1px; left: 32px; background: #E63946; color: #fff; font-size: 9px; font-weight: 800; letter-spacing: 2px; padding: 4px 12px; transform: translateY(-50%); }
+  .pc-name { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #888; margin-bottom: 12px; }
+  .pc-price { font-size: 56px; font-weight: 900; letter-spacing: -4px; color: #000; line-height: 1; }
+  .pc-price sup { font-size: 20px; font-weight: 700; vertical-align: super; letter-spacing: 0; }
+  .pc-period { font-size: 12px; font-weight: 500; color: #aaa; margin-top: 4px; }
+  .pc-divider { height: 1px; background: rgba(0,0,0,0.06); margin: 24px 0; }
+  .pc-features { list-style: none; }
+  .pc-features li { font-size: 13px; font-weight: 500; color: #444; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.04); display: flex; align-items: center; gap: 10px; }
+  .pc-features li:last-child { border-bottom: none; }
+  .pc-check { font-size: 12px; color: #00a84f; font-weight: 900; }
+  .pc-x { font-size: 12px; color: #ccc; font-weight: 900; }
+  .pc-btn { display: block; width: 100%; margin-top: 24px; padding: 14px; text-align: center; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; border: 2px solid #000; background: #fff; color: #000; cursor: pointer; }
+  .pc-btn:hover { background: #000; color: #fff; }
+  .price-card.featured .pc-btn { background: #E63946; color: #fff; border-color: #E63946; }
+  .price-card.featured .pc-btn:hover { background: #c5303c; }
 
-  /* KPI Row */
-  .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-  .kpi-card {
-    background: #111;
-    border: 1px solid #222;
-    padding: 20px;
-  }
-  .kpi-label {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #555;
-    margin-bottom: 8px;
-  }
-  .kpi-value {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -1px;
-  }
-  .kpi-change {
-    font-size: 12px;
-    font-weight: 500;
-    color: #E63946;
-    margin-top: 4px;
-  }
-  .kpi-change.positive { color: #fff; opacity: 0.7; }
+  /* Comparison grid */
+  .comparison { position: relative; z-index: 5; padding: 0 80px 48px; }
+  .comp-title { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #888; margin-bottom: 20px; }
+  .comp-table { width: 100%; border-collapse: collapse; }
+  .comp-table th, .comp-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid rgba(0,0,0,0.06); font-size: 12px; }
+  .comp-table th { font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; font-size: 10px; background: #FAFAFA; }
+  .comp-table td { font-weight: 500; color: #444; }
+  .comp-table td.feature-name { font-weight: 700; color: #000; }
+  .comp-table .check { color: #00a84f; font-weight: 900; }
+  .comp-table .x { color: #ddd; }
+  .comp-table .highlight { background: rgba(230,57,70,0.03); }
 
-  /* Chart area */
-  .chart-area {
-    flex: 1;
-    background: #111;
-    border: 1px solid #222;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-  }
-  .chart-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  .chart-label {
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #555;
-  }
-  .chart-tabs {
-    display: flex;
-    gap: 2px;
-  }
-  .chart-tab {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #444;
-    padding: 4px 12px;
-    background: transparent;
-    border: 1px solid #333;
-  }
-  .chart-tab.active {
-    color: #fff;
-    background: #E63946;
-    border-color: #E63946;
-  }
-  .chart-bars {
-    display: flex;
-    align-items: flex-end;
-    gap: 6px;
-    flex: 1;
-    padding-top: 12px;
-  }
-  .chart-bar-group {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .chart-bar {
-    width: 100%;
-    background: #222;
-    position: relative;
-  }
-  .chart-bar.accent { background: #E63946; }
-  .chart-bar-label {
-    font-size: 9px;
-    color: #444;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-
-  /* Bottom row */
-  .dash-bottom {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-  .data-table {
-    background: #111;
-    border: 1px solid #222;
-    padding: 16px;
-  }
-  .data-table-title {
-    font-size: 10px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #555;
-    margin-bottom: 12px;
-  }
-  .data-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px solid #1a1a1a;
-  }
-  .data-row:last-child { border-bottom: none; }
-  .data-row-label {
-    font-size: 12px;
-    color: #888;
-  }
-  .data-row-value {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    color: #fff;
-  }
-  .data-row-value.red { color: #E63946; }
-
-  /* TRUST BAR */
-  .trust-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    border-top: 1px solid #e0e0e0;
-    padding: 0 80px;
-    height: 56px;
-    display: flex;
-    align-items: center;
-    gap: 48px;
-    background: #fff;
-  }
-  .trust-label {
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #aaa;
-    white-space: nowrap;
-  }
-  .trust-logos {
-    display: flex;
-    gap: 48px;
-    align-items: center;
-  }
-  .trust-logo {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    color: #bbb;
-    letter-spacing: 1px;
-  }
+  /* Bottom bar */
+  .bottom-bar { position: relative; z-index: 5; height: 56px; background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; }
+  .bb-left { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .bb-left span { color: #E63946; }
+  .bb-right { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
 </style>
 </head>
 <body>
+<div class="page">
+  <div class="gl v gv1"></div><div class="gl v gv2"></div><div class="gl v gv3"></div><div class="gl v gv4"></div>
 
-<!-- NAVIGATION -->
-<nav>
-  <div class="nav-logo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
-      <line x1="12" y1="22" x2="12" y2="15.5"/>
-      <polyline points="22 8.5 12 15.5 2 8.5"/>
-    </svg>
-    Meridian
-  </div>
-  <ul class="nav-links">
-    <li><a href="#">Product</a></li>
-    <li><a href="#">Pricing</a></li>
-    <li><a href="#">Docs</a></li>
-    <li><a href="#">Blog</a></li>
-  </ul>
-  <a href="#" class="nav-signin">Sign In</a>
-</nav>
-
-<!-- HERO -->
-<div class="hero">
-
-  <!-- LEFT -->
-  <div class="hero-left">
-    <div class="hero-label">Business Intelligence for Modern Teams</div>
-    <h1 class="hero-headline">Turn data into <span>decisions,</span> not dashboards</h1>
-    <p class="hero-subtitle">AI-powered analytics that tells you what matters, when it matters. Stop drowning in charts and start acting on real insights.</p>
-    <div class="hero-ctas">
-      <button class="btn-primary">Start Free Trial</button>
-      <button class="btn-secondary">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Watch Demo
-      </button>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-logo">My<span>Claw</span>.ai</div>
+    <div class="nav-links">
+      <a href="#">Products</a>
+      <a href="#" class="active">Pricing</a>
+      <a href="#">Docs</a>
+      <a href="#">Blog</a>
     </div>
-    <div class="big-number">
-      <div class="big-number-main">3x</div>
-      <div class="big-number-label">Faster Insights</div>
-      <div class="big-number-divider"></div>
-      <div class="metric-small">
-        <div class="metric-small-value">50%</div>
-        <div class="metric-small-label">Less Meeting Time</div>
-      </div>
-      <div class="big-number-divider"></div>
-      <div class="metric-small">
-        <div class="metric-small-value">99.9%</div>
-        <div class="metric-small-label">Uptime</div>
+    <button class="nav-cta">Get Started</button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-label">● Simple, Transparent Pricing</div>
+      <h1 class="hero-title">Your AI Agent,<br>Your <em>Budget</em></h1>
+      <p class="hero-desc">Every plan includes a full Linux server, SSH access, and the complete OpenClaw runtime. Scale up when you need more power.</p>
+      <div class="oc-badge">
+        <div class="dot"></div>
+        <span>Powered by OpenClaw</span>
       </div>
     </div>
-  </div>
-
-  <!-- RIGHT — DASHBOARD MOCKUP -->
-  <div class="hero-right">
-    <div class="dash-header">
-      <div class="dash-title">Analytics Overview</div>
-      <div class="dash-live"><div class="dash-live-dot"></div> Live</div>
-    </div>
-
-    <div class="kpi-row">
-      <div class="kpi-card">
-        <div class="kpi-label">Revenue</div>
-        <div class="kpi-value">$2.4M</div>
-        <div class="kpi-change positive">+12.3%</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Active Users</div>
-        <div class="kpi-value">84.2K</div>
-        <div class="kpi-change positive">+8.7%</div>
-      </div>
-      <div class="kpi-card">
-        <div class="kpi-label">Churn Rate</div>
-        <div class="kpi-value">1.2%</div>
-        <div class="kpi-change red">-0.3pp</div>
-      </div>
-    </div>
-
-    <div class="chart-area">
-      <div class="chart-top">
-        <div class="chart-label">Monthly Performance</div>
-        <div class="chart-tabs">
-          <div class="chart-tab">7D</div>
-          <div class="chart-tab active">30D</div>
-          <div class="chart-tab">90D</div>
+    <div class="hero-right">
+      <div class="dashboard">
+        <div class="dash-bar">
+          <div class="dash-dot r"></div><div class="dash-dot y"></div><div class="dash-dot g"></div>
+        </div>
+        <div class="dash-body">
+          <div class="dash-header">
+            <div class="dash-title">Instance Dashboard</div>
+            <div class="dash-status">● Online</div>
+          </div>
+          <div class="dash-grid">
+            <div class="dash-card"><div class="dc-label">CPU Usage</div><div class="dc-val">23%</div></div>
+            <div class="dash-card"><div class="dc-label">Memory</div><div class="dc-val">1.2<span style="font-size:12px;color:#555"> GB</span></div></div>
+            <div class="dash-card"><div class="dc-label">Skills Active</div><div class="dc-val red">23</div></div>
+            <div class="dash-card"><div class="dc-label">Uptime</div><div class="dc-val">47d</div></div>
+          </div>
+          <div class="dash-chart">
+            <div class="bar" style="height:30%"></div><div class="bar" style="height:45%"></div><div class="bar" style="height:35%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:40%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:50%"></div><div class="bar" style="height:70%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:65%"></div><div class="bar" style="height:75%"></div><div class="bar accent" style="height:85%"></div>
+          </div>
         </div>
       </div>
-      <div class="chart-bars">
-        <div class="chart-bar-group"><div class="chart-bar" style="height:60px"></div><div class="chart-bar-label">Jan</div></div>
-        <div class="chart-bar-group"><div class="chart-bar" style="height:80px"></div><div class="chart-bar-label">Feb</div></div>
-        <div class="chart-bar-group"><div class="chart-bar" style="height:55px"></div><div class="chart-bar-label">Mar</div></div>
-        <div class="chart-bar-group"><div class="chart-bar accent" style="height:110px"></div><div class="chart-bar-label">Apr</div></div>
-        <div class="chart-bar-group"><div class="chart-bar" style="height:95px"></div><div class="chart-bar-label">May</div></div>
-        <div class="chart-bar-group"><div class="chart-bar accent" style="height:130px"></div><div class="chart-bar-label">Jun</div></div>
-        <div class="chart-bar-group"><div class="chart-bar" style="height:105px"></div><div class="chart-bar-label">Jul</div></div>
-        <div class="chart-bar-group"><div class="chart-bar accent" style="height:145px"></div><div class="chart-bar-label">Aug</div></div>
-        <div class="chart-bar-group"><div class="chart-bar" style="height:120px"></div><div class="chart-bar-label">Sep</div></div>
-        <div class="chart-bar-group"><div class="chart-bar" style="height:100px"></div><div class="chart-bar-label">Oct</div></div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing">
+    <div class="pricing-header">
+      <div class="pricing-title">● Choose Your Plan</div>
+      <div class="pricing-toggle">
+        <span>Monthly</span>
+        <div class="toggle-track"><div class="toggle-thumb"></div></div>
+        <span class="active">Annual (Save 20%)</span>
       </div>
     </div>
-
-    <div class="dash-bottom">
-      <div class="data-table">
-        <div class="data-table-title">Top Segments</div>
-        <div class="data-row"><span class="data-row-label">Enterprise</span><span class="data-row-value">$1.1M</span></div>
-        <div class="data-row"><span class="data-row-label">Mid-Market</span><span class="data-row-value">$820K</span></div>
-        <div class="data-row"><span class="data-row-label">SMB</span><span class="data-row-value">$480K</span></div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="pc-name">Lite</div>
+        <div class="pc-price"><sup>$</sup>19</div>
+        <div class="pc-period">per month, billed annually</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li><span class="pc-check">✓</span> 1 vCPU · 1GB RAM</li>
+          <li><span class="pc-check">✓</span> 10GB SSD Storage</li>
+          <li><span class="pc-check">✓</span> 3 Channels</li>
+          <li><span class="pc-check">✓</span> 50 Skills</li>
+          <li><span class="pc-x">✗</span> Priority Support</li>
+          <li><span class="pc-x">✗</span> Custom Domain</li>
+        </ul>
+        <button class="pc-btn">Get Lite</button>
       </div>
-      <div class="data-table">
-        <div class="data-table-title">AI Alerts Today</div>
-        <div class="data-row"><span class="data-row-label">Revenue spike detected</span><span class="data-row-value red">High</span></div>
-        <div class="data-row"><span class="data-row-label">Churn risk: Acme Corp</span><span class="data-row-value red">Med</span></div>
-        <div class="data-row"><span class="data-row-label">Expansion signal: Bolt</span><span class="data-row-value" style="color:#888">Low</span></div>
+      <div class="price-card featured">
+        <div class="pc-name">Pro</div>
+        <div class="pc-price"><sup>$</sup>39</div>
+        <div class="pc-period">per month, billed annually</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li><span class="pc-check">✓</span> 2 vCPU · 4GB RAM</li>
+          <li><span class="pc-check">✓</span> 40GB SSD Storage</li>
+          <li><span class="pc-check">✓</span> Unlimited Channels</li>
+          <li><span class="pc-check">✓</span> All 560+ Skills</li>
+          <li><span class="pc-check">✓</span> Priority Support</li>
+          <li><span class="pc-x">✗</span> Custom Domain</li>
+        </ul>
+        <button class="pc-btn">Get Pro</button>
+      </div>
+      <div class="price-card">
+        <div class="pc-name">Max</div>
+        <div class="pc-price"><sup>$</sup>79</div>
+        <div class="pc-period">per month, billed annually</div>
+        <div class="pc-divider"></div>
+        <ul class="pc-features">
+          <li><span class="pc-check">✓</span> 4 vCPU · 8GB RAM</li>
+          <li><span class="pc-check">✓</span> 100GB SSD Storage</li>
+          <li><span class="pc-check">✓</span> Unlimited Channels</li>
+          <li><span class="pc-check">✓</span> All 560+ Skills</li>
+          <li><span class="pc-check">✓</span> Priority Support</li>
+          <li><span class="pc-check">✓</span> Custom Domain</li>
+        </ul>
+        <button class="pc-btn">Get Max</button>
       </div>
     </div>
+  </section>
+
+  <!-- Comparison -->
+  <section class="comparison">
+    <div class="comp-title">● Feature Comparison</div>
+    <table class="comp-table">
+      <thead>
+        <tr><th>Feature</th><th>Lite $19</th><th class="highlight">Pro $39</th><th>Max $79</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="feature-name">Full SSH Access</td><td class="check">✓</td><td class="highlight check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="feature-name">OpenClaw Runtime</td><td class="check">✓</td><td class="highlight check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="feature-name">Multi-Model Support</td><td class="check">✓</td><td class="highlight check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="feature-name">Skill Marketplace</td><td>50 skills</td><td class="highlight">All 560+</td><td>All 560+</td></tr>
+        <tr><td class="feature-name">Channels</td><td>3 max</td><td class="highlight">Unlimited</td><td>Unlimited</td></tr>
+        <tr><td class="feature-name">Subagents</td><td class="x">✗</td><td class="highlight check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="feature-name">Browser Automation</td><td class="x">✗</td><td class="highlight check">✓</td><td class="check">✓</td></tr>
+        <tr><td class="feature-name">Custom Domain</td><td class="x">✗</td><td class="highlight x">✗</td><td class="check">✓</td></tr>
+        <tr><td class="feature-name">SLA Guarantee</td><td>99%</td><td class="highlight">99.9%</td><td>99.99%</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <div class="bb-left">My<span>Claw</span>.ai — Simple, Transparent Pricing</div>
+    <div class="bb-right">© 2026 MyClaw · All plans include 14-day free trial</div>
   </div>
-
 </div>
-
-<!-- TRUST BAR (absolutely positioned at bottom-left) -->
-<div class="trust-bar" style="position:fixed; bottom:0; left:0; width:720px; z-index:10;">
-  <span class="trust-label">Trusted by</span>
-  <div class="trust-logos">
-    <span class="trust-logo">Stripe</span>
-    <span class="trust-logo">Notion</span>
-    <span class="trust-logo">Linear</span>
-    <span class="trust-logo">Vercel</span>
-    <span class="trust-logo">Figma</span>
-  </div>
-</div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    lucide.createIcons();
-  });
-</script>
 </body>
 </html>

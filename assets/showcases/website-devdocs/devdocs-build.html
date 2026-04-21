@@ -2,371 +2,340 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1440">
-<title>Nexus API Documentation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClaw Developer Docs</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    width: 1440px;
-    height: 900px;
-    overflow: hidden;
-    margin: 0;
     font-family: 'Inter', sans-serif;
     background: #FAFAF8;
-    color: #2C2C2C;
-  }
-
-  /* Navigation */
-  nav {
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 80px;
-    position: relative;
-  }
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .nav-logo-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 2px;
-    background: #E8E4DF;
+    color: #1A1A1A;
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 100vh;
   }
-  .nav-logo-icon i { color: #D4A574; }
-  .nav-logo span {
-    font-size: 17px;
+  .page {
+    width: 1440px;
+    min-height: 900px;
+    background: #FAFAF8;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+  }
+  /* Sidebar */
+  .sidebar {
+    width: 280px;
+    min-height: 900px;
+    border-right: 1px solid #E8E0D8;
+    padding: 40px 32px;
+    flex-shrink: 0;
+  }
+  .sidebar-brand {
+    font-size: 13px;
     font-weight: 500;
-    letter-spacing: -0.3px;
-    color: #1A1A1A;
-  }
-  .nav-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 32px;
-  }
-  .nav-center a {
-    font-size: 13px;
-    font-weight: 400;
-    color: #999;
-    text-decoration: none;
-    letter-spacing: 0.3px;
-    transition: color 0.2s;
-  }
-  .nav-center a:hover { color: #2C2C2C; }
-  .nav-center a.active { color: #2C2C2C; font-weight: 500; }
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-  .nav-right a {
-    font-size: 13px;
-    color: #BBB;
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .nav-right a:hover { color: #2C2C2C; }
-  .status-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 5px 12px;
-    border-radius: 2px;
-    background: rgba(212, 165, 116, 0.08);
-    font-size: 11px;
-    color: #B0ACA4;
-    font-weight: 400;
-  }
-  .status-pill .dot {
-    width: 6px;
-    height: 6px;
-    background: #D4A574;
-    border-radius: 50%;
-  }
-
-  /* Hero section */
-  .hero {
-    text-align: center;
-    padding: 64px 80px 48px;
-  }
-  .hero-eyebrow {
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: #B0ACA4;
-    margin-bottom: 24px;
-  }
-  .hero h1 {
-    font-size: 56px;
-    font-weight: 200;
-    letter-spacing: -2.5px;
-    line-height: 1.1;
     color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+  .sidebar-brand span { color: #D4A574; }
+  .sidebar-sub {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #B0A89E;
+    margin-bottom: 48px;
+  }
+  .sidebar-section {
+    margin-bottom: 36px;
+  }
+  .sidebar-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #B0A89E;
     margin-bottom: 16px;
   }
-  .hero h1 em {
-    font-style: normal;
-    font-weight: 500;
+  .sidebar-nav {
+    list-style: none;
   }
-  .hero p {
-    font-size: 17px;
-    font-weight: 300;
-    color: #999;
-    line-height: 1.6;
-    max-width: 520px;
-    margin: 0 auto 36px;
-    letter-spacing: 0.1px;
+  .sidebar-nav li {
+    margin-bottom: 2px;
   }
-  .hero-actions {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 0;
-  }
-  .hero-actions a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 28px;
+  .sidebar-nav li a {
+    display: block;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: 300;
+    color: #8A8078;
     text-decoration: none;
-    border-radius: 2px;
-    transition: all 0.2s;
-    letter-spacing: 0.2px;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    border-left: 2px solid transparent;
   }
-  .btn-primary {
-    background: #1A1A1A;
-    color: #FAFAF8;
+  .sidebar-nav li a:hover {
+    color: #1A1A1A;
+    background: #F5F0EB;
   }
-  .btn-primary:hover { background: #333; }
-  .btn-secondary {
-    background: transparent;
-    color: #999;
-    border: 1px solid #E0DDD8;
-  }
-  .btn-secondary:hover { border-color: #CCC; color: #666; }
-
-  /* Code card */
-  .code-section {
-    display: flex;
-    justify-content: center;
-    padding: 32px 80px 48px;
-  }
-  .code-card {
-    background: #FFFFFF;
-    border-radius: 2px;
-    box-shadow: 0 8px 40px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.02);
-    max-width: 600px;
-    width: 100%;
-    overflow: hidden;
-  }
-  .code-card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 24px;
-    border-bottom: 1px solid #F2F0EC;
-  }
-  .code-card-header .dots {
-    display: flex;
-    gap: 7px;
-  }
-  .code-card-header .dots span {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #E8E5E0;
-  }
-  .code-card-header .filename {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #BBB;
+  .sidebar-nav li a.active {
+    color: #D4A574;
+    border-left-color: #D4A574;
+    background: rgba(212,165,116,0.06);
     font-weight: 400;
   }
-  .code-card-header .copy-btn {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #CCC;
-    font-size: 11px;
-    font-family: 'Inter', sans-serif;
+  .sidebar-nav li.nested a {
+    padding-left: 32px;
+    font-size: 12px;
   }
-  .code-card-body {
+  /* Main content */
+  .main {
+    flex: 1;
+    padding: 48px 80px 80px;
+    max-width: 860px;
+  }
+  .breadcrumb {
+    font-size: 11px;
+    font-weight: 300;
+    color: #B0A89E;
+    margin-bottom: 48px;
+    letter-spacing: 0.5px;
+  }
+  .breadcrumb span { color: #D4A574; }
+  .doc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    color: #1A1A1A;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .doc-meta {
+    font-size: 12px;
+    font-weight: 300;
+    color: #B0A89E;
+    margin-bottom: 48px;
+  }
+  .doc-meta span { color: #D4A574; }
+  .doc-section {
+    margin-bottom: 48px;
+  }
+  .doc-h2 {
+    font-size: 18px;
+    font-weight: 400;
+    color: #1A1A1A;
+    margin-bottom: 16px;
+    letter-spacing: -0.2px;
+  }
+  .doc-p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #6A6460;
+    margin-bottom: 24px;
+  }
+  .doc-code {
+    background: #F8F4EF;
+    border: 1px solid #E8E0D8;
+    border-radius: 4px;
     padding: 24px 28px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
     font-size: 13px;
     line-height: 1.8;
-    color: #444;
-    font-weight: 400;
-  }
-  .code-card-body .kw { color: #8B7355; font-weight: 500; }
-  .code-card-body .str { color: #D4A574; }
-  .code-card-body .cmt { color: #CCCCCC; }
-  .code-card-body .fn { color: #777; }
-  .code-card-body .num { color: #B08D57; }
-
-  /* Quick links */
-  .quick-links {
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    padding: 16px 80px 48px;
-  }
-  .quick-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: #BBB;
-    font-size: 13px;
-    font-weight: 400;
-    transition: color 0.2s;
-    letter-spacing: 0.2px;
-  }
-  .quick-link:hover { color: #666; }
-  .quick-link i { color: #D4A574; opacity: 0.6; }
-
-  /* Features */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding: 0 80px;
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .feature-card {
-    background: #FFFFFF;
-    border-radius: 2px;
-    padding: 32px 28px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.02);
-    transition: box-shadow 0.2s;
-  }
-  .feature-card:hover {
-    box-shadow: 0 2px 16px rgba(0,0,0,0.04);
-  }
-  .feature-icon-wrap {
-    width: 40px;
-    height: 40px;
-    border-radius: 2px;
-    background: #F0EBE3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-  .feature-icon-wrap i { color: #D4A574; }
-  .feature-card h3 {
-    font-size: 16px;
-    font-weight: 500;
-    letter-spacing: -0.3px;
-    margin-bottom: 8px;
     color: #1A1A1A;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    position: relative;
   }
-  .feature-card p {
+  .doc-code .comment { color: #B0A89E; }
+  .doc-code .keyword { color: #D4A574; }
+  .doc-code .string { color: #8A8078; }
+  .doc-code .fn { color: #1A1A1A; font-weight: 400; }
+  .copy-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #B0A89E;
+    background: transparent;
+    border: 1px solid #E8E0D8;
+    padding: 4px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 3px;
+  }
+  .copy-btn:hover { border-color: #D4A574; color: #D4A574; }
+  .doc-note {
+    background: rgba(212,165,116,0.06);
+    border-left: 2px solid #D4A574;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .doc-note-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #D4A574;
+    margin-bottom: 8px;
+  }
+  .doc-note p {
     font-size: 13px;
     font-weight: 300;
-    line-height: 1.65;
-    color: #AAA;
+    line-height: 1.7;
+    color: #6A6460;
   }
+  .doc-inline-code {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    font-size: 12px;
+    background: #F5F0EB;
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: #D4A574;
+  }
+  /* Right sidebar (TOC) */
+  .toc {
+    width: 220px;
+    padding: 48px 24px;
+    flex-shrink: 0;
+    border-left: 1px solid #F5F0EB;
+  }
+  .toc-label {
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #B0A89E;
+    margin-bottom: 20px;
+  }
+  .toc-list {
+    list-style: none;
+  }
+  .toc-list li {
+    margin-bottom: 12px;
+  }
+  .toc-list li a {
+    font-size: 12px;
+    font-weight: 300;
+    color: #8A8078;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .toc-list li a:hover { color: #1A1A1A; }
+  .toc-list li a.active { color: #D4A574; font-weight: 400; }
 </style>
 </head>
 <body>
+  <div class="page">
+    <aside class="sidebar">
+      <div class="sidebar-brand">Open<span>Claw</span></div>
+      <div class="sidebar-sub">Developer Docs</div>
 
-<!-- Navigation -->
-<nav>
-  <div class="nav-logo">
-    <div class="nav-logo-icon"><i data-lucide="zap" style="width:16px;height:16px;"></i></div>
-    <span>Nexus</span>
-  </div>
-  <div class="nav-center">
-    <a href="#" class="active">Docs</a>
-    <a href="#">API</a>
-    <a href="#">Changelog</a>
-    <a href="#">Status</a>
-    <a href="#">GitHub</a>
-  </div>
-  <div class="nav-right">
-    <div class="status-pill"><span class="dot"></span> Operational</div>
-    <a href="#"><i data-lucide="search" style="width:15px;height:15px;color:#CCC;"></i></a>
-  </div>
-</nav>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Getting Started</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Introduction</a></li>
+          <li><a href="#" class="active">Quick Start</a></li>
+          <li><a href="#">Configuration</a></li>
+        </ul>
+      </div>
 
-<!-- Hero -->
-<section class="hero">
-  <div class="hero-eyebrow">Unified AI Gateway</div>
-  <h1>One API, <em>every</em> AI model<span style="color:#D4A574;font-weight:300;">.</span></h1>
-  <p>Access GPT, Claude, Gemini, and 20+ models through a single endpoint. Intelligent routing, unified billing, zero vendor lock-in.</p>
-  <div class="hero-actions">
-    <a href="#" class="btn-primary"><i data-lucide="arrow-right" style="width:14px;height:14px;"></i> Get started</a>
-    <a href="#" class="btn-secondary">View API reference</a>
-  </div>
-</section>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Core Concepts</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Agents</a></li>
+          <li><a href="#">Skills</a></li>
+          <li class="nested"><a href="#">Creating Skills</a></li>
+          <li class="nested"><a href="#">Skill Manifest</a></li>
+          <li><a href="#">Channels</a></li>
+          <li><a href="#">Memory</a></li>
+        </ul>
+      </div>
 
-<!-- Code Card -->
-<section class="code-section">
-  <div class="code-card">
-    <div class="code-card-header">
-      <div class="dots"><span></span><span></span><span></span></div>
-      <span class="filename">quickstart.py</span>
-      <button class="copy-btn"><i data-lucide="copy" style="width:12px;height:12px;"></i> Copy</button>
-    </div>
-    <div class="code-card-body">
-<span class="kw">from</span> nexus <span class="kw">import</span> Client<br><br>
-client = Client(api_key=<span class="str">"your-key"</span>)<br>
-response = client.chat(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;model=<span class="str">"auto"</span>,&nbsp;&nbsp;<span class="cmt"># intelligently routes</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: <span class="str">"Hello!"</span>}]<br>
-)
-    </div>
-  </div>
-</section>
+      <div class="sidebar-section">
+        <div class="sidebar-label">API Reference</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Gateway API</a></li>
+          <li><a href="#">Plugin API</a></li>
+          <li><a href="#">Webhooks</a></li>
+        </ul>
+      </div>
 
-<!-- Quick Links -->
-<div class="quick-links">
-  <a href="#" class="quick-link"><i data-lucide="rocket" style="width:14px;height:14px;"></i> Getting Started</a>
-  <a href="#" class="quick-link"><i data-lucide="file-text" style="width:14px;height:14px;"></i> API Reference</a>
-  <a href="#" class="quick-link"><i data-lucide="layers" style="width:14px;height:14px;"></i> Models</a>
-  <a href="#" class="quick-link"><i data-lucide="credit-card" style="width:14px;height:14px;"></i> Pricing</a>
-</div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Guides</div>
+        <ul class="sidebar-nav">
+          <li><a href="#">Deploy to VPS</a></li>
+          <li><a href="#">Custom Models</a></li>
+          <li><a href="#">Backup & Restore</a></li>
+        </ul>
+      </div>
+    </aside>
 
-<!-- Features -->
-<section class="features">
-  <div class="feature-card">
-    <div class="feature-icon-wrap"><i data-lucide="git-branch" style="width:18px;height:18px;"></i></div>
-    <h3>Model Routing</h3>
-    <p>Automatically select the best model for each request based on task complexity, latency requirements, and cost constraints.</p>
-  </div>
-  <div class="feature-card">
-    <div class="feature-icon-wrap"><i data-lucide="trending-down" style="width:18px;height:18px;"></i></div>
-    <h3>Cost Optimization</h3>
-    <p>Reduce AI spend by up to 60% with intelligent model selection and automatic fallback to cost-effective alternatives.</p>
-  </div>
-  <div class="feature-card">
-    <div class="feature-icon-wrap"><i data-lucide="bar-chart-3" style="width:18px;height:18px;"></i></div>
-    <h3>Usage Analytics</h3>
-    <p>Real-time dashboards tracking token usage, response latency, model performance, and cost breakdowns per project.</p>
-  </div>
-</section>
+    <main class="main">
+      <div class="breadcrumb">Docs / Getting Started / <span>Quick Start</span></div>
 
-<script>lucide.createIcons();</script>
+      <h1 class="doc-title">Quick Start</h1>
+      <div class="doc-meta">Last updated <span>April 2026</span> · 5 min read</div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Installation</h2>
+        <p class="doc-p">Get OpenClaw running on your server in under two minutes. The installer handles dependencies, configuration, and your first agent automatically.</p>
+        <div class="doc-code">
+          <button class="copy-btn">Copy</button>
+          <span class="comment"># Install OpenClaw globally</span><br>
+          <span class="keyword">npm</span> install -g <span class="string">openclaw</span><br><br>
+          <span class="comment"># Initialize a new instance</span><br>
+          <span class="keyword">openclaw</span> <span class="fn">init</span><br><br>
+          <span class="comment"># Start the gateway</span><br>
+          <span class="keyword">openclaw</span> <span class="fn">gateway start</span>
+        </div>
+        <div class="doc-note">
+          <div class="doc-note-label">Note</div>
+          <p>Requires Node.js 20+ and a Linux/macOS environment. Windows support via WSL2.</p>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Connect a Channel</h2>
+        <p class="doc-p">OpenClaw communicates through channels — Telegram, Discord, WhatsApp, and more. Connect your first channel to start talking to your agent.</p>
+        <div class="doc-code">
+          <button class="copy-btn">Copy</button>
+          <span class="comment"># Add Telegram as a channel</span><br>
+          <span class="keyword">openclaw</span> <span class="fn">channel add</span> telegram \<br>
+          &nbsp;&nbsp;--token <span class="string">"your-bot-token"</span>
+        </div>
+        <p class="doc-p">Once connected, send any message to your bot. The agent will respond using the default model configured in <span class="doc-inline-code">config.yaml</span>.</p>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Install Your First Skill</h2>
+        <p class="doc-p">Skills extend your agent's capabilities. Browse ClawHub for community-built skills, or create your own.</p>
+        <div class="doc-code">
+          <button class="copy-btn">Copy</button>
+          <span class="comment"># Search for weather skills</span><br>
+          <span class="keyword">clawhub</span> <span class="fn">search</span> <span class="string">weather</span><br><br>
+          <span class="comment"># Install a skill</span><br>
+          <span class="keyword">clawhub</span> <span class="fn">install</span> <span class="string">weather</span>
+        </div>
+      </div>
+    </main>
+
+    <aside class="toc">
+      <div class="toc-label">On This Page</div>
+      <ul class="toc-list">
+        <li><a href="#" class="active">Installation</a></li>
+        <li><a href="#">Connect a Channel</a></li>
+        <li><a href="#">Install Your First Skill</a></li>
+        <li><a href="#">Next Steps</a></li>
+      </ul>
+    </aside>
+  </div>
 </body>
 </html>

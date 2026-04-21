@@ -2,366 +2,214 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1440">
-<title>Alex Chen — Indie Developer & AI Creator</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyClaw — Your OpenClaw, Already Running</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    width: 1440px;
-    height: 900px;
-    overflow: hidden;
-    margin: 0;
-    background: #FAFAF8;
     font-family: 'Inter', sans-serif;
-    color: #2A2A28;
-    position: relative;
+    background: #FAFAF8;
+    color: #1A1A1A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
   }
-
-  /* GLASSMORPHISM NAV */
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
+  .page {
     width: 1440px;
-    height: 64px;
+    min-height: 900px;
+    background: #FAFAF8;
+    position: relative;
+    overflow: hidden;
+  }
+  /* Nav */
+  nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 80px;
-    background: rgba(250, 250, 248, 0.72);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid rgba(0,0,0,0.04);
-    z-index: 100;
+    padding: 40px 120px;
   }
-  nav .logo {
+  .nav-brand {
+    font-size: 14px;
     font-weight: 500;
-    font-size: 15px;
-    letter-spacing: 0.02em;
-    color: #2A2A28;
-  }
-  nav .logo .dot { color: #D4A574; }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 40px;
-  }
-  nav ul li a {
-    font-weight: 400;
-    font-size: 13px;
-    color: #888;
-    text-decoration: none;
-    letter-spacing: 0.01em;
-    transition: color 0.3s;
-  }
-  nav ul li a:hover { color: #2A2A28; }
-  nav .nav-cta a {
-    font-weight: 400;
-    font-size: 12px;
-    color: #2A2A28;
-    text-decoration: none;
-    padding: 8px 24px;
-    border: 1px solid rgba(0,0,0,0.08);
-    border-radius: 2px;
-    transition: all 0.3s;
-    letter-spacing: 0.02em;
-  }
-  nav .nav-cta a:hover {
-    border-color: #D4A574;
-    color: #D4A574;
-  }
-
-  /* HERO LAYOUT */
-  .hero {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 1440px;
-    height: 900px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 80px;
-  }
-
-  .hero-content {
-    display: flex;
-    align-items: center;
-    gap: 96px;
-    width: 100%;
-    max-width: 1200px;
-  }
-
-  /* LEFT: TEXT */
-  .hero-text {
-    flex: 1;
-  }
-  .hero-text .greeting {
-    font-weight: 400;
-    font-size: 11px;
-    color: #B0ACA4;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-  }
-  .hero-text h1 {
-    font-weight: 200;
-    font-size: 80px;
-    line-height: 1.02;
-    letter-spacing: -0.04em;
-    color: #2A2A28;
-  }
-  .hero-text h1 strong {
-    font-weight: 500;
-  }
-  .hero-text h1 .gold-period {
-    color: #D4A574;
-    font-weight: 300;
-  }
-  .hero-text .tagline {
-    font-weight: 300;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #999;
-    margin-top: 32px;
-    max-width: 440px;
-  }
-
-  /* CTA BUTTONS */
-  .hero-cta {
-    display: flex;
-    gap: 16px;
-    margin-top: 48px;
-  }
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 13px;
-    color: #FAFAF8;
-    background: #2A2A28;
-    border: none;
-    padding: 14px 32px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-  }
-  .btn-primary:hover { background: #3A3A38; }
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 13px;
-    color: #888;
-    background: transparent;
-    border: 1px solid rgba(0,0,0,0.08);
-    padding: 14px 32px;
-    border-radius: 2px;
-    cursor: pointer;
-    transition: all 0.3s;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-  }
-  .btn-secondary:hover { border-color: #D4A574; color: #D4A574; }
-
-  /* RIGHT: CARDS + PORTRAIT */
-  .hero-visual {
-    flex: 0 0 460px;
-    position: relative;
-    height: 520px;
-  }
-
-  /* PORTRAIT */
-  .portrait {
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background: #EDECE8;
-    position: absolute;
-    top: 0;
-    right: 40px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.06);
-    overflow: hidden;
-  }
-  .portrait::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 110px;
-    height: 130px;
-    background: #D8D6D0;
-    border-radius: 55px 55px 0 0;
-  }
-
-  /* FLOATING CARDS */
-  .card {
-    position: absolute;
-    background: #FFFFFF;
-    border: 1px solid rgba(0,0,0,0.04);
-    border-radius: 2px;
-    padding: 24px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.03);
-  }
-
-  .card-1 {
-    top: 60px;
-    left: 0;
-    width: 220px;
-  }
-  .card-2 {
-    top: 240px;
-    left: 60px;
-    width: 240px;
-  }
-  .card-3 {
-    top: 180px;
-    right: 0;
-    width: 200px;
-  }
-
-  .card .card-number {
-    font-weight: 200;
-    font-size: 32px;
-    letter-spacing: -0.02em;
-    color: #2A2A28;
-    line-height: 1;
-  }
-  .card .card-number .gold { color: #D4A574; font-weight: 300; }
-  .card .card-label {
-    font-weight: 400;
-    font-size: 10px;
-    color: #B0ACA4;
-    margin-top: 8px;
     letter-spacing: 2px;
     text-transform: uppercase;
+    color: #1A1A1A;
   }
-  .card .card-desc {
-    font-weight: 300;
+  .nav-brand span { color: #D4A574; }
+  .nav-links {
+    display: flex;
+    gap: 48px;
+    list-style: none;
+  }
+  .nav-links li a {
     font-size: 12px;
-    color: #999;
-    margin-top: 8px;
-    line-height: 1.5;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #8A8078;
+    text-decoration: none;
+    transition: color 0.3s ease;
   }
-
-  /* GOLD ACCENT LINE */
-  .accent-line {
-    position: absolute;
-    bottom: 0;
-    left: 100px;
-    width: 48px;
-    height: 2px;
+  .nav-links li a:hover { color: #1A1A1A; }
+  .nav-cta {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #D4A574;
+    text-decoration: none;
+    padding: 10px 28px;
+    border: 1px solid #D4A574;
+    transition: all 0.3s ease;
+  }
+  .nav-cta:hover {
     background: #D4A574;
-    border-radius: 1px;
+    color: #FAFAF8;
   }
-
-  /* Removed dot-grid — Build: zero decorative elements */
-
-  /* BOTTOM TICKER */
-  .bottom-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 1440px;
-    height: 48px;
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 140px 120px 100px;
+  }
+  .hero-eyebrow {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: #D4A574;
+    margin-bottom: 40px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -1px;
+    color: #1A1A1A;
+    margin-bottom: 32px;
+  }
+  .hero-line {
+    width: 40px;
+    height: 1px;
+    background: #D4A574;
+    margin: 0 auto 32px;
+  }
+  .hero-sub {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #8A8078;
+    max-width: 480px;
+    margin: 0 auto 56px;
+  }
+  .hero-btn {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #FAFAF8;
+    background: #D4A574;
+    padding: 18px 48px;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+  }
+  .hero-btn:hover { opacity: 0.8; }
+  /* Features */
+  .features {
+    display: flex;
+    justify-content: center;
+    gap: 80px;
+    padding: 80px 120px 120px;
+  }
+  .feature {
+    text-align: center;
+    max-width: 240px;
+  }
+  .feature-icon {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #E8E0D8;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 48px;
-    border-top: 1px solid rgba(0,0,0,0.04);
+    margin: 0 auto 24px;
+    font-size: 14px;
+    color: #D4A574;
   }
-  .bottom-bar span {
+  .feature-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #1A1A1A;
+    margin-bottom: 12px;
+  }
+  .feature-desc {
+    font-size: 13px;
     font-weight: 300;
-    font-size: 11px;
-    color: #BBB;
-    letter-spacing: 0.08em;
+    line-height: 1.7;
+    color: #8A8078;
   }
-  .bottom-bar .sep {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: #D4A574;
-    opacity: 0.5;
+  /* Bottom line */
+  .bottom-line {
+    position: absolute;
+    bottom: 0;
+    left: 120px;
+    right: 120px;
+    height: 1px;
+    background: #E8E0D8;
   }
 </style>
 </head>
 <body>
+  <div class="page">
+    <nav>
+      <div class="nav-brand">My<span>Claw</span></div>
+      <ul class="nav-links">
+        <li><a href="#">Platform</a></li>
+        <li><a href="#">Skills</a></li>
+        <li><a href="#">Docs</a></li>
+        <li><a href="#">Pricing</a></li>
+      </ul>
+      <a href="#" class="nav-cta">Get Started</a>
+    </nav>
 
-  <!-- NAV -->
-  <nav>
-    <div class="logo">alex chen<span class="dot"> .</span></div>
-    <ul>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#content">Content</a></li>
-      <li><a href="#services">Services</a></li>
-    </ul>
-    <div class="nav-cta">
-      <a href="#contact">Get in Touch</a>
-    </div>
-  </nav>
+    <section class="hero">
+      <div class="hero-eyebrow">Personal AI Infrastructure</div>
+      <h1 class="hero-title">Your OpenClaw,<br>Already Running</h1>
+      <div class="hero-line"></div>
+      <p class="hero-sub">A full server. Complete code control. Your AI assistant, running on your terms — not someone else's cloud.</p>
+      <a href="#" class="hero-btn">Launch Your Instance</a>
+    </section>
 
-  <!-- HERO -->
-  <div class="hero">
-    <div class="hero-content">
-      <!-- TEXT -->
-      <div class="hero-text">
-        <div class="greeting">Indie Developer & AI Creator</div>
-        <h1>Alex<br><strong>Chen</strong><span class="gold-period">.</span></h1>
-        <p class="tagline">Building tools at the intersection of AI and creativity. Shipping products, writing stories, shaping ideas.</p>
-        <div class="hero-cta">
-          <a href="#work" class="btn-primary">
-            View Work
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-          <a href="#content" class="btn-secondary">Read Articles</a>
-        </div>
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant Deploy</div>
+        <p class="feature-desc">One click to a running instance. No configuration, no waiting.</p>
       </div>
-
-      <!-- VISUAL -->
-      <div class="hero-visual">
-        <div class="portrait"></div>
-
-        <div class="card card-1">
-          <div class="card-number">300K<span class="gold">+</span></div>
-          <div class="card-label">Followers</div>
-          <div class="card-desc">Across platforms, building in public</div>
-        </div>
-
-        <div class="card card-2">
-          <div class="card-number"><span class="gold">#</span>1</div>
-          <div class="card-label">App Store</div>
-          <div class="card-desc">Top paid app, shipped as a solo developer</div>
-        </div>
-
-        <div class="card card-3">
-          <div class="card-number">100<span class="gold">+</span></div>
-          <div class="card-label">Articles</div>
-          <div class="card-desc">On AI, dev, and creative tools</div>
-        </div>
-
-        <div class="accent-line"></div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">Your Data</div>
+        <p class="feature-desc">Everything stays on your server. Full sovereignty over your AI.</p>
       </div>
-    </div>
-  </div>
+      <div class="feature">
+        <div class="feature-icon">🧩</div>
+        <div class="feature-title">340+ Skills</div>
+        <p class="feature-desc">Install capabilities from ClawHub. Build your own. Share with others.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">∞</div>
+        <div class="feature-title">Always On</div>
+        <p class="feature-desc">Your agent runs 24/7. Proactive, persistent, and always learning.</p>
+      </div>
+    </section>
 
-  <!-- BOTTOM BAR -->
-  <div class="bottom-bar">
-    <span>Developer</span>
-    <div class="sep"></div>
-    <span>Writer</span>
-    <div class="sep"></div>
-    <span>AI Creator</span>
-    <div class="sep"></div>
-    <span>Speaker</span>
+    <div class="bottom-line"></div>
   </div>
-
 </body>
 </html>

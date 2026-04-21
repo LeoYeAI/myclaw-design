@@ -3,458 +3,275 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1440">
-<title>Nexus API Documentation</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<title>OpenClaw Documentation — Pentagram</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    width: 1440px;
-    height: 900px;
-    overflow: hidden;
-    margin: 0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: #FFFFFF;
-    color: #111111;
-    display: flex;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #000; -webkit-font-smoothing: antialiased; }
+  .page { width: 1440px; min-height: 900px; position: relative; overflow: hidden; background: #fff; }
+
+  .gl { position: absolute; background: rgba(0,0,0,0.03); z-index: 0; }
+  .gl.v { width: 1px; top: 0; bottom: 0; }
+  .gv1 { left: 80px; } .gv2 { left: 320px; } .gv3 { left: 1360px; }
+
+  /* Nav */
+  .nav { position: relative; z-index: 10; height: 64px; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; border-bottom: 1px solid rgba(0,0,0,0.08); background: #fff; }
+  .nav-left { display: flex; align-items: center; gap: 24px; }
+  .nav-logo { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
+  .nav-logo span { color: #E63946; }
+  .nav-sep { width: 1px; height: 20px; background: rgba(0,0,0,0.12); }
+  .nav-docs { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; }
+  .nav-search { width: 280px; height: 36px; border: 1px solid rgba(0,0,0,0.1); padding: 0 14px; font-size: 12px; font-family: inherit; outline: none; background: #FAFAFA; }
+  .nav-search:focus { border-color: #E63946; background: #fff; }
+  .nav-search::placeholder { color: #bbb; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .nav-link { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #555; text-decoration: none; }
+  .nav-link:hover { color: #E63946; }
+  .nav-version { font-size: 10px; font-weight: 700; letter-spacing: 1px; padding: 3px 10px; background: #000; color: #fff; }
+
+  /* Layout */
+  .layout { position: relative; z-index: 5; display: flex; min-height: 836px; }
 
   /* Sidebar */
-  .sidebar {
-    width: 260px;
-    min-width: 260px;
-    height: 900px;
-    border-right: 1px solid #111;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    overflow-y: auto;
-  }
-  .sidebar-logo {
-    padding: 24px 28px;
-    border-bottom: 1px solid #111;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .sidebar-logo .logo-mark {
-    width: 28px;
-    height: 28px;
-    background: #E63946;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .sidebar-logo .logo-mark svg { color: #fff; }
-  .sidebar-logo span {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 18px;
-    letter-spacing: -0.5px;
-  }
-  .sidebar-section {
-    padding: 20px 28px 8px;
-  }
-  .sidebar-section-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #999;
-    margin-bottom: 12px;
-  }
-  .sidebar-link {
-    display: block;
-    padding: 6px 0;
-    font-size: 13px;
-    font-weight: 500;
-    color: #555;
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-  .sidebar-link:hover { color: #111; }
-  .sidebar-link.active {
-    color: #E63946;
-    font-weight: 600;
-  }
-  .sidebar-link.active::before {
-    content: '';
-    display: inline-block;
-    width: 6px;
-    height: 6px;
-    background: #E63946;
-    margin-right: 8px;
-    vertical-align: middle;
-  }
-  .sidebar-divider {
-    height: 1px;
-    background: #E8E8E8;
-    margin: 12px 28px;
-  }
+  .sidebar { width: 240px; border-right: 1px solid rgba(0,0,0,0.06); padding: 28px 20px 28px 80px; flex-shrink: 0; overflow-y: auto; }
+  .sb-section { margin-bottom: 28px; }
+  .sb-title { font-size: 9px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #aaa; margin-bottom: 12px; }
+  .sb-item { display: block; padding: 6px 0; font-size: 13px; font-weight: 500; color: #555; text-decoration: none; cursor: pointer; border-left: 2px solid transparent; padding-left: 12px; margin-left: -12px; }
+  .sb-item:hover { color: #000; }
+  .sb-item.active { color: #E63946; font-weight: 700; border-left-color: #E63946; }
+  .sb-item.sub { padding-left: 24px; margin-left: 0; font-size: 12px; color: #888; border-left: none; }
+  .sb-item.sub:hover { color: #E63946; }
 
-  /* Main content */
-  .main {
-    flex: 1;
-    height: 900px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* Top nav */
-  .topnav {
-    height: 52px;
-    min-height: 52px;
-    border-bottom: 1px solid #111;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 40px;
-  }
-  .topnav-links {
-    display: flex;
-    gap: 28px;
-  }
-  .topnav-links a {
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: #555;
-    transition: color 0.15s;
-  }
-  .topnav-links a:hover { color: #111; }
-  .topnav-links a.active-nav { color: #E63946; }
-  .topnav-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .topnav-right .status-dot {
-    width: 7px;
-    height: 7px;
-    background: #E63946;
-    border-radius: 50%;
-    display: inline-block;
-  }
-  .topnav-right span {
-    font-size: 11px;
-    color: #888;
-    font-weight: 500;
-  }
-  .topnav-right a {
-    color: #555;
-    text-decoration: none;
-  }
-
-  /* Hero */
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: 400px;
-    border-bottom: 1px solid #E8E8E8;
-  }
-  .hero-left {
-    padding: 56px 48px 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .hero-badge {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    color: #E63946;
-    margin-bottom: 20px;
-  }
-  .hero-left h1 {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 52px;
-    font-weight: 900;
-    line-height: 1.05;
-    letter-spacing: -2px;
-    margin-bottom: 16px;
-  }
-  .hero-left p {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #666;
-    max-width: 420px;
-    margin-bottom: 32px;
-  }
-  .hero-links {
-    display: flex;
-    gap: 12px;
-  }
-  .hero-links a {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.15s;
-  }
-  .hero-links a.primary {
-    background: #111;
-    color: #fff;
-  }
-  .hero-links a.primary:hover { background: #E63946; }
-  .hero-links a.secondary {
-    border: 1px solid #DDD;
-    color: #333;
-    background: #fff;
-  }
-  .hero-links a.secondary:hover { border-color: #111; }
+  /* Content */
+  .content { flex: 1; padding: 40px 80px 40px 48px; max-width: 880px; }
+  .breadcrumb { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #aaa; margin-bottom: 24px; }
+  .breadcrumb span { color: #E63946; }
+  .doc-title { font-size: 42px; font-weight: 900; letter-spacing: -3px; color: #000; margin-bottom: 8px; }
+  .doc-subtitle { font-size: 15px; font-weight: 400; line-height: 1.7; color: #666; margin-bottom: 32px; }
+  .doc-section { margin-bottom: 36px; }
+  .doc-h2 { font-size: 22px; font-weight: 900; letter-spacing: -1px; color: #000; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .doc-h3 { font-size: 15px; font-weight: 800; letter-spacing: -0.5px; color: #000; margin-bottom: 8px; margin-top: 20px; }
+  .doc-p { font-size: 14px; font-weight: 400; line-height: 1.8; color: #444; margin-bottom: 12px; }
+  .doc-p code { font-family: 'JetBrains Mono', monospace; font-size: 12px; background: #f5f5f5; padding: 2px 6px; border-radius: 3px; color: #E63946; }
 
   /* Code block */
-  .hero-right {
-    padding: 40px 48px 40px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #FAFAFA;
-    border-left: 1px solid #E8E8E8;
-  }
-  .code-block {
-    background: #FFFFFF;
-    border: 1px solid #DDD;
-    width: 100%;
-    max-width: 480px;
-  }
-  .code-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    border-bottom: 1px solid #DDD;
-    background: #FAFAFA;
-  }
-  .code-header span {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #999;
-    font-weight: 500;
-  }
-  .code-dots {
-    display: flex;
-    gap: 6px;
-  }
-  .code-dots i { width: 10px; height: 10px; }
-  .code-body {
-    padding: 20px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    line-height: 1.7;
-    color: #111;
-  }
-  .code-body .kw { color: #111; font-weight: 500; }
-  .code-body .str { color: #E63946; }
-  .code-body .cmt { color: #AAAAAA; }
-  .code-body .fn { color: #555; }
+  .code-block { background: #0a0a0a; border-radius: 6px; overflow: hidden; margin: 16px 0; }
+  .code-header { height: 32px; background: #1a1a1a; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+  .code-lang { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #555; }
+  .code-copy { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #555; cursor: pointer; }
+  .code-copy:hover { color: #E63946; }
+  .code-body { padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.7; color: #ccc; overflow-x: auto; }
+  .code-body .kw { color: #E63946; }
+  .code-body .str { color: #00a84f; }
+  .code-body .cm { color: #555; }
+  .code-body .fn { color: #f5a623; }
+  .code-body .num { color: #7c8aff; }
 
-  /* Quick links bar */
-  .quick-bar {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-bottom: 1px solid #E8E8E8;
-  }
-  .quick-bar a {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 18px 28px;
-    text-decoration: none;
-    color: #333;
-    font-size: 13px;
-    font-weight: 600;
-    border-right: 1px solid #E8E8E8;
-    transition: background 0.15s;
-  }
-  .quick-bar a:last-child { border-right: none; }
-  .quick-bar a:hover { background: #FAFAFA; }
-  .quick-bar a i { color: #E63946; }
+  /* API table */
+  .api-table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  .api-table th { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #888; text-align: left; padding: 10px 12px; background: #FAFAFA; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .api-table td { font-size: 13px; font-weight: 400; color: #444; padding: 10px 12px; border-bottom: 1px solid rgba(0,0,0,0.04); }
+  .api-table td:first-child { font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; color: #000; }
+  .api-method { display: inline-block; font-size: 9px; font-weight: 800; letter-spacing: 1px; padding: 2px 8px; margin-right: 8px; }
+  .api-method.get { background: rgba(0,168,79,0.1); color: #00a84f; }
+  .api-method.post { background: rgba(230,57,70,0.1); color: #E63946; }
+  .api-method.put { background: rgba(245,166,35,0.1); color: #f5a623; }
+  .api-method.delete { background: rgba(230,57,70,0.1); color: #E63946; }
 
-  /* Features */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    flex: 1;
-  }
-  .feature-card {
-    padding: 36px 32px;
-    border-right: 1px solid #E8E8E8;
-    display: flex;
-    flex-direction: column;
-  }
-  .feature-card:last-child { border-right: none; }
-  .feature-card .feature-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #E63946;
-    margin-bottom: 14px;
-  }
-  .feature-card h3 {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    margin-bottom: 10px;
-  }
-  .feature-card p {
-    font-size: 13px;
-    line-height: 1.65;
-    color: #777;
-  }
-  .feature-icon {
-    width: 36px;
-    height: 36px;
-    background: #111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 18px;
-  }
-  .feature-icon i { color: #fff; }
+  /* Callout */
+  .callout { border-left: 3px solid #E63946; background: rgba(230,57,70,0.04); padding: 16px 20px; margin: 16px 0; }
+  .callout-title { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: #E63946; margin-bottom: 6px; }
+  .callout-text { font-size: 13px; font-weight: 400; line-height: 1.6; color: #555; }
+
+  /* Right sidebar — TOC */
+  .toc { width: 200px; flex-shrink: 0; padding: 40px 20px; border-left: 1px solid rgba(0,0,0,0.06); }
+  .toc-title { font-size: 9px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: #aaa; margin-bottom: 16px; }
+  .toc-item { display: block; padding: 5px 0; font-size: 12px; font-weight: 500; color: #888; text-decoration: none; cursor: pointer; }
+  .toc-item:hover { color: #000; }
+  .toc-item.active { color: #E63946; font-weight: 700; }
+  .toc-item.sub { padding-left: 12px; font-size: 11px; }
+
+  /* Bottom bar */
+  .bottom-bar { position: relative; z-index: 5; height: 48px; background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; }
+  .bb-left { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .bb-left span { color: #E63946; }
+  .bb-right { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
 </style>
 </head>
 <body>
+<div class="page">
+  <div class="gl v gv1"></div><div class="gl v gv2"></div><div class="gl v gv3"></div>
 
-<!-- Sidebar -->
-<aside class="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-mark"><i data-lucide="zap" style="width:16px;height:16px;"></i></div>
-    <span>Nexus API</span>
-  </div>
-
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">Getting Started</div>
-    <a href="#" class="sidebar-link active">Introduction</a>
-    <a href="#" class="sidebar-link">Quick Start</a>
-    <a href="#" class="sidebar-link">Authentication</a>
-    <a href="#" class="sidebar-link">Installation</a>
-  </div>
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">Core Concepts</div>
-    <a href="#" class="sidebar-link">Model Routing</a>
-    <a href="#" class="sidebar-link">Chat Completions</a>
-    <a href="#" class="sidebar-link">Streaming</a>
-    <a href="#" class="sidebar-link">Error Handling</a>
-  </div>
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">API Reference</div>
-    <a href="#" class="sidebar-link">POST /chat</a>
-    <a href="#" class="sidebar-link">GET /models</a>
-    <a href="#" class="sidebar-link">GET /usage</a>
-    <a href="#" class="sidebar-link">Webhooks</a>
-  </div>
-  <div class="sidebar-divider"></div>
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">Resources</div>
-    <a href="#" class="sidebar-link">Models</a>
-    <a href="#" class="sidebar-link">Pricing</a>
-    <a href="#" class="sidebar-link">SDKs</a>
-    <a href="#" class="sidebar-link">Changelog</a>
-  </div>
-</aside>
-
-<!-- Main -->
-<main class="main">
-  <!-- Top Nav -->
-  <nav class="topnav">
-    <div class="topnav-links">
-      <a href="#" class="active-nav">Docs</a>
-      <a href="#">API</a>
-      <a href="#">Changelog</a>
-      <a href="#">Status</a>
-      <a href="#">GitHub</a>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-left">
+      <div class="nav-logo">Open<span>Claw</span></div>
+      <div class="nav-sep"></div>
+      <div class="nav-docs">Documentation</div>
     </div>
-    <div class="topnav-right">
-      <span class="status-dot"></span>
-      <span>All systems operational</span>
-      <a href="#"><i data-lucide="search" style="width:16px;height:16px;color:#888;"></i></a>
+    <input class="nav-search" type="text" placeholder="Search docs... (⌘K)">
+    <div class="nav-right">
+      <a href="#" class="nav-link">API</a>
+      <a href="#" class="nav-link">GitHub</a>
+      <a href="#" class="nav-link">Community</a>
+      <div class="nav-version">v4.2.0</div>
     </div>
   </nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-left">
-      <div class="hero-badge">Unified AI Gateway</div>
-      <h1>One API,<br>every AI model</h1>
-      <p>Access GPT, Claude, Gemini, and 20+ models through a single endpoint. Intelligent routing, unified billing, zero vendor lock-in.</p>
-      <div class="hero-links">
-        <a href="#" class="primary"><i data-lucide="arrow-right" style="width:14px;height:14px;"></i> Get Started</a>
-        <a href="#" class="secondary">API Reference</a>
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sb-section">
+        <div class="sb-title">Getting Started</div>
+        <a class="sb-item active">Installation</a>
+        <a class="sb-item">Quick Start</a>
+        <a class="sb-item">Configuration</a>
+        <a class="sb-item">First Agent</a>
       </div>
-    </div>
-    <div class="hero-right">
-      <div class="code-block">
-        <div class="code-header">
-          <div class="code-dots">
-            <i data-lucide="circle" style="width:10px;height:10px;color:#DDD;fill:#DDD;"></i>
-            <i data-lucide="circle" style="width:10px;height:10px;color:#DDD;fill:#DDD;"></i>
-            <i data-lucide="circle" style="width:10px;height:10px;color:#DDD;fill:#DDD;"></i>
-          </div>
-          <span>quickstart.py</span>
-        </div>
-        <div class="code-body">
-<span class="kw">from</span> nexus <span class="kw">import</span> Client<br><br>
-client = Client(api_key=<span class="str">"your-key"</span>)<br>
-response = client.chat(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;model=<span class="str">"auto"</span>,&nbsp;&nbsp;<span class="cmt"># intelligently routes</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;messages=[{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"role"</span>: <span class="str">"user"</span>,<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="str">"content"</span>: <span class="str">"Hello!"</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;}]<br>
-)
-        </div>
+      <div class="sb-section">
+        <div class="sb-title">Core Concepts</div>
+        <a class="sb-item">Architecture</a>
+        <a class="sb-item">Gateway</a>
+        <a class="sb-item">Agents</a>
+        <a class="sb-item">Skills</a>
+        <a class="sb-item sub">Creating Skills</a>
+        <a class="sb-item sub">SKILL.md Spec</a>
+        <a class="sb-item">Channels</a>
+        <a class="sb-item">Memory</a>
       </div>
-    </div>
-  </section>
+      <div class="sb-section">
+        <div class="sb-title">API Reference</div>
+        <a class="sb-item">REST API</a>
+        <a class="sb-item">WebSocket</a>
+        <a class="sb-item">CLI Commands</a>
+        <a class="sb-item">Events</a>
+      </div>
+      <div class="sb-section">
+        <div class="sb-title">Deployment</div>
+        <a class="sb-item">Self-Hosting</a>
+        <a class="sb-item">MyClaw Cloud</a>
+        <a class="sb-item">Docker</a>
+        <a class="sb-item">Security</a>
+      </div>
+    </aside>
 
-  <!-- Quick Links -->
-  <div class="quick-bar">
-    <a href="#"><i data-lucide="rocket" style="width:16px;height:16px;"></i> Getting Started</a>
-    <a href="#"><i data-lucide="file-text" style="width:16px;height:16px;"></i> API Reference</a>
-    <a href="#"><i data-lucide="layers" style="width:16px;height:16px;"></i> Models</a>
-    <a href="#"><i data-lucide="credit-card" style="width:16px;height:16px;"></i> Pricing</a>
+    <!-- Content -->
+    <main class="content">
+      <div class="breadcrumb">Docs / Getting Started / <span>Installation</span></div>
+      <h1 class="doc-title">Installation</h1>
+      <p class="doc-subtitle">Get OpenClaw running on your machine in under 5 minutes. Supports Linux, macOS, and Docker.</p>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Prerequisites</h2>
+        <p class="doc-p">OpenClaw requires <code>Node.js v20+</code> and <code>npm v10+</code>. We recommend using the latest LTS release.</p>
+        <div class="callout">
+          <div class="callout-title">● Important</div>
+          <div class="callout-text">OpenClaw runs as a system service. You'll need sudo access for the initial setup, but the agent runs as an unprivileged user.</div>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Quick Install</h2>
+        <p class="doc-p">The fastest way to get started is our one-line installer:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Bash</span><span class="code-copy">Copy</span></div>
+          <div class="code-body"><span class="cm"># Install OpenClaw globally</span>
+<span class="kw">curl</span> -fsSL https://get.openclaw.ai | <span class="kw">bash</span>
+
+<span class="cm"># Verify installation</span>
+<span class="kw">openclaw</span> --version
+<span class="cm"># → openclaw v4.2.0</span>
+
+<span class="cm"># Start the gateway</span>
+<span class="kw">openclaw</span> gateway start</div>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Manual Installation</h2>
+        <p class="doc-p">If you prefer manual control, install via npm:</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Bash</span><span class="code-copy">Copy</span></div>
+          <div class="code-body"><span class="kw">npm</span> install -g openclaw
+
+<span class="cm"># Initialize workspace</span>
+<span class="kw">openclaw</span> init
+
+<span class="cm"># Configure your first channel</span>
+<span class="kw">openclaw</span> channel add telegram \
+  --token <span class="str">"YOUR_BOT_TOKEN"</span>
+
+<span class="cm"># Set your AI model</span>
+<span class="kw">openclaw</span> config set model <span class="str">"claude-opus-4"</span></div>
+        </div>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Configuration</h2>
+        <h3 class="doc-h3">Environment Variables</h3>
+        <table class="api-table">
+          <thead><tr><th>Variable</th><th>Description</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td>OPENCLAW_MODEL</td><td>Default AI model for the agent</td><td>claude-sonnet-4-20250514</td></tr>
+            <tr><td>OPENCLAW_PORT</td><td>Gateway HTTP port</td><td>3000</td></tr>
+            <tr><td>OPENCLAW_DATA_DIR</td><td>Data storage directory</td><td>~/.openclaw</td></tr>
+            <tr><td>ANTHROPIC_API_KEY</td><td>Anthropic API key for Claude models</td><td>—</td></tr>
+            <tr><td>OPENAI_API_KEY</td><td>OpenAI API key for GPT models</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">REST API</h2>
+        <p class="doc-p">OpenClaw exposes a REST API for programmatic control:</p>
+        <table class="api-table">
+          <thead><tr><th>Endpoint</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><span class="api-method get">GET</span>/api/status</td><td>Gateway and agent status</td></tr>
+            <tr><td><span class="api-method get">GET</span>/api/skills</td><td>List installed skills</td></tr>
+            <tr><td><span class="api-method post">POST</span>/api/skills/install</td><td>Install a skill from marketplace</td></tr>
+            <tr><td><span class="api-method post">POST</span>/api/message</td><td>Send a message to the agent</td></tr>
+            <tr><td><span class="api-method get">GET</span>/api/memory</td><td>Read agent memory files</td></tr>
+            <tr><td><span class="api-method put">PUT</span>/api/config</td><td>Update configuration</td></tr>
+            <tr><td><span class="api-method delete">DELETE</span>/api/skills/:id</td><td>Uninstall a skill</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="doc-section">
+        <h2 class="doc-h2">Docker</h2>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Docker</span><span class="code-copy">Copy</span></div>
+          <div class="code-body"><span class="kw">docker</span> run -d \
+  --name openclaw \
+  -p <span class="num">3000</span>:<span class="num">3000</span> \
+  -v openclaw-data:/home/ubuntu/.openclaw \
+  -e <span class="str">ANTHROPIC_API_KEY=sk-ant-...</span> \
+  -e <span class="str">OPENCLAW_MODEL=claude-opus-4</span> \
+  openclaw/openclaw:<span class="num">latest</span></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TOC -->
+    <aside class="toc">
+      <div class="toc-title">On This Page</div>
+      <a class="toc-item">Prerequisites</a>
+      <a class="toc-item active">Quick Install</a>
+      <a class="toc-item">Manual Installation</a>
+      <a class="toc-item">Configuration</a>
+      <a class="toc-item sub">Environment Variables</a>
+      <a class="toc-item">REST API</a>
+      <a class="toc-item">Docker</a>
+    </aside>
   </div>
 
-  <!-- Features -->
-  <section class="features">
-    <div class="feature-card">
-      <div class="feature-icon"><i data-lucide="git-branch" style="width:18px;height:18px;"></i></div>
-      <div class="feature-label">Feature 01</div>
-      <h3>Model Routing</h3>
-      <p>Automatically select the best model for each request based on task complexity, latency requirements, and cost constraints.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon"><i data-lucide="trending-down" style="width:18px;height:18px;"></i></div>
-      <div class="feature-label">Feature 02</div>
-      <h3>Cost Optimization</h3>
-      <p>Reduce AI spend by up to 60% with intelligent model selection and automatic fallback to cost-effective alternatives.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon"><i data-lucide="bar-chart-3" style="width:18px;height:18px;"></i></div>
-      <div class="feature-label">Feature 03</div>
-      <h3>Usage Analytics</h3>
-      <p>Real-time dashboards tracking token usage, response latency, model performance, and cost breakdowns per project.</p>
-    </div>
-  </section>
-</main>
-
-<script>lucide.createIcons();</script>
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <div class="bb-left">Open<span>Claw</span> Documentation · v4.2.0</div>
+    <div class="bb-right">Edit on GitHub · MIT License</div>
+  </div>
+</div>
 </body>
 </html>

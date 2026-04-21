@@ -3,420 +3,229 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1440">
-<title>AI Compass — Pentagram Style</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<title>AI Tools Directory — Pentagram</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    width: 1440px;
-    height: 900px;
-    overflow: hidden;
-    margin: 0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: #FFFFFF;
-    color: #000000;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #000; -webkit-font-smoothing: antialiased; }
+  .page { width: 1440px; min-height: 900px; position: relative; overflow: hidden; background: #fff; }
 
-  /* NAV */
-  nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 24px 64px;
-    border-bottom: 2px solid #000;
-  }
-  .nav-logo {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-    letter-spacing: -0.5px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .nav-logo .compass-icon {
-    width: 24px;
-    height: 24px;
-  }
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-    font-size: 13px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-  }
-  .nav-links a {
-    text-decoration: none;
-    color: #000;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: #E63946; }
-  .nav-submit {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    background: #000;
-    color: #fff;
-    border: none;
-    padding: 10px 24px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  .nav-submit:hover { background: #E63946; }
+  /* Grid */
+  .gl { position: absolute; background: rgba(0,0,0,0.03); z-index: 0; }
+  .gl.v { width: 1px; top: 0; bottom: 0; }
+  .gv1 { left: 80px; } .gv2 { left: 320px; } .gv3 { left: 1360px; }
 
-  /* HERO GRID */
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    min-height: calc(900px - 72px);
-  }
+  /* Nav */
+  .nav { position: relative; z-index: 10; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .nav-logo { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; }
+  .nav-logo span { color: #E63946; }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #000; text-decoration: none; }
+  .nav-links a.active { color: #E63946; }
+  .nav-submit { padding: 10px 20px; background: #E63946; color: #fff; font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; border: none; cursor: pointer; }
 
-  /* LEFT PANEL */
-  .hero-left {
-    padding: 56px 64px 48px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-right: 2px solid #000;
-  }
-  .hero-stat {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 180px;
-    font-weight: 900;
-    line-height: 0.85;
-    letter-spacing: -8px;
-    color: #E63946;
-    position: relative;
-  }
-  .hero-stat span {
-    font-size: 48px;
-    letter-spacing: -2px;
-    vertical-align: top;
-    margin-left: 4px;
-  }
-  .hero-headline {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 42px;
-    font-weight: 900;
-    line-height: 1.08;
-    letter-spacing: -1.5px;
-    margin-top: 24px;
-    max-width: 520px;
-  }
-  .hero-sub {
-    font-size: 15px;
-    color: #555;
-    margin-top: 16px;
-    letter-spacing: 0.2px;
-    line-height: 1.5;
-  }
+  /* Layout */
+  .layout { position: relative; z-index: 5; display: flex; min-height: 828px; }
 
-  /* SEARCH */
-  .search-box {
-    display: flex;
-    border: 3px solid #000;
-    margin-top: 32px;
-    max-width: 560px;
-  }
-  .search-box input {
-    flex: 1;
-    padding: 16px 20px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 15px;
-    border: none;
-    outline: none;
-    background: #fff;
-  }
-  .search-box button {
-    padding: 16px 28px;
-    background: #000;
-    color: #fff;
-    border: none;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.2s;
-  }
-  .search-box button:hover { background: #E63946; }
+  /* Sidebar */
+  .sidebar { width: 240px; border-right: 1px solid rgba(0,0,0,0.06); padding: 32px 24px 32px 80px; flex-shrink: 0; }
+  .sidebar-title { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #888; margin-bottom: 20px; }
+  .sidebar-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 13px; font-weight: 600; color: #333; cursor: pointer; }
+  .sidebar-item:hover { color: #E63946; }
+  .sidebar-item.active { color: #E63946; font-weight: 800; }
+  .sidebar-count { font-size: 10px; font-weight: 700; color: #aaa; background: #f5f5f5; padding: 2px 8px; border-radius: 2px; }
+  .sidebar-item.active .sidebar-count { background: rgba(230,57,70,0.1); color: #E63946; }
 
-  /* CATEGORY TAGS */
-  .categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 28px;
-  }
-  .cat-tag {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    padding: 6px 14px;
-    border: 2px solid #000;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-  }
-  .cat-tag:hover {
-    background: #000;
-    color: #fff;
-  }
-  .cat-tag.active {
-    background: #E63946;
-    border-color: #E63946;
-    color: #fff;
-  }
+  /* Main content */
+  .main { flex: 1; padding: 32px 80px 32px 40px; }
 
-  /* RIGHT PANEL — TOOL LIST */
-  .hero-right {
-    display: flex;
-    flex-direction: column;
-  }
-  .list-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 48px;
-    border-bottom: 2px solid #000;
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #888;
-  }
+  /* Search */
+  .search-bar { display: flex; gap: 12px; margin-bottom: 32px; }
+  .search-input { flex: 1; height: 48px; border: 2px solid #000; padding: 0 20px; font-size: 14px; font-weight: 500; font-family: inherit; outline: none; }
+  .search-input:focus { border-color: #E63946; }
+  .search-input::placeholder { color: #bbb; }
+  .search-btn { width: 48px; height: 48px; background: #000; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .search-btn svg { width: 18px; height: 18px; fill: #fff; }
+  .search-btn:hover { background: #E63946; }
 
-  .tool-item {
-    display: grid;
-    grid-template-columns: 48px 1fr auto;
-    align-items: center;
-    padding: 24px 48px;
-    border-bottom: 1px solid #E0E0E0;
-    transition: background 0.15s;
-    cursor: pointer;
-  }
-  .tool-item:hover {
-    background: #F7F7F7;
-  }
-  .tool-index {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: #BBB;
-  }
-  .tool-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .tool-name-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .tool-name {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-  }
-  .tool-badge {
-    font-size: 10px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: #E63946;
-    background: rgba(230, 57, 70, 0.08);
-    padding: 3px 8px;
-  }
-  .tool-desc {
-    font-size: 13px;
-    color: #777;
-    line-height: 1.4;
-    max-width: 400px;
-  }
-  .tool-category {
-    font-size: 11px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #999;
-    white-space: nowrap;
-  }
+  /* Results header */
+  .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .results-count { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #888; }
+  .results-sort { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #000; cursor: pointer; }
 
-  .tool-item:last-child {
-    border-bottom: none;
-  }
+  /* Tool cards grid */
+  .tools-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .tool-card { border: 1px solid rgba(0,0,0,0.06); padding: 24px; position: relative; transition: all 0.2s; cursor: pointer; }
+  .tool-card:hover { border-color: #000; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .tool-card:hover .tc-arrow { opacity: 1; }
+  .tc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 12px; }
+  .tc-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; color: #fff; }
+  .tc-icon.red { background: #E63946; }
+  .tc-icon.black { background: #000; }
+  .tc-icon.gray { background: #444; }
+  .tc-badge { font-size: 8px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; }
+  .tc-badge.featured { background: #E63946; color: #fff; }
+  .tc-badge.new { background: #000; color: #fff; }
+  .tc-badge.popular { background: #f5f5f5; color: #000; }
+  .tc-name { font-size: 16px; font-weight: 800; letter-spacing: -0.5px; color: #000; margin-bottom: 6px; }
+  .tc-desc { font-size: 12px; font-weight: 400; line-height: 1.5; color: #888; margin-bottom: 12px; }
+  .tc-meta { display: flex; align-items: center; gap: 16px; }
+  .tc-tag { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #aaa; background: #f8f8f8; padding: 3px 8px; }
+  .tc-rating { font-size: 11px; font-weight: 700; color: #000; }
+  .tc-arrow { position: absolute; top: 24px; right: 24px; font-size: 18px; color: #E63946; opacity: 0; transition: opacity 0.2s; }
 
-  /* FEATURED TAG */
-  .tool-item.featured {
-    border-left: 4px solid #E63946;
-    padding-left: 44px;
-  }
+  /* Featured card */
+  .tool-card.featured { grid-column: span 3; display: flex; gap: 32px; align-items: center; background: #000; border-color: #000; padding: 32px; }
+  .tool-card.featured .tc-icon { width: 56px; height: 56px; font-size: 22px; background: #E63946; }
+  .tool-card.featured .tc-name { color: #fff; font-size: 20px; }
+  .tool-card.featured .tc-desc { color: rgba(255,255,255,0.6); }
+  .tool-card.featured .tc-tag { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); }
+  .tool-card.featured .tc-rating { color: #E63946; }
+  .tool-card.featured:hover { box-shadow: 0 8px 40px rgba(0,0,0,0.3); }
 
-  .bottom-bar {
-    margin-top: auto;
-    padding: 16px 48px;
-    border-top: 2px solid #000;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    color: #888;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-  .bottom-bar a {
-    color: #000;
-    text-decoration: none;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    font-size: 11px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    transition: color 0.2s;
-  }
-  .bottom-bar a:hover { color: #E63946; }
+  /* Bottom bar */
+  .bottom-bar { position: relative; z-index: 5; height: 56px; background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; }
+  .bb-left { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .bb-left span { color: #E63946; }
+  .bb-right { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
 </style>
 </head>
 <body>
+<div class="page">
+  <div class="gl v gv1"></div><div class="gl v gv2"></div><div class="gl v gv3"></div>
 
-<nav>
-  <div class="nav-logo">
-    <svg class="compass-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="10"/>
-      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88" fill="#E63946" stroke="#E63946"/>
-    </svg>
-    AI Compass
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-logo">AI Tools <span>Directory</span></div>
+    <div class="nav-links">
+      <a href="#" class="active">All Tools</a>
+      <a href="#">Categories</a>
+      <a href="#">Collections</a>
+      <a href="#">Trending</a>
+      <a href="#">Blog</a>
+    </div>
+    <button class="nav-submit">Submit Tool</button>
+  </nav>
+
+  <!-- Layout -->
+  <div class="layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-title">Categories</div>
+      <div class="sidebar-item active">All Tools <span class="sidebar-count">342</span></div>
+      <div class="sidebar-item">Chatbots <span class="sidebar-count">48</span></div>
+      <div class="sidebar-item">Writing <span class="sidebar-count">67</span></div>
+      <div class="sidebar-item">Image Gen <span class="sidebar-count">45</span></div>
+      <div class="sidebar-item">Code <span class="sidebar-count">52</span></div>
+      <div class="sidebar-item">Video <span class="sidebar-count">28</span></div>
+      <div class="sidebar-item">Audio <span class="sidebar-count">19</span></div>
+      <div class="sidebar-item">Agents <span class="sidebar-count">38</span></div>
+      <div class="sidebar-item">Research <span class="sidebar-count">24</span></div>
+      <div class="sidebar-item">Productivity <span class="sidebar-count">21</span></div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <!-- Search -->
+      <div class="search-bar">
+        <input class="search-input" type="text" placeholder="Search 342 AI tools...">
+        <button class="search-btn"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg></button>
+      </div>
+
+      <!-- Results header -->
+      <div class="results-header">
+        <div class="results-count">342 Tools Found</div>
+        <div class="results-sort">Sort: Most Popular ↓</div>
+      </div>
+
+      <!-- Featured -->
+      <div class="tools-grid">
+        <div class="tool-card featured">
+          <div class="tc-icon red">MC</div>
+          <div>
+            <div class="tc-name">MyClaw.ai — AI Personal Assistant Platform</div>
+            <div class="tc-desc">Full-server AI assistant with 560+ skills. Your AI, your server, your rules. Deploy in 60 seconds.</div>
+            <div class="tc-meta">
+              <span class="tc-tag">Agent Platform</span>
+              <span class="tc-tag">Open Source</span>
+              <span class="tc-rating">★ 4.9 · 18K+ users</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Regular cards -->
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon black">CH</div><span class="tc-badge popular">Popular</span></div>
+          <div class="tc-name">ChatGPT</div>
+          <div class="tc-desc">Conversational AI by OpenAI. General-purpose assistant for writing, analysis, and coding.</div>
+          <div class="tc-meta"><span class="tc-tag">Chatbot</span><span class="tc-rating">★ 4.7</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon red">CL</div><span class="tc-badge new">New</span></div>
+          <div class="tc-name">Claude</div>
+          <div class="tc-desc">Anthropic's AI assistant. Excels at long-form analysis, coding, and nuanced reasoning.</div>
+          <div class="tc-meta"><span class="tc-tag">Chatbot</span><span class="tc-rating">★ 4.8</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon gray">MJ</div><span class="tc-badge popular">Popular</span></div>
+          <div class="tc-name">Midjourney</div>
+          <div class="tc-desc">AI image generation with stunning artistic quality. Create visuals from text prompts.</div>
+          <div class="tc-meta"><span class="tc-tag">Image Gen</span><span class="tc-rating">★ 4.6</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon black">CP</div><span class="tc-badge featured">Featured</span></div>
+          <div class="tc-name">GitHub Copilot</div>
+          <div class="tc-desc">AI pair programmer. Autocomplete code, generate functions, and explain complex logic.</div>
+          <div class="tc-meta"><span class="tc-tag">Code</span><span class="tc-rating">★ 4.5</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon red">PR</div><span class="tc-badge new">New</span></div>
+          <div class="tc-name">Perplexity</div>
+          <div class="tc-desc">AI-powered search engine with cited sources. Research faster with real-time answers.</div>
+          <div class="tc-meta"><span class="tc-tag">Research</span><span class="tc-rating">★ 4.7</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon gray">RW</div><span class="tc-badge popular">Popular</span></div>
+          <div class="tc-name">Runway ML</div>
+          <div class="tc-desc">AI video generation and editing. Create cinematic content from text and images.</div>
+          <div class="tc-meta"><span class="tc-tag">Video</span><span class="tc-rating">★ 4.4</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon black">NT</div><span class="tc-badge popular">Popular</span></div>
+          <div class="tc-name">Notion AI</div>
+          <div class="tc-desc">AI writing and organization inside Notion. Summarize, brainstorm, and draft content.</div>
+          <div class="tc-meta"><span class="tc-tag">Productivity</span><span class="tc-rating">★ 4.3</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+
+        <div class="tool-card">
+          <div class="tc-top"><div class="tc-icon red">EL</div><span class="tc-badge new">New</span></div>
+          <div class="tc-name">ElevenLabs</div>
+          <div class="tc-desc">AI voice synthesis and cloning. Generate natural speech in any voice and language.</div>
+          <div class="tc-meta"><span class="tc-tag">Audio</span><span class="tc-rating">★ 4.6</span></div>
+          <div class="tc-arrow">→</div>
+        </div>
+      </div>
+    </main>
   </div>
-  <ul class="nav-links">
-    <li><a href="#">Browse</a></li>
-    <li><a href="#">Categories</a></li>
-    <li><a href="#">New Tools</a></li>
-    <li><a href="#">About</a></li>
-  </ul>
-  <button class="nav-submit">Submit a Tool</button>
-</nav>
 
-<div class="hero">
-  <!-- LEFT -->
-  <div class="hero-left">
-    <div>
-      <div class="hero-stat">500<span>+</span></div>
-      <h1 class="hero-headline">Find the right AI tool in seconds</h1>
-      <p class="hero-sub">500+ tools, 24 categories, updated weekly. The most comprehensive curated directory for AI practitioners.</p>
-
-      <div class="search-box">
-        <input type="text" placeholder="Search tools by name, category, or use case...">
-        <button>
-          <i data-lucide="search" style="width:16px;height:16px;"></i>
-          Search
-        </button>
-      </div>
-
-      <div class="categories">
-        <span class="cat-tag active">Writing</span>
-        <span class="cat-tag">Coding</span>
-        <span class="cat-tag">Image</span>
-        <span class="cat-tag">Video</span>
-        <span class="cat-tag">Audio</span>
-        <span class="cat-tag">Productivity</span>
-        <span class="cat-tag">Research</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- RIGHT -->
-  <div class="hero-right">
-    <div class="list-header">
-      <span>Featured Tools</span>
-      <span>Category</span>
-    </div>
-
-    <div class="tool-item featured">
-      <span class="tool-index">01</span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Claude</span>
-          <span class="tool-badge">Editor's Pick</span>
-        </div>
-        <span class="tool-desc">Advanced AI assistant for writing, analysis, and coding with extended context and nuanced reasoning.</span>
-      </div>
-      <span class="tool-category">Writing</span>
-    </div>
-
-    <div class="tool-item">
-      <span class="tool-index">02</span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Cursor</span>
-          <span class="tool-badge">Trending</span>
-        </div>
-        <span class="tool-desc">AI-native code editor that understands your entire codebase and accelerates development workflows.</span>
-      </div>
-      <span class="tool-category">Coding</span>
-    </div>
-
-    <div class="tool-item">
-      <span class="tool-index">03</span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Midjourney</span>
-        </div>
-        <span class="tool-desc">Leading AI image generation platform producing stunning visuals from text descriptions.</span>
-      </div>
-      <span class="tool-category">Image</span>
-    </div>
-
-    <div class="tool-item">
-      <span class="tool-index">04</span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Perplexity</span>
-        </div>
-        <span class="tool-desc">AI-powered search engine with real-time citations and conversational answers.</span>
-      </div>
-      <span class="tool-category">Research</span>
-    </div>
-
-    <div class="tool-item">
-      <span class="tool-index">05</span>
-      <div class="tool-info">
-        <div class="tool-name-row">
-          <span class="tool-name">Runway</span>
-          <span class="tool-badge">New</span>
-        </div>
-        <span class="tool-desc">Gen-3 video generation and editing suite for creators and filmmakers.</span>
-      </div>
-      <span class="tool-category">Video</span>
-    </div>
-
-    <div class="bottom-bar">
-      <span>Showing 5 of 500+ tools</span>
-      <a href="#">
-        View All Tools
-        <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
-      </a>
-    </div>
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <div class="bb-left">AI Tools <span>Directory</span> · 342 Tools Indexed</div>
+    <div class="bb-right">© 2026 · Submit Your Tool</div>
   </div>
 </div>
-
-<script>
-  lucide.createIcons();
-</script>
 </body>
 </html>

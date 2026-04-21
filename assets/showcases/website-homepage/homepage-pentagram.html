@@ -3,366 +3,204 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1440">
-<title>Alex Chen — Indie Developer & AI Creator</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
+<title>MyClaw.ai — Homepage</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    width: 1440px;
-    height: 900px;
-    overflow: hidden;
-    margin: 0;
-    background: #FFFFFF;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    color: #111111;
-    position: relative;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #000; -webkit-font-smoothing: antialiased; }
+  .page { width: 1440px; min-height: 900px; position: relative; overflow: hidden; background: #fff; }
 
-  /* NAV */
-  nav {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 80px;
-    border-bottom: 1px solid #111;
-    z-index: 10;
-  }
-  nav .logo {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  nav .logo span { color: #E63946; }
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 48px;
-  }
-  nav ul li a {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    text-decoration: none;
-    color: #111;
-    transition: color 0.2s;
-  }
-  nav ul li a:hover { color: #E63946; }
-  nav .nav-contact a {
-    background: #111;
-    color: #fff;
-    padding: 10px 28px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-  nav .nav-contact a:hover { background: #E63946; }
+  /* Grid lines */
+  .gl { position: absolute; background: rgba(0,0,0,0.03); z-index: 0; }
+  .gl.v { width: 1px; top: 0; bottom: 0; }
+  .gv1 { left: 80px; } .gv2 { left: 360px; } .gv3 { left: 720px; } .gv4 { left: 1080px; } .gv5 { left: 1360px; }
 
-  /* MAIN GRID */
-  .hero {
-    position: absolute;
-    top: 72px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: grid;
-    grid-template-columns: 1fr 1px 1fr;
-    grid-template-rows: 1fr;
-  }
+  /* Nav */
+  .nav { position: relative; z-index: 10; height: 72px; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .nav-logo { font-size: 20px; font-weight: 900; letter-spacing: -1px; color: #000; }
+  .nav-logo span { color: #E63946; }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #000; text-decoration: none; }
+  .nav-links a:hover { color: #E63946; }
+  .nav-cta { padding: 10px 24px; background: #000; color: #fff; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; border: none; cursor: pointer; }
+  .nav-cta:hover { background: #E63946; }
 
-  /* LEFT PANEL */
-  .hero-left {
-    padding: 64px 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .hero-left .intro-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #999;
-    margin-bottom: 16px;
-  }
-  .hero-left .name {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 900;
-    font-size: 112px;
-    line-height: 0.92;
-    letter-spacing: -0.03em;
-    color: #111;
-  }
-  .hero-left .name .accent { color: #E63946; }
-  .hero-left .tagline {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 300;
-    font-size: 20px;
-    line-height: 1.6;
-    color: #555;
-    max-width: 480px;
-    margin-top: 32px;
-  }
+  /* Hero */
+  .hero { position: relative; z-index: 5; padding: 100px 80px 80px; display: flex; align-items: flex-start; justify-content: space-between; }
+  .hero-left { max-width: 620px; }
+  .hero-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #E63946; margin-bottom: 24px; }
+  .hero-title { font-size: 72px; font-weight: 900; letter-spacing: -5px; line-height: 0.92; color: #000; }
+  .hero-title em { font-style: normal; color: #E63946; }
+  .hero-desc { margin-top: 24px; font-size: 16px; font-weight: 400; line-height: 1.7; color: #555; max-width: 480px; }
+  .hero-actions { margin-top: 36px; display: flex; gap: 16px; }
+  .btn-primary { padding: 16px 36px; background: #E63946; color: #fff; font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; border: none; cursor: pointer; }
+  .btn-secondary { padding: 16px 36px; background: #fff; color: #000; font-size: 12px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; border: 2px solid #000; cursor: pointer; }
+  .btn-primary:hover { background: #c5303c; }
+  .btn-secondary:hover { border-color: #E63946; color: #E63946; }
 
-  /* STATS ROW */
-  .stats-row {
-    display: flex;
-    gap: 0;
-    border-top: 1px solid #111;
-    padding-top: 32px;
-  }
-  .stat-item {
-    flex: 1;
-    position: relative;
-  }
-  .stat-item:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 1px;
-    background: #DDD;
-  }
-  .stat-item .stat-number {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 48px;
-    letter-spacing: -0.02em;
-    color: #111;
-    line-height: 1;
-  }
-  .stat-item .stat-number .red { color: #E63946; }
-  .stat-item .stat-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #999;
-    margin-top: 8px;
-  }
+  /* Hero right — terminal mockup */
+  .hero-right { width: 520px; flex-shrink: 0; }
+  .terminal { background: #0a0a0a; border-radius: 8px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,0.15); }
+  .terminal-bar { height: 36px; background: #1a1a1a; display: flex; align-items: center; padding: 0 14px; gap: 8px; }
+  .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .terminal-dot.r { background: #E63946; }
+  .terminal-dot.y { background: #f5a623; }
+  .terminal-dot.g { background: #00a84f; }
+  .terminal-body { padding: 20px; font-family: 'JetBrains Mono', monospace; font-size: 13px; line-height: 1.8; color: #888; }
+  .terminal-body .cmd { color: #fff; }
+  .terminal-body .accent { color: #E63946; }
+  .terminal-body .green { color: #00a84f; }
+  .terminal-body .dim { color: #444; }
 
-  /* CENTER DIVIDER */
-  .divider {
-    background: #111;
-  }
+  /* Stats bar */
+  .stats-bar { position: relative; z-index: 5; margin: 0 80px; padding: 40px 0; border-top: 1px solid rgba(0,0,0,0.06); border-bottom: 1px solid rgba(0,0,0,0.06); display: flex; justify-content: space-between; }
+  .stat-item { text-align: center; flex: 1; }
+  .stat-item + .stat-item { border-left: 1px solid rgba(0,0,0,0.06); }
+  .stat-val { font-size: 36px; font-weight: 900; letter-spacing: -2px; color: #000; }
+  .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #888; margin-top: 4px; }
 
-  /* RIGHT PANEL */
-  .hero-right {
-    padding: 64px 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    background: #FAFAFA;
-  }
+  /* Features */
+  .features { position: relative; z-index: 5; padding: 80px; }
+  .features-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: #E63946; margin-bottom: 12px; }
+  .features-title { font-size: 36px; font-weight: 900; letter-spacing: -2px; color: #000; margin-bottom: 48px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .feature-card { padding: 32px; border: 1px solid rgba(0,0,0,0.06); position: relative; }
+  .feature-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: #000; }
+  .feature-card:nth-child(1)::before, .feature-card:nth-child(4)::before { background: #E63946; }
+  .feature-num { font-size: 10px; font-weight: 700; letter-spacing: 2px; color: #ccc; margin-bottom: 16px; }
+  .feature-name { font-size: 18px; font-weight: 900; letter-spacing: -0.5px; color: #000; margin-bottom: 8px; }
+  .feature-desc { font-size: 13px; font-weight: 400; line-height: 1.6; color: #666; }
 
-  /* PORTRAIT PLACEHOLDER */
-  .portrait-wrap {
-    position: relative;
-    width: 320px;
-    height: 320px;
-  }
-  .portrait-circle {
-    width: 320px;
-    height: 320px;
-    border-radius: 50%;
-    background: #E8E8E8;
-    position: relative;
-    overflow: hidden;
-  }
-  .portrait-circle::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 50%;
-    transform: translateX(-50%);
-    width: 180px;
-    height: 200px;
-    background: #D0D0D0;
-    border-radius: 90px 90px 0 0;
-  }
-  .portrait-frame {
-    position: absolute;
-    top: -12px;
-    left: -12px;
-    width: 344px;
-    height: 344px;
-    border: 1px solid #E63946;
-    border-radius: 50%;
-  }
+  /* Trust bar */
+  .trust-bar { position: relative; z-index: 5; margin: 0 80px; padding: 40px 0; border-top: 1px solid rgba(0,0,0,0.06); display: flex; align-items: center; justify-content: space-between; }
+  .trust-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #aaa; }
+  .trust-logos { display: flex; gap: 48px; align-items: center; }
+  .trust-logo { font-size: 16px; font-weight: 900; letter-spacing: -0.5px; color: #ccc; }
 
-  /* RED INDEX MARKER */
-  .index-marker {
-    position: absolute;
-    bottom: 64px;
-    right: 80px;
-    text-align: right;
-  }
-  .index-marker .idx-num {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 700;
-    font-size: 120px;
-    line-height: 0.85;
-    color: #E63946;
-    opacity: 0.1;
-  }
-  .index-marker .idx-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #999;
-    margin-top: 8px;
-  }
-
-  /* DECORATIVE ELEMENTS */
-  .corner-mark {
-    position: absolute;
-    top: 64px;
-    right: 80px;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #CCC;
-  }
-
-  .hero-right .role-tags {
-    margin-top: 40px;
-    display: flex;
-    gap: 12px;
-  }
-  .role-tags span {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 8px 20px;
-    border: 1px solid #CCC;
-    color: #666;
-    transition: all 0.2s;
-  }
-  .role-tags span:hover {
-    border-color: #E63946;
-    color: #E63946;
-  }
-
-  /* SCROLL CTA */
-  .scroll-cta {
-    position: absolute;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .scroll-cta span {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #BBB;
-  }
-  .scroll-cta .arrow-down {
-    width: 1px;
-    height: 32px;
-    background: #CCC;
-    position: relative;
-  }
-  .scroll-cta .arrow-down::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -3px;
-    width: 7px;
-    height: 7px;
-    border-right: 1px solid #CCC;
-    border-bottom: 1px solid #CCC;
-    transform: rotate(45deg);
-  }
+  /* Bottom bar */
+  .bottom-bar { position: relative; z-index: 5; height: 64px; background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 80px; }
+  .bb-left { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; }
+  .bb-left span { color: #E63946; }
+  .bb-right { font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
 </style>
 </head>
 <body>
+<div class="page">
+  <!-- Grid -->
+  <div class="gl v gv1"></div><div class="gl v gv2"></div><div class="gl v gv3"></div><div class="gl v gv4"></div><div class="gl v gv5"></div>
 
-  <!-- NAVIGATION -->
-  <nav>
-    <div class="logo">Alex<span>.</span>Chen</div>
-    <ul>
-      <li><a href="#work">Work</a></li>
-      <li><a href="#content">Content</a></li>
-      <li><a href="#services">Services</a></li>
-    </ul>
-    <div class="nav-contact">
-      <a href="#contact">Contact</a>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-logo">My<span>Claw</span>.ai</div>
+    <div class="nav-links">
+      <a href="#">Products</a>
+      <a href="#">Pricing</a>
+      <a href="#">Docs</a>
+      <a href="#">Blog</a>
     </div>
+    <button class="nav-cta">Get Started</button>
   </nav>
 
-  <!-- HERO -->
-  <div class="hero">
-    <!-- LEFT -->
+  <!-- Hero -->
+  <section class="hero">
     <div class="hero-left">
-      <div>
-        <div class="intro-label">Indie Developer / AI Creator</div>
-        <h1 class="name">Alex<br>Chen<span class="accent">.</span></h1>
-        <p class="tagline">Building tools at the intersection of AI and creativity.</p>
-      </div>
-      <div class="stats-row">
-        <div class="stat-item">
-          <div class="stat-number">300K<span class="red">+</span></div>
-          <div class="stat-label">Followers</div>
-        </div>
-        <div class="stat-item" style="padding-left: 32px;">
-          <div class="stat-number">#1</div>
-          <div class="stat-label">App Store</div>
-        </div>
-        <div class="stat-item" style="padding-left: 32px;">
-          <div class="stat-number">100<span class="red">+</span></div>
-          <div class="stat-label">Articles</div>
-        </div>
+      <div class="hero-label">● Open AI Infrastructure</div>
+      <h1 class="hero-title">Your OpenClaw,<br>Already <em>Running</em></h1>
+      <p class="hero-desc">The AI personal assistant platform that gives every user a full server with complete code control. Deploy once, own forever.</p>
+      <div class="hero-actions">
+        <button class="btn-primary">Get Started</button>
+        <button class="btn-secondary">View Pricing</button>
       </div>
     </div>
-
-    <!-- DIVIDER -->
-    <div class="divider"></div>
-
-    <!-- RIGHT -->
     <div class="hero-right">
-      <div class="corner-mark">Portfolio 2026</div>
-      <div class="portrait-wrap">
-        <div class="portrait-circle"></div>
-        <div class="portrait-frame"></div>
+      <div class="terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot r"></div>
+          <div class="terminal-dot y"></div>
+          <div class="terminal-dot g"></div>
+        </div>
+        <div class="terminal-body">
+          <div><span class="dim">$</span> <span class="cmd">openclaw status</span></div>
+          <div><span class="green">✓</span> Gateway: <span class="accent">running</span></div>
+          <div><span class="green">✓</span> Agent: <span class="accent">main</span> (claude-opus-4)</div>
+          <div><span class="green">✓</span> Channels: telegram, discord</div>
+          <div><span class="green">✓</span> Skills: <span class="accent">23 active</span></div>
+          <div><span class="green">✓</span> Uptime: 47d 12h 33m</div>
+          <div>&nbsp;</div>
+          <div><span class="dim">$</span> <span class="cmd">openclaw skills list</span></div>
+          <div><span class="dim">  weather</span>  <span class="green">✓</span></div>
+          <div><span class="dim">  coding-agent</span>  <span class="green">✓</span></div>
+          <div><span class="dim">  myclaw-design</span>  <span class="green">✓</span></div>
+          <div><span class="dim">  ...</span> <span class="accent">20 more</span></div>
+        </div>
       </div>
-      <div class="role-tags">
-        <span>Developer</span>
-        <span>Writer</span>
-        <span>Creator</span>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-val">18,000+</div><div class="stat-label">Active Instances</div></div>
+    <div class="stat-item"><div class="stat-val">560+</div><div class="stat-label">Agent Skills</div></div>
+    <div class="stat-item"><div class="stat-val">99.9%</div><div class="stat-label">Uptime SLA</div></div>
+    <div class="stat-item"><div class="stat-val">$40M+</div><div class="stat-label">Annual Revenue</div></div>
+  </div>
+
+  <!-- Features -->
+  <section class="features">
+    <div class="features-label">● Why MyClaw</div>
+    <div class="features-title">Built for developers who own their AI</div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-num">01</div>
+        <div class="feature-name">Full Server Access</div>
+        <div class="feature-desc">Every instance is a real Linux server. SSH in, install packages, run scripts. Your AI, your rules.</div>
       </div>
-      <div class="index-marker">
-        <div class="idx-num">01</div>
-        <div class="idx-label">Hero</div>
+      <div class="feature-card">
+        <div class="feature-num">02</div>
+        <div class="feature-name">Multi-Model Support</div>
+        <div class="feature-desc">GPT-4o, Claude Opus, Gemini Pro, Llama — switch models per task or let the agent decide.</div>
       </div>
+      <div class="feature-card">
+        <div class="feature-num">03</div>
+        <div class="feature-name">560+ Skills</div>
+        <div class="feature-desc">Install capabilities from the marketplace. Weather, coding, design, email — one command away.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">04</div>
+        <div class="feature-name">Every Channel</div>
+        <div class="feature-desc">Telegram, Discord, Slack, WhatsApp, SMS. Your agent lives where you do.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">05</div>
+        <div class="feature-name">Open Source Core</div>
+        <div class="feature-desc">OpenClaw is MIT-licensed. Fork it, extend it, self-host it. No vendor lock-in, ever.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-num">06</div>
+        <div class="feature-name">Persistent Memory</div>
+        <div class="feature-desc">Your agent remembers. Conversations, preferences, context — all stored locally on your server.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust bar -->
+  <div class="trust-bar">
+    <div class="trust-label">Trusted By</div>
+    <div class="trust-logos">
+      <div class="trust-logo">Anthropic</div>
+      <div class="trust-logo">OpenAI</div>
+      <div class="trust-logo">Google</div>
+      <div class="trust-logo">Meta</div>
+      <div class="trust-logo">Vercel</div>
+      <div class="trust-logo">Netlify</div>
     </div>
   </div>
 
-  <!-- SCROLL CTA -->
-  <div class="scroll-cta">
-    <span>Scroll</span>
-    <div class="arrow-down"></div>
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <div class="bb-left">My<span>Claw</span>.ai — Your OpenClaw, Already Running</div>
+    <div class="bb-right">© 2026 MyClaw · Privacy · Terms</div>
   </div>
-
+</div>
 </body>
 </html>
