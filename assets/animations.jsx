@@ -176,6 +176,26 @@
     // (Browsers viewing manually still loop because __recording is undefined there.)
     const effectiveLoop = (typeof window !== 'undefined' && window.__recording) ? false : loop;
 
+    // ── HyperFrames-compatible seek protocol ──────────────────────────────
+    // Expose window.__hf = { duration, seek } so seekable renderers
+    // (render-seekable.js or any HyperFrames-compatible engine) can drive
+    // the animation frame-by-frame without relying on wall-clock rAF.
+    // Also keeps legacy window.__seek for backward compat with render-video.js.
+    useEffect(() => {
+      if (typeof window === 'undefined') return;
+      const seekFn = (t) => {
+        const clamped = Math.max(0, Math.min(duration - 0.001, t));
+        setTime(clamped);
+        setPlaying(false);
+      };
+      window.__seek = seekFn;
+      window.__hf = { duration, seek: seekFn };
+      return () => {
+        delete window.__seek;
+        delete window.__hf;
+      };
+    }, [duration]);
+
     useEffect(() => {
       function updateScale() {
         const vw = window.innerWidth;
@@ -217,6 +237,22 @@
           return next;
         });
         rafRef.current = requestAnimationFrame(tick);
+      }
+
+      // In seekable mode (__recording + __hf), skip rAF loop entirely.
+      // The external renderer will call __hf.seek() for each frame.
+      if (typeof window !== 'undefined' && window.__recording && window.__hf) {
+        // Signal ready immediately after fonts load
+        const signalReady = () => {
+          if (cancelled) return;
+          window.__ready = true;
+        };
+        if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(signalReady);
+        } else {
+          signalReady();
+        }
+        return () => { cancelled = true; };
       }
 
       // Wait for fonts before starting the clock — makes frame 0 the
