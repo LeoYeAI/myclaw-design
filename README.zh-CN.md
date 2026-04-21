@@ -68,6 +68,22 @@ git clone https://github.com/LeoYeAI/myclaw-design.git ~/.openclaw/skills/myclaw
 
 ---
 
+## 时间轴动画 Demo
+
+40 秒产品展示动画——5 个场景，用内置 Stage + Sprite 引擎制作，配合 `tech` BGM 音轨：
+
+<p align="center">
+  <img src="docs/timeline-demo.gif" alt="MyClaw Design — 40秒时间轴动画带BGM" width="100%">
+</p>
+
+<p align="center">
+  <sub>25fps MP4 (2.8 MB) · 60fps MP4 (2.7 MB) · GIF 预览如上 (4.1 MB) — 全部由 skill 导出管线生成</sub>
+</p>
+
+> 🎵 MP4 版本包含内置 BGM 库的背景音乐（`bgm-tech.mp3`）。下载 MP4 可以听到。
+
+---
+
 ## 能做什么
 
 <p align="center">
