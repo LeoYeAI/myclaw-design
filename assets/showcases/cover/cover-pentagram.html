@@ -1,229 +1,169 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200">
-<title>Agent Parallel — Pentagram Style Cover</title>
+<title>MyClaw.ai — Brand Cover</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    width: 1200px;
-    height: 510px;
-    overflow: hidden;
-    margin: 0;
-    background: #FFFFFF;
-    font-family: 'Helvetica Neue', 'Arial', sans-serif;
-    position: relative;
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap');
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #000; -webkit-font-smoothing: antialiased; }
+  .cover { width: 1200px; height: 510px; position: relative; overflow: hidden; background: #fff; }
 
-  /* Grid rules — Swiss grid visible structure */
-  .rule-h {
-    position: absolute;
-    left: 64px;
-    right: 64px;
-    height: 1px;
-    background: #000;
-    opacity: 0.06;
-  }
+  /* Grid lines */
+  .grid-line { position: absolute; background: rgba(0,0,0,0.06); }
+  .grid-line.v { width: 1px; top: 0; bottom: 60px; }
+  .grid-line.h { height: 1px; left: 0; right: 0; }
+  .gl-v1 { left: 80px; }
+  .gl-v2 { left: 400px; }
+  .gl-v3 { left: 720px; }
+  .gl-v4 { left: 1120px; }
+  .gl-h1 { top: 80px; }
+  .gl-h2 { top: 200px; }
+  .gl-h3 { top: 340px; }
 
-  .rule-v {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: #000;
-    opacity: 0.04;
+  /* Top label */
+  .top-label {
+    position: absolute; top: 32px; left: 80px;
+    font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #000;
   }
+  .top-label span { color: #E63946; }
 
-  /* Giant typographic element — the "8" bleeds off right edge */
-  .type-anchor {
-    position: absolute;
-    right: -60px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 900;
-    font-size: 640px;
-    line-height: 0.82;
-    color: #000;
-    opacity: 0.07;
-    z-index: 0;
-    user-select: none;
+  /* Main title */
+  .main-title {
+    position: absolute; top: 90px; left: 80px; right: 400px;
+    font-size: 72px; font-weight: 900; line-height: 0.95; letter-spacing: -4px; color: #000;
   }
-
-  /* Red geometric dot grid — 8 dots representing 8 agents */
-  .dot-grid {
-    position: absolute;
-    right: 340px;
-    top: 50%;
-    transform: translateY(-50%);
-    display: grid;
-    grid-template-columns: repeat(4, 24px);
-    grid-template-rows: repeat(2, 24px);
-    gap: 16px;
-    z-index: 1;
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #000;
-    opacity: 0.12;
-    align-self: center;
-    justify-self: center;
-  }
-
-  .dot.active {
-    background: #E63946;
-    opacity: 0.8;
-    width: 10px;
-    height: 10px;
-  }
-
-  /* Primary content zone — left-aligned on Swiss grid */
-  .content {
-    position: absolute;
-    left: 64px;
-    top: 56px;
-    z-index: 2;
-  }
-
-  .label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: #E63946;
-    margin-bottom: 16px;
-  }
-
-  .title {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-weight: 900;
-    font-size: 120px;
-    line-height: 0.9;
-    color: #000;
-    letter-spacing: -5px;
-  }
-
-  .title .accent {
-    color: #E63946;
-  }
-
-  /* Bottom information bar */
-  .bottom-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 48px;
-    background: #000;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 64px;
-  }
-
-  .bottom-left {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-
-  .bottom-stat {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #fff;
-    opacity: 0.6;
-  }
-
-  .bottom-stat strong {
-    color: #E63946;
-    opacity: 1;
-    font-size: 16px;
-    margin-right: 6px;
-  }
-
-  .bottom-right {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #fff;
-    opacity: 0.4;
-  }
+  .main-title em { font-style: normal; color: #E63946; }
 
   /* Subtitle */
   .subtitle {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: #999;
-    letter-spacing: 0.5px;
-    margin-top: 20px;
+    position: absolute; top: 250px; left: 80px; width: 540px;
+    font-size: 16px; font-weight: 400; line-height: 1.6; color: #444;
   }
 
-  /* Horizontal red rule through center */
-  .center-rule {
-    position: absolute;
-    left: 64px;
-    width: 240px;
-    height: 3px;
-    background: #E63946;
-    top: 306px;
-    z-index: 2;
+  /* Right side — brand mark */
+  .brand-mark {
+    position: absolute; top: 90px; right: 80px; width: 280px; text-align: right;
   }
+  .brand-mark .logo-text {
+    font-size: 28px; font-weight: 900; letter-spacing: -1px; color: #000;
+  }
+  .brand-mark .logo-text span { color: #E63946; }
+  .brand-mark .tagline {
+    margin-top: 8px; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: #888;
+  }
+
+  /* Red accent block */
+  .accent-block {
+    position: absolute; top: 160px; right: 80px; width: 280px; height: 180px;
+    background: #E63946; display: flex; flex-direction: column; justify-content: center; padding: 28px;
+  }
+  .accent-block .accent-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.7);
+    margin-bottom: 16px;
+  }
+  .accent-block .accent-stat {
+    font-size: 36px; font-weight: 900; color: #fff; letter-spacing: -2px; line-height: 1.1;
+  }
+  .accent-block .accent-stat-sub {
+    font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.8); letter-spacing: 1px; text-transform: uppercase; margin-top: 2px;
+  }
+
+  /* Stats row */
+  .stats-row {
+    position: absolute; top: 350px; left: 80px; display: flex; gap: 80px;
+  }
+  .stat-item .stat-number {
+    font-size: 32px; font-weight: 900; letter-spacing: -2px; color: #000;
+  }
+  .stat-item .stat-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: #888; margin-top: 4px;
+  }
+
+  /* Horizontal rule above bottom bar */
+  .rule-bottom { position: absolute; bottom: 61px; left: 0; right: 0; height: 1px; background: rgba(0,0,0,0.08); }
+
+  /* Bottom bar */
+  .bottom-bar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+    background: #000; display: flex; align-items: center; justify-content: space-between; padding: 0 80px;
+  }
+  .bottom-bar .bb-left {
+    font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff;
+  }
+  .bottom-bar .bb-left span { color: #E63946; }
+  .bottom-bar .bb-right {
+    font-size: 10px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5);
+  }
+
+  /* Red dot decoration */
+  .red-dot {
+    position: absolute; width: 8px; height: 8px; border-radius: 50%; background: #E63946;
+  }
+  .rd1 { top: 34px; left: 68px; }
 </style>
 </head>
 <body>
+<div class="cover">
+  <!-- Grid lines -->
+  <div class="grid-line v gl-v1"></div>
+  <div class="grid-line v gl-v2"></div>
+  <div class="grid-line v gl-v3"></div>
+  <div class="grid-line v gl-v4"></div>
+  <div class="grid-line h gl-h1"></div>
+  <div class="grid-line h gl-h2"></div>
+  <div class="grid-line h gl-h3"></div>
 
-  <!-- Grid structure -->
-  <div class="rule-h" style="top: 56px;"></div>
-  <div class="rule-v" style="left: 64px;"></div>
-  <div class="rule-v" style="left: 600px;"></div>
-  <div class="rule-v" style="right: 64px;"></div>
+  <!-- Red dot -->
+  <div class="red-dot rd1"></div>
 
-  <!-- Typographic anchor — bleeds right -->
-  <div class="type-anchor">8</div>
+  <!-- Top label -->
+  <div class="top-label"><span>●</span> AI PERSONAL ASSISTANT PLATFORM</div>
 
-  <!-- 8-dot grid representing agents -->
-  <div class="dot-grid">
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot"></div>
-    <div class="dot active"></div>
-    <div class="dot"></div>
-    <div class="dot active"></div>
+  <!-- Main title -->
+  <div class="main-title">Your AI,<br>Your <em>Server</em></div>
+
+  <!-- Subtitle -->
+  <div class="subtitle">The open-source AI personal assistant that gives every user a full server with complete code control. Deploy once, own forever.</div>
+
+  <!-- Brand mark -->
+  <div class="brand-mark">
+    <div class="logo-text">My<span>Claw</span>.ai</div>
+    <div class="tagline">Open AI Infrastructure</div>
   </div>
 
-  <!-- Content -->
-  <div class="content">
-    <div class="label">Claude Code Architecture</div>
-    <div class="title">Agent<br><span class="accent">Parallel</span></div>
-    <div class="subtitle">8 autonomous agents running in unified workflow</div>
+  <!-- Red accent block -->
+  <div class="accent-block">
+    <div class="accent-label">Annual Revenue</div>
+    <div class="accent-stat">$40M+</div>
+    <div class="accent-stat-sub">ARR 2026</div>
   </div>
 
-  <!-- Red horizontal rule -->
-  <div class="center-rule"></div>
-
-  <!-- Black bottom bar with data -->
-  <div class="bottom-bar">
-    <div class="bottom-left">
-      <div class="bottom-stat"><strong>8</strong>Agents</div>
-      <div class="bottom-stat"><strong>3.2x</strong>Faster</div>
-      <div class="bottom-stat"><strong>1</strong>Workflow</div>
+  <!-- Stats row -->
+  <div class="stats-row">
+    <div class="stat-item">
+      <div class="stat-number">18,000+</div>
+      <div class="stat-label">Active Instances</div>
     </div>
-    <div class="bottom-right">Pentagram Design System</div>
+    <div class="stat-item">
+      <div class="stat-number">560+</div>
+      <div class="stat-label">Agent Skills</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">99.9%</div>
+      <div class="stat-label">Uptime SLA</div>
+    </div>
   </div>
 
+  <!-- Rule -->
+  <div class="rule-bottom"></div>
+
+  <!-- Bottom bar -->
+  <div class="bottom-bar">
+    <div class="bb-left">My<span>Claw</span>.ai — Your OpenClaw, Already Running</div>
+    <div class="bb-right">myclaw.ai/get-started</div>
+  </div>
+</div>
 </body>
 </html>

@@ -1,288 +1,223 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1200">
-<title>Claude Code Agent - Takram Style</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>MyClaw.ai — Your AI, Your Server</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    width: 1200px;
-    height: 510px;
-    overflow: hidden;
-    margin: 0;
-    background: #F5F0EB;
+    width: 1200px; height: 510px; overflow: hidden;
     font-family: 'Inter', sans-serif;
+    background: #F7F5F0;
+    color: #2C2C2C;
     position: relative;
   }
-
-  /* Subtle paper texture overlay */
-  .texture {
+  .canvas {
+    width: 1200px; height: 510px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #F7F5F0 0%, #F0EDE6 40%, #E8E2D8 100%);
+  }
+  /* Organic background shapes */
+  .bg-circle {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.12;
+  }
+  .bg-circle.c1 {
+    width: 420px; height: 420px;
+    background: radial-gradient(circle, #7B9E87 0%, transparent 70%);
+    top: -120px; right: -60px;
+  }
+  .bg-circle.c2 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, #B8C5B0 0%, transparent 70%);
+    bottom: -80px; left: 60px;
+  }
+  .bg-circle.c3 {
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, #D4C5B0 0%, transparent 70%);
+    top: 60px; left: 380px;
+  }
+  /* Curved line decoration */
+  .curve-line {
     position: absolute;
     top: 0; left: 0;
-    width: 1200px;
-    height: 510px;
-    background:
-      radial-gradient(ellipse 500px 400px at 72% 50%, rgba(168, 181, 160, 0.06) 0%, transparent 70%),
-      radial-gradient(ellipse 300px 250px at 15% 40%, rgba(232, 228, 220, 0.2) 0%, transparent 60%);
-    z-index: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
   }
-
-  /* Flow diagram — the art piece */
-  .diagram {
-    position: absolute;
-    top: 0; left: 0;
-    width: 1200px;
-    height: 510px;
-    z-index: 1;
-  }
-
-  /* Left text panel */
-  .text-panel {
-    position: absolute;
-    left: 72px;
-    top: 56px;
+  /* Content */
+  .content {
+    position: relative;
     z-index: 2;
-    max-width: 360px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 80px;
   }
-
-  .text-panel .label {
-    font-family: 'Inter', sans-serif;
+  .left {
+    flex: 1;
+  }
+  .brand {
+    font-size: 14px;
     font-weight: 500;
-    font-size: 9px;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     text-transform: uppercase;
-    color: #6B8F71;
+    color: #7B9E87;
     margin-bottom: 20px;
-    opacity: 0.8;
   }
-
-  .text-panel .title-main {
-    font-family: 'Noto Serif SC', serif;
-    font-weight: 500;
-    font-size: 52px;
-    color: #2D3436;
+  .brand-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: #7B9E87;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+  h1 {
+    font-size: 56px;
+    font-weight: 300;
     line-height: 1.15;
-    letter-spacing: -0.5px;
-    margin-bottom: 4px;
+    letter-spacing: -1px;
+    color: #2C2C2C;
+    margin-bottom: 24px;
   }
-
-  .text-panel .title-sub {
-    font-family: 'Noto Serif SC', serif;
-    font-weight: 300;
-    font-size: 20px;
-    color: #6D685F;
-    line-height: 1.4;
-    margin-bottom: 16px;
+  h1 span {
+    font-weight: 500;
+    color: #7B9E87;
   }
-
-  .text-panel .title-en {
-    font-family: 'Inter', sans-serif;
+  .subtitle {
+    font-size: 18px;
     font-weight: 300;
+    line-height: 1.7;
+    color: #6B6B6B;
+    max-width: 420px;
+  }
+  .tag-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+  }
+  .tag {
+    padding: 8px 18px;
+    background: rgba(123, 158, 135, 0.1);
+    border: 1px solid rgba(123, 158, 135, 0.2);
+    border-radius: 20px;
     font-size: 13px;
-    color: #9A958D;
-    letter-spacing: 0.3px;
-    line-height: 1.8;
+    font-weight: 400;
+    color: #7B9E87;
   }
-
-  /* Bottom annotation */
-  .annotation {
+  /* Right illustration */
+  .right {
+    width: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+  .server-icon {
+    width: 200px; height: 200px;
+    position: relative;
+  }
+  .server-ring {
     position: absolute;
-    left: 72px;
-    bottom: 40px;
-    z-index: 2;
+    border: 2px solid rgba(123, 158, 135, 0.2);
+    border-radius: 50%;
   }
-
-  .annotation .note {
-    font-family: 'Inter', sans-serif;
-    font-weight: 400;
-    font-size: 10px;
-    color: #B0AAA0;
-    letter-spacing: 0.3px;
+  .server-ring.r1 {
+    width: 200px; height: 200px; top: 0; left: 0;
   }
-
-  .annotation .note-serif {
-    font-family: 'Noto Serif SC', serif;
-    font-weight: 300;
-    font-size: 11px;
-    color: #9A958D;
-    margin-top: 4px;
+  .server-ring.r2 {
+    width: 160px; height: 160px; top: 20px; left: 20px;
+    border-color: rgba(123, 158, 135, 0.3);
   }
-
-  /* Right side number */
-  .spec-number {
+  .server-ring.r3 {
+    width: 120px; height: 120px; top: 40px; left: 40px;
+    border-color: rgba(123, 158, 135, 0.4);
+  }
+  .server-core {
     position: absolute;
-    right: 72px;
-    bottom: 40px;
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    font-size: 10px;
-    color: #B0AAA0;
-    letter-spacing: 1px;
-    z-index: 2;
+    width: 60px; height: 60px;
+    top: 70px; left: 70px;
+    background: linear-gradient(135deg, #7B9E87, #B8C5B0);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-
-  /* Agent node styling */
-  .node-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 9px;
-    font-weight: 400;
-    fill: #8A857D;
-    letter-spacing: 0.5px;
+  .server-core::after {
+    content: '⟐';
+    font-size: 24px;
+    color: white;
   }
-
-  .node-label-serif {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 11px;
-    font-weight: 400;
-    fill: #6D685F;
+  /* Floating nodes */
+  .node {
+    position: absolute;
+    width: 36px; height: 36px;
+    background: #F7F5F0;
+    border: 2px solid #E8E2D8;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
-
-  .node-index {
-    font-family: 'Inter', sans-serif;
-    font-size: 7px;
+  .node.n1 { top: -10px; right: 40px; }
+  .node.n2 { bottom: 10px; right: 20px; }
+  .node.n3 { top: 50px; left: -30px; }
+  .node.n4 { bottom: -10px; left: 40px; }
+  /* URL bar */
+  .url-bar {
+    position: absolute;
+    bottom: 30px;
+    right: 80px;
+    font-size: 13px;
     font-weight: 400;
-    fill: #B0AAA0;
+    color: #B0A89E;
     letter-spacing: 0.5px;
   }
 </style>
 </head>
 <body>
+<div class="canvas">
+  <div class="bg-circle c1"></div>
+  <div class="bg-circle c2"></div>
+  <div class="bg-circle c3"></div>
 
-  <div class="texture"></div>
+  <svg class="curve-line" viewBox="0 0 1200 510" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0 400 Q300 350 600 380 T1200 300" stroke="#E8E2D8" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <path d="M0 450 Q400 380 800 420 T1200 360" stroke="#D4C5B0" stroke-width="1" fill="none" opacity="0.3"/>
+  </svg>
 
-  <!-- Text panel -->
-  <div class="text-panel">
-    <div class="label">Speculative Architecture</div>
-    <div class="title-main">协作智能体</div>
-    <div class="title-sub">Parallel Workflow</div>
-    <div class="title-en">
-      Eight agents, each autonomous,<br>
-      converging toward a shared intent.
+  <div class="content">
+    <div class="left">
+      <div class="brand"><span class="brand-dot"></span>MyClaw.ai</div>
+      <h1>Your AI,<br>Your <span>Server</span></h1>
+      <p class="subtitle">A full personal server with complete code control. Your AI assistant, running on your terms.</p>
+      <div class="tag-row">
+        <span class="tag">Open Source</span>
+        <span class="tag">Self-Hosted</span>
+        <span class="tag">Full Control</span>
+      </div>
+    </div>
+    <div class="right">
+      <div class="server-icon">
+        <div class="server-ring r1"></div>
+        <div class="server-ring r2"></div>
+        <div class="server-ring r3"></div>
+        <div class="server-core"></div>
+        <div class="node n1">🤖</div>
+        <div class="node n2">🔒</div>
+        <div class="node n3">⚡</div>
+        <div class="node n4">🌿</div>
+      </div>
     </div>
   </div>
 
-  <!-- The diagram as art -->
-  <svg class="diagram" viewBox="0 0 1200 510" xmlns="http://www.w3.org/2000/svg">
-
-    <!-- Subtle background grid hints (Takram spec-drawing aesthetic) -->
-    <line x1="440" y1="0" x2="440" y2="510" stroke="#E8E4DC" stroke-width="0.3" opacity="0.4"/>
-    <line x1="760" y1="0" x2="760" y2="510" stroke="#E8E4DC" stroke-width="0.3" opacity="0.3"/>
-
-    <!-- Subtle outer orbital paths — layered ellipses for depth -->
-    <ellipse cx="760" cy="255" rx="260" ry="195" fill="none" stroke="#E0DCD5" stroke-width="0.5" stroke-dasharray="1,8" opacity="0.5"/>
-    <ellipse cx="760" cy="255" rx="180" ry="135" fill="none" stroke="#D8D3CB" stroke-width="0.4" stroke-dasharray="2,6" opacity="0.35"/>
-
-    <!-- Central orchestrator node — refined with layered depth -->
-    <circle cx="760" cy="255" r="48" fill="none" stroke="#6B8F71" stroke-width="0.5" opacity="0.12" stroke-dasharray="2,4"/>
-    <circle cx="760" cy="255" r="36" fill="none" stroke="#6B8F71" stroke-width="0.8" opacity="0.18"/>
-    <circle cx="760" cy="255" r="24" fill="none" stroke="#6B8F71" stroke-width="1.2" opacity="0.3"/>
-    <circle cx="760" cy="255" r="14" fill="rgba(107,143,113,0.05)"/>
-    <circle cx="760" cy="255" r="5.5" fill="#6B8F71" opacity="0.55"/>
-    <circle cx="760" cy="255" r="2" fill="#6B8F71" opacity="0.9"/>
-    <text x="760" y="312" text-anchor="middle" class="node-label-serif">Orchestrator</text>
-    <!-- Subtle cross-hair on center -->
-    <line x1="748" y1="255" x2="730" y2="255" stroke="#6B8F71" stroke-width="0.3" opacity="0.15"/>
-    <line x1="772" y1="255" x2="790" y2="255" stroke="#6B8F71" stroke-width="0.3" opacity="0.15"/>
-    <line x1="760" y1="243" x2="760" y2="225" stroke="#6B8F71" stroke-width="0.3" opacity="0.15"/>
-    <line x1="760" y1="267" x2="760" y2="285" stroke="#6B8F71" stroke-width="0.3" opacity="0.15"/>
-
-    <!-- Agent 1 — top-left (Research) -->
-    <line x1="738" y1="232" x2="598" y2="118" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="560" y="92" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="598" cy="111" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="598" y="144" text-anchor="middle" class="node-label">Research</text>
-    <text x="560" y="88" class="node-index">01</text>
-
-    <!-- Agent 2 — top (Analysis) -->
-    <line x1="760" y1="217" x2="760" y2="145" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="722" y="100" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="760" cy="119" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="760" y="152" text-anchor="middle" class="node-label">Analysis</text>
-    <text x="722" y="96" class="node-index">02</text>
-
-    <!-- Agent 3 — top-right (Code) -->
-    <line x1="782" y1="232" x2="918" y2="118" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="884" y="92" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="922" cy="111" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="922" y="144" text-anchor="middle" class="node-label">Code</text>
-    <text x="884" y="88" class="node-index">03</text>
-
-    <!-- Agent 4 — right (Test) -->
-    <line x1="786" y1="252" x2="940" y2="215" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="940" y="196" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="978" cy="215" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="978" y="248" text-anchor="middle" class="node-label">Test</text>
-    <text x="940" y="192" class="node-index">04</text>
-
-    <!-- Agent 5 — bottom-right (Review) -->
-    <line x1="782" y1="278" x2="918" y2="385" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="884" y="368" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="922" cy="387" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="922" y="420" text-anchor="middle" class="node-label">Review</text>
-    <text x="884" y="364" class="node-index">05</text>
-
-    <!-- Agent 6 — bottom (Deploy) -->
-    <line x1="760" y1="293" x2="760" y2="365" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="722" y="370" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="760" cy="389" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="760" y="422" text-anchor="middle" class="node-label">Deploy</text>
-    <text x="722" y="366" class="node-index">06</text>
-
-    <!-- Agent 7 — bottom-left (Monitor) -->
-    <line x1="738" y1="278" x2="600" y2="375" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="562" y="358" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="600" cy="377" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="600" y="410" text-anchor="middle" class="node-label">Monitor</text>
-    <text x="562" y="354" class="node-index">07</text>
-
-    <!-- Agent 8 — left (Design) -->
-    <line x1="734" y1="252" x2="578" y2="245" stroke="#C8C2B8" stroke-width="0.7" stroke-dasharray="3,5"/>
-    <rect x="502" y="226" width="76" height="38" rx="14" fill="rgba(245,240,235,0.7)" stroke="#B8B2A8" stroke-width="0.8"/>
-    <circle cx="540" cy="245" r="3.5" fill="#6B8F71" opacity="0.5"/>
-    <text x="540" y="278" text-anchor="middle" class="node-label">Design</text>
-    <text x="502" y="222" class="node-index">08</text>
-
-    <!-- Small annotation marks — Takram spec-drawing details -->
-    <circle cx="490" cy="120" r="1.2" fill="#B0AAA0" opacity="0.35"/>
-    <line x1="492" y1="120" x2="535" y2="120" stroke="#B0AAA0" stroke-width="0.4" opacity="0.25"/>
-
-    <circle cx="1040" cy="390" r="1.2" fill="#B0AAA0" opacity="0.35"/>
-    <line x1="1038" y1="390" x2="995" y2="390" stroke="#B0AAA0" stroke-width="0.4" opacity="0.25"/>
-
-    <!-- Dimension annotation line (top) -->
-    <line x1="540" y1="60" x2="980" y2="60" stroke="#D4CFC6" stroke-width="0.4" opacity="0.3"/>
-    <line x1="540" y1="55" x2="540" y2="65" stroke="#D4CFC6" stroke-width="0.4" opacity="0.3"/>
-    <line x1="980" y1="55" x2="980" y2="65" stroke="#D4CFC6" stroke-width="0.4" opacity="0.3"/>
-    <text x="760" y="54" text-anchor="middle" font-family="Inter" font-size="7" font-weight="300" fill="#C8C2B8" letter-spacing="1.5">AGENT FIELD</text>
-
-    <!-- Right-side vertical annotation -->
-    <line x1="1060" y1="130" x2="1060" y2="380" stroke="#D4CFC6" stroke-width="0.3" opacity="0.25"/>
-    <line x1="1056" y1="130" x2="1064" y2="130" stroke="#D4CFC6" stroke-width="0.3" opacity="0.25"/>
-    <line x1="1056" y1="380" x2="1064" y2="380" stroke="#D4CFC6" stroke-width="0.3" opacity="0.25"/>
-    <text x="1068" y="260" font-family="Inter" font-size="7" font-weight="300" fill="#D4CFC6" letter-spacing="0.5" transform="rotate(90, 1068, 260)">NETWORK DEPTH</text>
-
-    <!-- Subtle data pulse lines emanating from center (organic feel) -->
-    <path d="M 760 217 Q 755 200 758 185" fill="none" stroke="#6B8F71" stroke-width="0.3" opacity="0.12"/>
-    <path d="M 786 248 Q 810 230 835 225" fill="none" stroke="#6B8F71" stroke-width="0.3" opacity="0.12"/>
-    <path d="M 786 262 Q 815 275 840 290" fill="none" stroke="#6B8F71" stroke-width="0.3" opacity="0.12"/>
-
-    <!-- Top-right spec box -->
-    <rect x="1040" y="48" width="104" height="56" rx="3" fill="rgba(245,240,235,0.5)" stroke="#E0DCD5" stroke-width="0.6"/>
-    <text x="1052" y="66" font-family="Inter" font-size="8" font-weight="500" fill="#B0AAA0" letter-spacing="1.5">AGENTS</text>
-    <text x="1052" y="92" font-family="Inter" font-size="28" font-weight="300" fill="#6B8F71">8</text>
-    <text x="1082" y="92" font-family="Inter" font-size="9" font-weight="300" fill="#B0AAA0"> parallel</text>
-  </svg>
-
-  <!-- Bottom annotation -->
-  <div class="annotation">
-    <div class="note">Fig. 01 — Parallel Agent Architecture</div>
-    <div class="note-serif">Claude Code 协作编排模型</div>
-  </div>
-
-  <!-- Spec number -->
-  <div class="spec-number">v1.0 / 2026</div>
-
+  <div class="url-bar">myclaw.ai</div>
+</div>
 </body>
 </html>

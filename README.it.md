@@ -23,7 +23,7 @@ Fornisci alla skill i tuoi asset del brand (logo, palette, screenshot UI) e legg
 ---
 
 <p align="center">
-  <img src="docs/hero-animation-v10-en.gif" alt="MyClaw Design Hero — Scrivi → Scegli direzione → Galleria → Focus → Rivelazione brand" width="100%">
+  <img src="docs/showcase.gif" alt="MyClaw Design Hero — Scrivi → Scegli direzione → Galleria → Focus → Rivelazione brand" width="100%">
 </p>
 
 <p align="center"><sub>
@@ -74,43 +74,36 @@ Nessun pulsante. Nessun pannello. Nessun plugin Figma. Solo conversazione.
 
 Quando i requisiti sono vaghi, la skill sceglie 3 direzioni differenziate da 5 scuole × 20 filosofie di design, genera demo parallele e ti lascia scegliere.
 
-<p align="center"><img src="docs/w3-fallback-advisor-en.gif" width="100%"></p>
 
 ### Prototipo App iOS
 
 Cornice di precisione iPhone 15 Pro (Dynamic Island / barra di stato / Home Indicator) · Navigazione multi-schermo guidata dallo stato · Immagini reali da Wikimedia/Met/Unsplash · Test auto-click Playwright prima della consegna.
 
-<p align="center"><img src="docs/c1-ios-prototype-en.gif" width="100%"></p>
 
 ### Motore Motion Design
 
 Modello timeline Stage + Sprite · `useTime` / `useSprite` / `interpolate` / `Easing` — quattro API coprono tutte le esigenze di animazione. Un comando esporta MP4 / GIF / 60fps interpolati / montaggio finale con BGM + SFX.
 
-<p align="center"><img src="docs/c3-motion-design-en.gif" width="100%"></p>
 
 ### Presentazioni + PPTX Modificabile
 
 Slide HTML-first con auto-scale, navigazione da tastiera e note del relatore. Esportazione in PPTX modificabile con caselle di testo native — non screenshot incollati sulle slide.
 
-<p align="center"><img src="docs/c2-slides-pptx-en.gif" width="100%"></p>
 
 ### Tweaks in Tempo Reale
 
 Regolazione parametri in tempo reale — cambia schemi colore, layout, tipografia e densità senza rigenerare. Le modifiche persistono tramite localStorage.
 
-<p align="center"><img src="docs/c4-tweaks-en.gif" width="100%"></p>
 
 ### Infografiche
 
 Layout data-driven pronti per la stampa con tipografia precisa. Esportazione in PDF/PNG/SVG.
 
-<p align="center"><img src="docs/c5-infographic-en.gif" width="100%"></p>
 
 ### Revisione Esperta a 5 Dimensioni
 
 Coerenza filosofica / Gerarchia visiva / Esecuzione dei dettagli / Funzionalità / Innovazione — ciascuna valutata 0–10 con grafico radar, lista Mantieni, lista Correggi (ordinata per gravità) e Quick Wins.
 
-<p align="center"><img src="docs/c6-expert-review-en.gif" width="100%"></p>
 
 ---
 
@@ -126,7 +119,6 @@ La skill non indovina il tuo brand. Segue un rigoroso protocollo in 5 passaggi:
 4. **Verifica** — Controlla risoluzione, trasparenza, aggiornamento della versione
 5. **Blocca** — Scrive `brand-spec.md` con tutti i percorsi degli asset; le variabili CSS garantiscono coerenza
 
-<p align="center"><img src="docs/w1-brand-protocol-en.gif" width="100%"></p>
 
 > **Perché è importante:** Senza asset reali del brand, ogni design generato dall'IA appare uguale — gradienti generici, icone placeholder, zero riconoscibilità del brand. Il protocollo costa 30 minuti iniziali ma risparmia 1–2 ore di rilavorazione.
 
@@ -139,7 +131,6 @@ La skill funziona come un junior designer che riporta a te:
 3. **Itera** — Mostra i progressi a metà strada, non solo il risultato finale
 4. **Verifica** — Esegue screenshot Playwright + controllo errori console prima della consegna
 
-<p align="center"><img src="docs/w2-junior-designer-en.gif" width="100%"></p>
 
 ### Anti-AI Slop
 

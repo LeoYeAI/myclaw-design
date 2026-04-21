@@ -1,503 +1,290 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=1080">
-<title>AI Memory System Optimization — Build Studio Style</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Agent Ecosystem</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    width: 1080px;
-    height: 1920px;
-    overflow: hidden;
-    margin: 0;
-    background: #FAFAF8;
     font-family: 'Inter', sans-serif;
-    color: #2A2A2A;
-  }
-
-  .container {
-    width: 100%;
-    height: 100%;
-    padding: 80px 80px 64px 80px;
+    background: #FAFAF8;
+    color: #1A1A1A;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 40px 0;
   }
-
-  /* Header */
-  .label {
+  .infographic {
+    width: 1080px;
+    min-height: 1920px;
+    background: #FAFAF8;
+    position: relative;
+    padding: 120px 100px;
+    border: 1px solid #E8E0D8;
+  }
+  .header {
+    text-align: center;
+    margin-bottom: 100px;
+  }
+  .header-label {
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 5px;
     text-transform: uppercase;
-    color: #B0ACA4;
+    color: #D4A574;
     margin-bottom: 32px;
   }
-  .title {
-    font-size: 36px;
-    font-weight: 200;
-    line-height: 1.35;
+  .header-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 1.2;
     color: #1A1A1A;
-    letter-spacing: -0.5px;
-    max-width: 680px;
+    margin-bottom: 24px;
   }
-  .title strong {
-    font-weight: 500;
+  .header-line {
+    width: 40px;
+    height: 1px;
+    background: #D4A574;
+    margin: 0 auto 24px;
   }
-
-  /* Hero Numbers */
-  .hero {
-    margin-top: 56px;
+  .header-sub {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #8A8078;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .timeline {
+    position: relative;
+    padding-left: 60px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #E8E0D8;
+  }
+  .section {
+    position: relative;
+    margin-bottom: 100px;
+  }
+  .section:last-child { margin-bottom: 0; }
+  .section-dot {
+    position: absolute;
+    left: -48px;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #D4A574;
+  }
+  .section-dot::after {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: -4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1px solid #D4A574;
+    opacity: 0.3;
+  }
+  .section-number {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: #D4A574;
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: 300;
+    color: #1A1A1A;
+    margin-bottom: 16px;
+    letter-spacing: -0.3px;
+  }
+  .section-desc {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #8A8078;
+    margin-bottom: 32px;
+    max-width: 700px;
+  }
+  .tags {
     display: flex;
-    align-items: flex-end;
-    gap: 48px;
+    flex-wrap: wrap;
+    gap: 10px;
   }
-  .hero-block {
+  .tag {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #8A8078;
+    padding: 8px 20px;
+    border: 1px solid #E8E0D8;
+    border-radius: 100px;
+  }
+  .tag.gold {
+    color: #D4A574;
+    border-color: #D4A574;
+    opacity: 0.7;
+  }
+  .stat-row {
+    display: flex;
+    gap: 60px;
+    margin-top: 24px;
+  }
+  .stat {
     display: flex;
     flex-direction: column;
   }
-  .hero-label {
+  .stat-value {
+    font-size: 32px;
+    font-weight: 200;
+    color: #1A1A1A;
+    letter-spacing: -1px;
+  }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #B0A89E;
+    margin-top: 4px;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 120px;
+    padding-top: 60px;
+    border-top: 1px solid #E8E0D8;
+  }
+  .footer-brand {
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: #B0ACA4;
-    margin-bottom: 8px;
+    color: #C0B8AE;
   }
-  .hero-number {
-    font-size: 112px;
-    font-weight: 200;
-    line-height: 0.9;
-    color: #1A1A1A;
-    letter-spacing: -4px;
-  }
-  .hero-number .unit {
-    font-size: 28px;
-    font-weight: 300;
-    letter-spacing: 0;
-    color: #B0ACA4;
-    margin-left: 4px;
-  }
-  .hero-number.gold {
-    color: #1A1A1A;
-  }
-  .hero-number.gold .unit {
-    color: #D4A574;
-    opacity: 0.7;
-  }
-  .hero-number.gold .dot-accent {
-    color: #D4A574;
-  }
-  .hero-connector {
-    display: flex;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  .hero-connector svg {
-    opacity: 0.25;
-  }
-  .hero-reduction {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  .reduction-badge {
-    font-size: 13px;
-    font-weight: 400;
-    color: #D4A574;
-    letter-spacing: 2px;
-  }
-
-  /* Subtle line */
-  .divider {
-    width: 48px;
-    height: 1px;
-    background: #D4A574;
-    margin: 48px 0;
-    opacity: 0.4;
-  }
-
-  /* Stats Row */
-  .stats-row {
-    display: flex;
-    gap: 0;
-  }
-  .stat-item {
-    flex: 1;
-    padding: 24px 0;
-    position: relative;
-  }
-  .stat-item::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 1px;
-    height: 40px;
-    background: #E0DCDA;
-  }
-  .stat-item:last-child::after {
-    display: none;
-  }
-  .stat-value {
-    font-size: 40px;
-    font-weight: 200;
-    color: #1A1A1A;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .stat-desc {
-    font-size: 11px;
-    font-weight: 300;
-    color: #B0ACA4;
-    line-height: 1.5;
-    letter-spacing: 0.5px;
-  }
-
-  /* Memory Cards */
-  .cards-section {
-    margin-top: 40px;
-  }
-  .cards-label {
-    font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: #B0ACA4;
-    margin-bottom: 24px;
-  }
-  .cards-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .card {
-    background: #FFFFFF;
-    padding: 32px;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.03), 0 4px 16px rgba(0,0,0,0.02);
-    border-radius: 2px;
-    position: relative;
-  }
-  .card-index {
-    font-size: 40px;
-    font-weight: 200;
-    color: #E8E4E0;
-    line-height: 1;
-    margin-bottom: 16px;
-  }
-  .card-title-zh {
-    font-size: 18px;
-    font-weight: 500;
-    color: #1A1A1A;
-    margin-bottom: 4px;
-    line-height: 1.3;
-  }
-  .card-title-en {
-    font-size: 10px;
-    font-weight: 400;
-    color: #C0BCB6;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-  .card-desc {
+  .footer-url {
     font-size: 12px;
     font-weight: 300;
-    color: #999;
-    line-height: 1.7;
-  }
-  .card.featured {
-    border-left: 1.5px solid #D4A574;
-  }
-  .card.featured .card-index {
     color: #D4A574;
-    opacity: 0.35;
-  }
-
-  /* Flow */
-  .flow-section {
-    margin-top: 40px;
-  }
-  .flow-label {
-    font-size: 10px;
-    font-weight: 400;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: #B0ACA4;
-    margin-bottom: 32px;
-  }
-  .flow-timeline {
-    position: relative;
-    padding-left: 0;
-  }
-  .flow-steps {
-    display: flex;
-    justify-content: space-between;
-    position: relative;
-  }
-  .flow-steps::before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 36px;
-    right: 36px;
-    height: 1px;
-    background: linear-gradient(to right, #E0DCDA, #D4A574 50%, #E0DCDA);
-  }
-  .flow-step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    flex: 1;
-    position: relative;
-    z-index: 1;
-  }
-  .flow-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #FAFAF8;
-    border: 1px solid #D0CCC6;
-    flex-shrink: 0;
-  }
-  .flow-dot.active {
-    border-color: #D4A574;
-    background: #D4A574;
-  }
-  .flow-step-label {
-    font-size: 9px;
-    font-weight: 400;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #C0BCB6;
-  }
-  .flow-step-text {
-    font-size: 13px;
-    font-weight: 400;
-    color: #2A2A2A;
-    text-align: center;
-    line-height: 1.4;
-  }
-
-  /* Quote */
-  .quote-section {
-    margin-top: 0;
-    padding-top: 32px;
-    border-top: 1px solid #EEECE8;
-  }
-  .quote-line {
-    width: 32px;
-    height: 1px;
-    background: #D4A574;
-    margin-bottom: 24px;
-    opacity: 0.5;
-  }
-  .quote-text {
-    font-size: 22px;
-    font-weight: 200;
-    color: #1A1A1A;
-    line-height: 1.6;
-    letter-spacing: -0.3px;
-    max-width: 680px;
-  }
-  .quote-text em {
-    font-style: normal;
-    color: #D4A574;
-    font-weight: 400;
-  }
-
-  /* Results */
-  .results-row {
-    display: flex;
-    gap: 48px;
-    margin-top: 32px;
-  }
-  .result-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .result-icon {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #D4A574;
-    flex-shrink: 0;
-    opacity: 0.6;
-  }
-  .result-text {
-    font-size: 13px;
-    font-weight: 400;
-    color: #999999;
-    letter-spacing: 0.3px;
-  }
-
-  /* Footer */
-  .footer {
-    margin-top: 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .footer-text {
-    font-size: 9px;
-    font-weight: 300;
-    color: #D0CCC6;
-    letter-spacing: 3px;
-    text-transform: uppercase;
+    margin-top: 8px;
   }
 </style>
 </head>
 <body>
-<div class="container">
+  <div class="infographic">
+    <div class="header">
+      <div class="header-label">2026 Landscape</div>
+      <h1 class="header-title">The AI Agent<br>Ecosystem</h1>
+      <div class="header-line"></div>
+      <p class="header-sub">A quiet revolution in personal computing — from cloud dependency to sovereign AI infrastructure.</p>
+    </div>
 
-  <!-- Label -->
-  <div class="label">System Architecture</div>
-
-  <!-- Title -->
-  <div class="title">
-    AI记忆系统<br>
-    CLAUDE.md <strong>从 93KB<br>优化到 22KB</strong>
-  </div>
-
-  <!-- Hero Numbers -->
-  <div class="hero">
-    <div class="hero-block">
-      <span class="hero-label">Before</span>
-      <span class="hero-number">93<span class="unit">KB</span></span>
-    </div>
-    <div class="hero-connector">
-      <svg width="48" height="8" viewBox="0 0 48 8">
-        <line x1="0" y1="4" x2="40" y2="4" stroke="#D4A574" stroke-width="0.75" opacity="0.5"/>
-        <line x1="36" y1="1" x2="42" y2="4" stroke="#D4A574" stroke-width="0.75" opacity="0.5"/>
-        <line x1="36" y1="7" x2="42" y2="4" stroke="#D4A574" stroke-width="0.75" opacity="0.5"/>
-      </svg>
-    </div>
-    <div class="hero-block">
-      <span class="hero-label">After</span>
-      <span class="hero-number gold">22<span class="unit">KB</span></span>
-    </div>
-    <div class="hero-reduction">
-      <span class="reduction-badge">-76%</span>
-    </div>
-  </div>
-
-  <!-- Stats -->
-  <div class="divider"></div>
-  <div class="stats-row">
-    <div class="stat-item">
-      <div class="stat-value">2400<span style="font-size:18px;color:#AAAAAA">+</span></div>
-      <div class="stat-desc">lines before<br>in single file</div>
-    </div>
-    <div class="stat-item" style="padding-left: 24px;">
-      <div class="stat-value">4</div>
-      <div class="stat-desc">structured<br>memory categories</div>
-    </div>
-    <div class="stat-item" style="padding-left: 24px;">
-      <div class="stat-value">0</div>
-      <div class="stat-desc">information<br>loss</div>
-    </div>
-  </div>
-
-  <!-- Memory Cards -->
-  <div class="cards-section">
-    <div class="cards-label">Memory Categories</div>
-    <div class="cards-grid">
-      <div class="card featured">
-        <div class="card-index">01</div>
-        <div class="card-title-zh">核心身份</div>
-        <div class="card-title-en">Core Identity</div>
-        <div class="card-desc">Immutable traits, facts, fundamental identity markers</div>
-      </div>
-      <div class="card">
-        <div class="card-index">02</div>
-        <div class="card-title-zh">偏好设置</div>
-        <div class="card-title-en">Preferences</div>
-        <div class="card-desc">Style choices, tool habits, accumulated over sessions</div>
-      </div>
-      <div class="card">
-        <div class="card-index">03</div>
-        <div class="card-title-zh">项目状态</div>
-        <div class="card-title-en">Project State</div>
-        <div class="card-desc">Active tasks, deadlines, priorities, evolving context</div>
-      </div>
-      <div class="card">
-        <div class="card-index">04</div>
-        <div class="card-title-zh">日志流水</div>
-        <div class="card-title-en">Daily Logs</div>
-        <div class="card-desc">Session records, never auto-loaded, search on demand</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Flow -->
-  <div class="flow-section">
-    <div class="flow-label">Processing Flow</div>
-    <div class="flow-timeline">
-      <div class="flow-steps">
-        <div class="flow-step">
-          <div class="flow-dot"></div>
-          <div class="flow-step-label">Input</div>
-          <div class="flow-step-text">User<br>Input</div>
+    <div class="timeline">
+      <div class="section">
+        <div class="section-dot"></div>
+        <div class="section-number">01</div>
+        <h2 class="section-title">Foundation Models</h2>
+        <p class="section-desc">The bedrock layer. Large language models from OpenAI, Anthropic, Google, and open-source communities provide the reasoning engine that powers every agent above.</p>
+        <div class="tags">
+          <span class="tag">GPT-5</span>
+          <span class="tag">Claude 4</span>
+          <span class="tag">Gemini Ultra</span>
+          <span class="tag gold">Llama 4</span>
+          <span class="tag">Mistral Large</span>
         </div>
-        <div class="flow-step">
-          <div class="flow-dot"></div>
-          <div class="flow-step-label">Route</div>
-          <div class="flow-step-text">Workspace<br>Detection</div>
+      </div>
+
+      <div class="section">
+        <div class="section-dot"></div>
+        <div class="section-number">02</div>
+        <h2 class="section-title">Agent Frameworks</h2>
+        <p class="section-desc">Orchestration layers that give models memory, tools, and autonomy. The middleware between raw intelligence and useful action.</p>
+        <div class="tags">
+          <span class="tag gold">OpenClaw</span>
+          <span class="tag">LangChain</span>
+          <span class="tag">AutoGen</span>
+          <span class="tag">CrewAI</span>
+          <span class="tag">Semantic Kernel</span>
         </div>
-        <div class="flow-step">
-          <div class="flow-dot active"></div>
-          <div class="flow-step-label">Load</div>
-          <div class="flow-step-text">Relevant<br>Memory</div>
+        <div class="stat-row">
+          <div class="stat">
+            <span class="stat-value">47</span>
+            <span class="stat-label">Active frameworks</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">2.1M</span>
+            <span class="stat-label">GitHub stars combined</span>
+          </div>
         </div>
-        <div class="flow-step">
-          <div class="flow-dot"></div>
-          <div class="flow-step-label">Execute</div>
-          <div class="flow-step-text">Task<br>Processing</div>
+      </div>
+
+      <div class="section">
+        <div class="section-dot"></div>
+        <div class="section-number">03</div>
+        <h2 class="section-title">Personal Infrastructure</h2>
+        <p class="section-desc">The shift from renting cloud AI to owning your own. Personal servers, local models, and sovereign data — computing returns home.</p>
+        <div class="tags">
+          <span class="tag gold">MyClaw</span>
+          <span class="tag">Self-hosted LLMs</span>
+          <span class="tag">Edge compute</span>
+          <span class="tag">Private clouds</span>
         </div>
-        <div class="flow-step">
-          <div class="flow-dot"></div>
-          <div class="flow-step-label">Update</div>
-          <div class="flow-step-text">Memory<br>Write-back</div>
+      </div>
+
+      <div class="section">
+        <div class="section-dot"></div>
+        <div class="section-number">04</div>
+        <h2 class="section-title">Skill Ecosystems</h2>
+        <p class="section-desc">Modular capabilities that agents can install, compose, and share. The app store model, reimagined for AI — where skills are code, not interfaces.</p>
+        <div class="tags">
+          <span class="tag gold">ClawHub</span>
+          <span class="tag">340+ skills</span>
+          <span class="tag">Community-driven</span>
+        </div>
+        <div class="stat-row">
+          <div class="stat">
+            <span class="stat-value">340</span>
+            <span class="stat-label">Published skills</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">89K</span>
+            <span class="stat-label">Monthly installs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-dot"></div>
+        <div class="section-number">05</div>
+        <h2 class="section-title">Human-Agent Interface</h2>
+        <p class="section-desc">Where agents meet daily life. Messaging, voice, automation, proactive assistance — the invisible layer that makes AI feel like a natural extension of thought.</p>
+        <div class="tags">
+          <span class="tag">Telegram</span>
+          <span class="tag">Discord</span>
+          <span class="tag">WhatsApp</span>
+          <span class="tag gold">Voice</span>
+          <span class="tag">Proactive</span>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Quote -->
-  <div class="quote-section">
-    <div class="quote-line"></div>
-    <div class="quote-text">
-      Like <em>Marie Kondo</em> for AI memory<br>
-      — keep only what sparks joy.
-    </div>
-    <div class="results-row">
-      <div class="result-item">
-        <div class="result-icon"></div>
-        <span class="result-text">Faster context loading</span>
-      </div>
-      <div class="result-item">
-        <div class="result-icon"></div>
-        <span class="result-text">More relevant responses</span>
-      </div>
-      <div class="result-item">
-        <div class="result-icon"></div>
-        <span class="result-text">Zero information loss</span>
-      </div>
+    <div class="footer">
+      <div class="footer-brand">MyClaw.ai</div>
+      <div class="footer-url">myclaw.ai/ecosystem</div>
     </div>
   </div>
-
-  <!-- Footer -->
-  <div class="footer">
-    <span class="footer-text">Build Studio Style</span>
-    <span class="footer-text">2026</span>
-  </div>
-
-</div>
 </body>
 </html>

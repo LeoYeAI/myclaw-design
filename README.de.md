@@ -23,7 +23,7 @@ Geben Sie dem Skill Ihre Marken-Assets (Logo, Farbpalette, UI-Screenshots) und e
 ---
 
 <p align="center">
-  <img src="docs/hero-animation-v10-en.gif" alt="MyClaw Design Hero — Tippen → Richtung wählen → Galerie → Fokus → Markenreveal" width="100%">
+  <img src="docs/showcase.gif" alt="MyClaw Design Hero — Tippen → Richtung wählen → Galerie → Fokus → Markenreveal" width="100%">
 </p>
 
 <p align="center"><sub>
@@ -74,43 +74,36 @@ Keine Buttons. Keine Panels. Keine Figma-Plugins. Nur Konversation.
 
 Wenn Anforderungen vage sind, wählt der Skill 3 differenzierte Richtungen aus 5 Schulen × 20 Design-Philosophien, generiert parallele Demos und lässt Sie wählen.
 
-<p align="center"><img src="docs/w3-fallback-advisor-en.gif" width="100%"></p>
 
 ### iOS-App-Prototyp
 
 Präzise iPhone 15 Pro Einfassung (Dynamic Island / Statusleiste / Home Indicator) · Zustandsgesteuerte Multi-Screen-Navigation · Echte Bilder von Wikimedia/Met/Unsplash · Playwright-Auto-Klick-Tests vor Auslieferung.
 
-<p align="center"><img src="docs/c1-ios-prototype-en.gif" width="100%"></p>
 
 ### Motion-Design-Engine
 
 Stage + Sprite Timeline-Modell · `useTime` / `useSprite` / `interpolate` / `Easing` — vier APIs decken alle Animationsbedürfnisse ab. Ein Befehl exportiert MP4 / GIF / 60fps interpoliert / Endschnitt mit BGM + SFX.
 
-<p align="center"><img src="docs/c3-motion-design-en.gif" width="100%"></p>
 
 ### Foliendecks + Bearbeitbare PPTX
 
 HTML-first Folien mit automatischer Skalierung, Tastaturnavigation und Sprechernotizen. Export als bearbeitbare PPTX mit nativen Textfeldern — keine Screenshots auf Folien eingefügt.
 
-<p align="center"><img src="docs/c2-slides-pptx-en.gif" width="100%"></p>
 
 ### Live-Tweaks
 
 Echtzeit-Parameteranpassung — tauschen Sie Farbschemata, Layouts, Typografie und Dichte ohne Neugenerierung. Änderungen bleiben über localStorage erhalten.
 
-<p align="center"><img src="docs/c4-tweaks-en.gif" width="100%"></p>
 
 ### Infografiken
 
 Druckfertige, datengetriebene Layouts mit präziser Typografie. Export als PDF/PNG/SVG.
 
-<p align="center"><img src="docs/c5-infographic-en.gif" width="100%"></p>
 
 ### 5-Dimensionen-Expertenprüfung
 
 Philosophische Konsistenz / Visuelle Hierarchie / Detailausführung / Funktionalität / Innovation — jedes Kriterium von 0–10 bewertet mit Radardiagramm, Behalten-Liste, Beheben-Liste (nach Schweregrad sortiert) und Quick Wins.
 
-<p align="center"><img src="docs/c6-expert-review-en.gif" width="100%"></p>
 
 ---
 
@@ -126,7 +119,6 @@ Der Skill rät nicht bei Ihrer Marke. Er folgt einem strikten 5-Schritte-Protoko
 4. **Prüfen** — Kontrolliert Auflösung, Transparenz, Versionsaktualität
 5. **Sperren** — Schreibt `brand-spec.md` mit allen Asset-Pfaden; CSS-Variablen erzwingen Konsistenz
 
-<p align="center"><img src="docs/w1-brand-protocol-en.gif" width="100%"></p>
 
 > **Warum das wichtig ist:** Ohne echte Marken-Assets sieht jedes KI-generierte Design gleich aus — generische Verläufe, Platzhalter-Icons, null Markenwiedererkennung. Das Protokoll kostet 30 Minuten im Voraus, spart aber 1–2 Stunden Nacharbeit.
 
@@ -139,7 +131,6 @@ Der Skill arbeitet wie ein Junior-Designer, der Ihnen Bericht erstattet:
 3. **Iterieren** — Zeigt Fortschritt zwischendurch, nicht nur das Endergebnis
 4. **Verifizieren** — Führt Playwright-Screenshots + Konsolenfehlerprüfungen vor Auslieferung durch
 
-<p align="center"><img src="docs/w2-junior-designer-en.gif" width="100%"></p>
 
 ### Anti-KI-Slop
 

@@ -23,20 +23,14 @@
 ---
 
 <p align="center">
-  <img src="docs/hero-animation-v10-en.gif" alt="MyClaw Design Hero" width="100%">
+  <img src="docs/showcase.gif" alt="MyClaw Design 能力展示动画" width="100%">
 </p>
-
-<p align="center"><sub>
-  ▲ 25 秒 · Terminal → 4 方向 → Gallery ripple → 4 次 Focus → Brand reveal<br>
-  👉 <a href="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/hero-animation-v10-en.mp4">下载 MP4（含 BGM+SFX · 10MB）</a>
-</sub></p>
 
 ---
 
 ## 安装
 
 ```bash
-# 克隆到 OpenClaw skills 目录
 git clone https://github.com/LeoYeAI/myclaw-design.git ~/.openclaw/skills/myclaw-design
 ```
 
@@ -55,61 +49,36 @@ git clone https://github.com/LeoYeAI/myclaw-design.git ~/.openclaw/skills/myclaw
 
 ## 能做什么
 
+<p align="center">
+  <img src="docs/showcase-caps.png" alt="MyClaw Design 能力概览" width="100%">
+</p>
+
 | 能力 | 交付物 | 典型耗时 |
 |---|---|---|
-| **交互原型**（App / Web） | 单文件 HTML · 真 iPhone bezel · 可点击 · Playwright 验证 | 10–15 min |
-| **演讲幻灯片** | HTML deck（浏览器演讲）+ 可编辑 PPTX（文本框保留） | 15–25 min |
+| **交互原型**（App / Web） | 单文件 HTML · 真 iPhone 15 Pro bezel · 可点击 · Playwright 验证 | 10–15 min |
 | **时间轴动画** | MP4（25fps / 60fps 插帧）+ GIF（palette 优化）+ BGM + SFX | 8–12 min |
+| **演讲幻灯片** | HTML deck（浏览器演讲）+ 可编辑 PPTX（文本框保留） | 15–25 min |
 | **设计变体** | 3+ 并排对比 · Tweaks 实时调参 · 跨维度探索 | 10 min |
 | **信息图 / 可视化** | 印刷级排版 · 可导 PDF/PNG/SVG | 10 min |
-| **设计方向顾问** | 5 流派 × 20 种设计哲学 · 推荐 3 方向 · 并行生成 Demo | 5 min |
 | **5 维度专家评审** | 雷达图 + Keep/Fix/Quick Wins · 可操作修复清单 | 3 min |
 
 ---
 
-## Demo 画廊
+## 20 种设计哲学，不是通用默认值
 
-### 设计方向顾问
+<p align="center">
+  <img src="docs/showcase-philo.png" alt="MyClaw Design — 5 流派 × 4 种哲学" width="100%">
+</p>
 
-需求模糊时的 fallback：从 5 流派 × 20 种设计哲学里挑 3 个差异化方向，并行生成 3 个 Demo 让你选。
+需求模糊时，skill 不猜——它咨询。从 5 流派 × 20 种设计哲学中推荐 3 个差异化方向，并行生成 Demo 让你选：
 
-<p align="center"><img src="docs/w3-fallback-advisor-en.gif" width="100%"></p>
-
-### iOS App 原型
-
-iPhone 15 Pro 精确机身（灵动岛 / 状态栏 / Home Indicator）· 状态驱动多屏切换 · 真图从 Wikimedia/Met/Unsplash 取 · Playwright 自动点击测试。
-
-<p align="center"><img src="docs/c1-ios-prototype-en.gif" width="100%"></p>
-
-### Motion Design 引擎
-
-Stage + Sprite 时间片段模型 · `useTime` / `useSprite` / `interpolate` / `Easing` 四 API 覆盖所有动画需求 · 一条命令导出 MP4 / GIF / 60fps 插帧 / 带 BGM+SFX 的成片。
-
-<p align="center"><img src="docs/c3-motion-design-en.gif" width="100%"></p>
-
-### 幻灯片 + 可编辑 PPTX
-
-HTML-first 幻灯片，自动缩放 + 键盘导航 + Speaker Notes。导出可编辑 PPTX——原生文本框，不是截图贴底。
-
-<p align="center"><img src="docs/c2-slides-pptx-en.gif" width="100%"></p>
-
-### 实时 Tweaks
-
-实时调参——切换配色、布局、字体、密度，不用重新生成。修改通过 localStorage 持久化。
-
-<p align="center"><img src="docs/c4-tweaks-en.gif" width="100%"></p>
-
-### 信息图
-
-印刷级排版，数据驱动，精确到像素。可导出 PDF/PNG/SVG。
-
-<p align="center"><img src="docs/c5-infographic-en.gif" width="100%"></p>
-
-### 5 维度专家评审
-
-哲学一致性 / 视觉层级 / 细节执行 / 功能性 / 创新性——各打 0–10 分，雷达图 + Keep 清单 + Fix 清单（按严重度排序）+ Quick Wins。
-
-<p align="center"><img src="docs/c6-expert-review-en.gif" width="100%"></p>
+| 流派 | 哲学 | 视觉气质 |
+|---|---|---|
+| **信息建筑派** | Pentagram · Müller-Brockmann · Vignelli · Tufte | 理性、数据驱动、克制 |
+| **运动诗学派** | Field.io · Refik Anadol · Zach Lieberman · TeamLab | 动感、沉浸、技术美学 |
+| **极简主义派** | Dieter Rams · Build Studio · Jony Ive · Naoto Fukasawa | 秩序、留白、精致 |
+| **实验先锋派** | Sagmeister · Neville Brody · David Carson · Emigre | 先锋、生成艺术、视觉冲击 |
+| **东方哲学派** | Kenya Hara · Takram · Muji · Wabi-sabi | 温润、诗意、思辨 |
 
 ---
 
@@ -125,66 +94,25 @@ Skill 不猜你的品牌。它遵循严格的 5 步协议：
 4. **验证** — 检查分辨率、透明度、版本新鲜度
 5. **锁定** — 写入 `brand-spec.md`，CSS 变量强制一致性
 
-<p align="center"><img src="docs/w1-brand-protocol-en.gif" width="100%"></p>
-
-> **为什么重要：** 没有真实品牌资产，所有 AI 生成的设计看起来都一样——通用渐变、占位图标、零品牌识别度。协议前期投入 30 分钟，省下 1–2 小时返工。
-
 ### Junior Designer 工作流
 
-Skill 像一个向你汇报的初级设计师：
-
-1. **先展示假设** — 写下推理 + 占位符，不急着写代码
-2. **等你确认** — 方向对了再填充细节
-3. **中途展示** — 做到一半就给你看，不是做完才交
-4. **验证** — 交付前跑 Playwright 截图 + 控制台错误检查
-
-<p align="center"><img src="docs/w2-junior-designer-en.gif" width="100%"></p>
+Skill 像一个向你汇报的初级设计师：先展示假设 → 等你确认 → 中途展示 → 验证后交付。
 
 ### 反 AI Slop
-
-每个设计决策都经过严格的反 slop 清单检查：
 
 | 避免 | 替代方案 |
 |---|---|
 | 紫色渐变 | 品牌色 / `oklch()` 和谐色 |
 | Emoji 当图标 | 诚实占位符或真实素材 |
 | 圆角卡片 + 左 border accent | 由内容决定的干净边界 |
-| SVG 画人画物 | 真实图片或诚实占位符 |
 | CSS 剪影代替产品图 | 品牌协议获取的真实产品图 |
-| Inter/Roboto/系统字体做 display | 有特点的 display + body 字体配对 |
-
----
-
-## 起手组件
-
-开箱即用的预制组件：
-
-| 组件 | 用途 |
-|---|---|
-| `assets/ios_frame.jsx` | iPhone 15 Pro 机身（灵动岛 + 状态栏 + Home Indicator） |
-| `assets/android_frame.jsx` | Android 设备框 |
-| `assets/macos_window.jsx` | macOS 窗口（红绿灯） |
-| `assets/browser_window.jsx` | 浏览器窗口（URL 栏 + 标签页） |
-| `assets/animations.jsx` | Stage + Sprite + useTime + Easing 动画引擎 |
-| `assets/deck_index.html` | 多文件幻灯片拼接器 |
-| `assets/deck_stage.js` | 单文件幻灯片 Web Component |
-| `assets/design_canvas.jsx` | 并排变体对比网格 |
-
-## 音频资产
-
-6 首场景化 BGM + 37 个分类 SFX，让动画产出达到成片级：
-
-- **BGM**：tech / ad / educational / tutorial（+ alt 变体）
-- **SFX**：keyboard、terminal、transition、impact、magic、feedback、UI、container、progress
 
 ---
 
 ## 环境要求
 
 - [OpenClaw](https://github.com/openclaw/openclaw)（任意近期版本）
-- Node.js ≥ 18（脚本运行）
-- [Playwright](https://playwright.dev/)（验证 + 视频导出）
-- ffmpeg（视频格式转换 + 音频混合）
+- Node.js ≥ 18 · [Playwright](https://playwright.dev/) · ffmpeg
 
 ---
 

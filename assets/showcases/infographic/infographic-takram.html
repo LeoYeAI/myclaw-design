@@ -1,670 +1,442 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1080">
-<title>AI Memory System Optimization — Takram Style</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>The AI Agent Ecosystem</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    width: 1080px;
-    height: 1920px;
-    overflow: hidden;
-    margin: 0;
-    background: #F5F0EB;
+    width: 1080px; height: 1920px; overflow: hidden;
     font-family: 'Inter', sans-serif;
-    color: #3D3730;
+    background: #F7F5F0;
+    color: #2C2C2C;
   }
-
-  .container {
-    width: 100%;
-    height: 100%;
-    padding: 72px 80px 60px 80px;
-    display: flex;
-    flex-direction: column;
+  .infographic {
+    width: 1080px; height: 1920px;
     position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #F7F5F0 0%, #F0EDE6 30%, #F7F5F0 60%, #E8E2D8 100%);
+    padding: 60px 60px 50px;
   }
-
-  /* Background texture */
-  .bg-circle {
+  /* Background organic shapes */
+  .bg-shape {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid rgba(168, 181, 160, 0.2);
+    opacity: 0.06;
+  }
+  .bg-shape.s1 { width: 500px; height: 500px; background: radial-gradient(circle, #7B9E87, transparent 70%); top: 100px; right: -100px; }
+  .bg-shape.s2 { width: 400px; height: 400px; background: radial-gradient(circle, #D4C5B0, transparent 70%); top: 700px; left: -100px; }
+  .bg-shape.s3 { width: 350px; height: 350px; background: radial-gradient(circle, #B8C5B0, transparent 70%); bottom: 300px; right: -50px; }
+  .bg-shape.s4 { width: 300px; height: 300px; background: radial-gradient(circle, #7B9E87, transparent 70%); bottom: -50px; left: 200px; }
+  /* Curved connecting SVG */
+  .flow-lines {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     pointer-events: none;
+    z-index: 1;
   }
-  .bg-circle-1 {
-    width: 600px;
-    height: 600px;
-    top: -180px;
-    right: -200px;
-  }
-  .bg-circle-2 {
-    width: 400px;
-    height: 400px;
-    bottom: 200px;
-    left: -160px;
-  }
-
   /* Header */
   .header {
+    text-align: center;
+    margin-bottom: 50px;
     position: relative;
-    z-index: 1;
+    z-index: 2;
+  }
+  .header .tag {
+    display: inline-block;
+    padding: 6px 18px;
+    background: rgba(123,158,135,0.1);
+    border: 1px solid rgba(123,158,135,0.2);
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #7B9E87;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+  }
+  .header h1 {
+    font-size: 44px;
+    font-weight: 300;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+  .header h1 span { color: #7B9E87; font-weight: 500; }
+  .header .desc {
+    font-size: 16px;
+    font-weight: 300;
+    color: #8A8A8A;
+    margin-top: 14px;
+    line-height: 1.7;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* Central hub */
+  .hub {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
     margin-bottom: 40px;
   }
-  .header-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: 3.5px;
-    text-transform: uppercase;
-    color: #6B8F71;
-    margin-bottom: 20px;
-    opacity: 0.8;
-  }
-  .header-title {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 44px;
-    font-weight: 500;
-    line-height: 1.35;
-    color: #2D3436;
-    letter-spacing: 1px;
-  }
-  .header-subtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 15px;
-    font-weight: 300;
-    color: #8B7355;
-    margin-top: 12px;
-    line-height: 1.5;
-    letter-spacing: 0.3px;
-  }
-
-  /* Hero Data Circles */
-  .hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 48px;
-    padding: 36px 0;
-    position: relative;
-    z-index: 1;
-  }
-  .data-circle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-  }
-  .data-circle-ring {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .data-circle-ring svg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: rotate(-90deg);
-  }
-  .data-circle-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    z-index: 1;
-  }
-  .data-num {
-    font-family: 'Inter', sans-serif;
-    font-size: 64px;
-    font-weight: 300;
-    color: #2E2A24;
-    line-height: 1;
-  }
-  .data-unit {
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    color: #8B7355;
-    margin-top: 4px;
-  }
-  .data-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: #A8A098;
-    margin-top: 12px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .data-circle-small .data-circle-ring {
-    width: 160px;
-    height: 160px;
-  }
-  .data-circle-small .data-num {
-    font-size: 52px;
-  }
-
-  /* Organic connector */
-  .hero-connector {
-    position: relative;
-    width: 120px;
-    height: 60px;
-    flex-shrink: 0;
-  }
-
-  /* Reduction badge — understated Takram style */
-  .reduction-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 28px;
-    background: transparent;
-    border: 1px solid rgba(107, 143, 113, 0.3);
-    border-radius: 20px;
-    margin: 0 auto;
-    display: flex;
-    gap: 8px;
-  }
-  .reduction-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: #6B8F71;
-    letter-spacing: 2px;
-  }
-
-  .hero-footer {
-    display: flex;
-    justify-content: center;
-    margin-top: 16px;
-  }
-
-  /* Categories Section */
-  .categories-section {
-    margin-top: 36px;
-    position: relative;
-    z-index: 1;
-  }
-  .section-label {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 20px;
-    font-weight: 500;
-    color: #2D3436;
-    margin-bottom: 24px;
-    letter-spacing: 1px;
-  }
-  .section-label .section-num {
-    font-family: 'Inter', sans-serif;
-    font-size: 9px;
-    font-weight: 400;
-    color: #B0AAA0;
-    letter-spacing: 1px;
-    margin-right: 12px;
-  }
-  .categories-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  .cat-card {
-    background: rgba(255, 255, 255, 0.6);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 28px 24px;
-    position: relative;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-    border: 1px solid rgba(232, 228, 220, 0.8);
-  }
-  .cat-card-icon {
-    margin-bottom: 14px;
-  }
-  .cat-card-title-zh {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 20px;
-    font-weight: 600;
-    color: #2E2A24;
-    margin-bottom: 4px;
-  }
-  .cat-card-title-en {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    color: #A8A098;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-  }
-  .cat-card-desc {
-    font-family: 'Inter', sans-serif;
-    font-size: 12px;
-    font-weight: 300;
-    color: #8B7355;
-    line-height: 1.7;
-  }
-  .cat-card.highlight {
-    border-color: rgba(107, 143, 113, 0.35);
-    background: rgba(107, 143, 113, 0.04);
-  }
-
-  /* Proportion circles */
-  .cat-prop {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-  }
-
-  /* Flow Diagram */
-  .flow-section {
-    margin-top: 36px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .flow-diagram {
-    position: relative;
-    height: 260px;
-    width: 100%;
-  }
-
-  .flow-node {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-  }
-  .flow-node-circle {
-    width: 72px;
-    height: 72px;
+  .hub-circle {
+    width: 160px; height: 160px;
+    background: linear-gradient(135deg, #7B9E87, #B8C5B0);
     border-radius: 50%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgba(255,255,255,0.5);
-    border: 1px solid #DDD9D2;
-  }
-  .flow-node-circle.active {
-    border-color: #6B8F71;
-    border-width: 1.5px;
-    background: rgba(107, 143, 113, 0.06);
-  }
-  .flow-node-label {
-    font-family: 'Inter', sans-serif;
-    font-size: 11px;
-    font-weight: 400;
-    color: #A8A098;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .flow-node-text {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 13px;
-    font-weight: 500;
-    color: #2E2A24;
-    text-align: center;
-  }
-
-  /* Insight */
-  .insight-section {
-    margin-top: auto;
+    box-shadow: 0 8px 40px rgba(123,158,135,0.2);
     position: relative;
-    z-index: 1;
   }
-  .insight-card {
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 16px;
-    padding: 32px 36px;
-    border: 1px solid rgba(232, 228, 220, 0.6);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  .hub-circle .icon { font-size: 36px; margin-bottom: 4px; }
+  .hub-circle .label { font-size: 14px; font-weight: 500; color: white; }
+  .hub-circle .sublabel { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.8); }
+  /* Orbit dots */
+  .orbit {
+    position: absolute;
+    width: 220px; height: 220px;
+    top: -30px; left: -30px;
+    border: 1.5px dashed rgba(123,158,135,0.2);
+    border-radius: 50%;
   }
-  .insight-quote {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: #2E2A24;
-    line-height: 1.7;
-    letter-spacing: 0.5px;
+  .orbit-dot {
+    position: absolute;
+    width: 10px; height: 10px;
+    background: #7B9E87;
+    border-radius: 50%;
+    opacity: 0.4;
   }
-  .insight-quote .green {
-    color: #6B8F71;
-    font-weight: 500;
+  .orbit-dot.d1 { top: 0; left: 50%; transform: translate(-50%, -50%); }
+  .orbit-dot.d2 { bottom: 0; left: 50%; transform: translate(-50%, 50%); }
+  .orbit-dot.d3 { top: 50%; left: 0; transform: translate(-50%, -50%); }
+  .orbit-dot.d4 { top: 50%; right: 0; transform: translate(50%, -50%); }
+  /* Section */
+  .section {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 28px;
   }
-  .insight-quote .brown {
-    color: #8B7355;
-    font-weight: 500;
-  }
-
-  .results-row {
-    display: flex;
-    gap: 32px;
-    margin-top: 24px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(232, 228, 220, 0.6);
-  }
-  .result-item {
+  .section-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
+    margin-bottom: 18px;
   }
-  .result-leaf {
-    flex-shrink: 0;
+  .section-num {
+    width: 36px; height: 36px;
+    background: rgba(123,158,135,0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 500;
+    color: #7B9E87;
   }
-  .result-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 13px;
+  .section-title {
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.3px;
+  }
+  /* Cards grid */
+  .cards-row {
+    display: flex;
+    gap: 16px;
+  }
+  .card {
+    flex: 1;
+    background: rgba(255,255,255,0.65);
+    backdrop-filter: blur(8px);
+    border: 1px solid #E8E2D8;
+    border-radius: 16px;
+    padding: 22px 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .card .card-icon {
+    width: 40px; height: 40px;
+    background: rgba(123,158,135,0.08);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+  .card .card-name {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .card .card-desc {
+    font-size: 12px;
+    font-weight: 300;
+    color: #8A8A8A;
+    line-height: 1.6;
+  }
+  /* Stat row */
+  .stat-row {
+    display: flex;
+    gap: 16px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 28px;
+  }
+  .stat-card {
+    flex: 1;
+    background: rgba(255,255,255,0.65);
+    border: 1px solid #E8E2D8;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .stat-card .stat-val {
+    font-size: 32px;
+    font-weight: 300;
+    color: #7B9E87;
+    letter-spacing: -1px;
+  }
+  .stat-card .stat-label {
+    font-size: 12px;
     font-weight: 400;
-    color: #8B7355;
+    color: #8A8A8A;
+    margin-top: 4px;
   }
-
+  /* Flow diagram */
+  .flow-section {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 28px;
+  }
+  .flow-steps {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    justify-content: center;
+  }
+  .flow-step {
+    background: rgba(255,255,255,0.65);
+    border: 1px solid #E8E2D8;
+    border-radius: 16px;
+    padding: 18px 22px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    width: 180px;
+  }
+  .flow-step .step-icon { font-size: 22px; margin-bottom: 6px; }
+  .flow-step .step-name { font-size: 13px; font-weight: 500; }
+  .flow-step .step-desc { font-size: 11px; color: #8A8A8A; font-weight: 300; margin-top: 3px; }
+  .flow-arrow {
+    font-size: 20px;
+    color: #B8C5B0;
+    padding: 0 8px;
+  }
+  /* Bottom CTA */
+  .bottom-cta {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    margin-top: 10px;
+    padding: 30px;
+    background: linear-gradient(135deg, rgba(123,158,135,0.08), rgba(184,197,176,0.08));
+    border-radius: 24px;
+    border: 1px solid rgba(123,158,135,0.15);
+  }
+  .bottom-cta h3 {
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .bottom-cta h3 span { color: #7B9E87; font-weight: 500; }
+  .bottom-cta p {
+    font-size: 14px;
+    color: #8A8A8A;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+  .bottom-cta .cta-btn {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 32px;
+    background: #7B9E87;
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
   /* Footer */
   .footer {
-    margin-top: 28px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     position: relative;
-    z-index: 1;
-  }
-  .footer-text {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 300;
-    color: #C4BDB4;
-    letter-spacing: 3px;
-    text-transform: uppercase;
+    z-index: 2;
+    text-align: center;
+    margin-top: 24px;
+    font-size: 12px;
+    color: #B0A89E;
+    letter-spacing: 1px;
   }
 </style>
 </head>
 <body>
-<div class="container">
+<div class="infographic">
+  <div class="bg-shape s1"></div>
+  <div class="bg-shape s2"></div>
+  <div class="bg-shape s3"></div>
+  <div class="bg-shape s4"></div>
 
-  <!-- Background decorations -->
-  <div class="bg-circle bg-circle-1"></div>
-  <div class="bg-circle bg-circle-2"></div>
+  <svg class="flow-lines" viewBox="0 0 1080 1920" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M540 420 C540 480 300 500 300 560" stroke="#E8E2D8" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M540 420 C540 480 780 500 780 560" stroke="#E8E2D8" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M540 420 C540 500 540 520 540 560" stroke="#D4C5B0" stroke-width="1.5" fill="none" stroke-dasharray="6 4"/>
+    <path d="M200 850 C300 870 400 870 500 850" stroke="#E8E2D8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    <path d="M580 850 C680 870 780 870 880 850" stroke="#E8E2D8" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  </svg>
 
   <!-- Header -->
   <div class="header">
-    <div class="header-label">Speculative Design / Memory Architecture</div>
-    <div class="header-title">AI记忆系统<br>CLAUDE.md 的断舍离</div>
-    <div class="header-subtitle">Restructuring artificial memory from monolith to modular elegance</div>
+    <div class="tag">2026 Landscape</div>
+    <h1>The AI Agent<br><span>Ecosystem</span></h1>
+    <p class="desc">How autonomous agents are reshaping software — from personal assistants to enterprise orchestration</p>
   </div>
 
-  <!-- Hero Data Circles -->
-  <div class="hero-section">
-    <div class="data-circle">
-      <div class="data-circle-ring">
-        <svg width="200" height="200" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="92" fill="none" stroke="#E8E4DC" stroke-width="1.5"/>
-          <circle cx="100" cy="100" r="92" fill="none" stroke="#8B7355" stroke-width="2" stroke-dasharray="578" stroke-dashoffset="0" opacity="0.3"/>
-        </svg>
-        <div class="data-circle-inner">
-          <span class="data-num">93</span>
-          <span class="data-unit">KB</span>
-        </div>
+  <!-- Central Hub -->
+  <div class="hub">
+    <div class="hub-circle">
+      <div class="orbit">
+        <div class="orbit-dot d1"></div>
+        <div class="orbit-dot d2"></div>
+        <div class="orbit-dot d3"></div>
+        <div class="orbit-dot d4"></div>
       </div>
-      <span class="data-label">Before</span>
-    </div>
-
-    <div class="hero-connector">
-      <svg width="120" height="60" viewBox="0 0 120 60">
-        <path d="M 0,30 C 30,30 40,10 60,10 C 80,10 90,50 110,30"
-              fill="none" stroke="#6B8F71" stroke-width="1" stroke-dasharray="3,4" opacity="0.5"/>
-        <circle cx="110" cy="30" r="3.5" fill="#6B8F71" opacity="0.5"/>
-        <circle cx="110" cy="30" r="7" fill="none" stroke="#6B8F71" stroke-width="0.5" opacity="0.2"/>
-        <!-- delta annotation -->
-        <text x="60" y="50" text-anchor="middle" font-family="Inter" font-size="7" fill="#B0AAA0" letter-spacing="0.5">-71 KB</text>
-      </svg>
-    </div>
-
-    <div class="data-circle data-circle-small">
-      <div class="data-circle-ring">
-        <svg width="160" height="160" viewBox="0 0 160 160">
-          <circle cx="80" cy="80" r="72" fill="none" stroke="#E8E4DC" stroke-width="1.5"/>
-          <circle cx="80" cy="80" r="72" fill="none" stroke="#A8B5A0" stroke-width="2.5" stroke-dasharray="452" stroke-dashoffset="344" opacity="0.6"/>
-        </svg>
-        <div class="data-circle-inner">
-          <span class="data-num" style="color: #A8B5A0;">22</span>
-          <span class="data-unit">KB</span>
-        </div>
-      </div>
-      <span class="data-label">After</span>
-    </div>
-  </div>
-  <div class="hero-footer">
-    <div class="reduction-pill">
-      <svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 2L7 12M3 8L7 12L11 8" fill="none" stroke="#6B8F71" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <span class="reduction-text">76% REDUCTION</span>
+      <div class="icon">🌀</div>
+      <div class="label">AI Agent</div>
+      <div class="sublabel">Core Runtime</div>
     </div>
   </div>
 
-  <!-- Categories -->
-  <div class="categories-section">
-    <div class="section-label"><span class="section-num">01</span>Four Pillars of Memory</div>
-    <div class="categories-grid">
-      <div class="cat-card highlight">
-        <div class="cat-card-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32">
-            <circle cx="16" cy="12" r="6" fill="none" stroke="#A8B5A0" stroke-width="1.5"/>
-            <path d="M6,28 C6,22 10,18 16,18 C22,18 26,22 26,28" fill="none" stroke="#A8B5A0" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="cat-prop">
-          <svg width="28" height="28" viewBox="0 0 28 28">
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#E8E4DC" stroke-width="1"/>
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#A8B5A0" stroke-width="2" stroke-dasharray="75" stroke-dashoffset="56" transform="rotate(-90 14 14)"/>
-          </svg>
-        </div>
-        <div class="cat-card-title-zh">核心身份</div>
-        <div class="cat-card-title-en">Core Identity</div>
-        <div class="cat-card-desc">Immutable facts and fundamental traits that define who you are</div>
+  <!-- Section 1: Agent Types -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">01</div>
+      <div class="section-title">Agent Archetypes</div>
+    </div>
+    <div class="cards-row">
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <div class="card-name">Personal</div>
+        <div class="card-desc">Always-on assistant managing your digital life — email, calendar, memory</div>
       </div>
-      <div class="cat-card">
-        <div class="cat-card-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32">
-            <path d="M8,8 L24,8 L24,24 L8,24 Z" fill="none" stroke="#8B7355" stroke-width="1.5" rx="2"/>
-            <line x1="12" y1="13" x2="20" y2="13" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="12" y1="17" x2="18" y2="17" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="12" y1="21" x2="16" y2="21" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="cat-prop">
-          <svg width="28" height="28" viewBox="0 0 28 28">
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#E8E4DC" stroke-width="1"/>
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#8B7355" stroke-width="2" stroke-dasharray="75" stroke-dashoffset="45" transform="rotate(-90 14 14)"/>
-          </svg>
-        </div>
-        <div class="cat-card-title-zh">偏好设置</div>
-        <div class="cat-card-title-en">Preferences</div>
-        <div class="cat-card-desc">Style, tools, habits — accumulated over time through sessions</div>
+      <div class="card">
+        <div class="card-icon">🔧</div>
+        <div class="card-name">Developer</div>
+        <div class="card-desc">Code generation, review, deployment — the pair programmer that never sleeps</div>
       </div>
-      <div class="cat-card">
-        <div class="cat-card-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32">
-            <rect x="6" y="10" width="8" height="14" rx="1" fill="none" stroke="#8B7355" stroke-width="1.5"/>
-            <rect x="18" y="6" width="8" height="18" rx="1" fill="none" stroke="#8B7355" stroke-width="1.5"/>
-            <line x1="8" y1="16" x2="12" y2="16" stroke="#8B7355" stroke-width="1" stroke-linecap="round"/>
-            <line x1="20" y1="12" x2="24" y2="12" stroke="#8B7355" stroke-width="1" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="cat-prop">
-          <svg width="28" height="28" viewBox="0 0 28 28">
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#E8E4DC" stroke-width="1"/>
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#8B7355" stroke-width="2" stroke-dasharray="75" stroke-dashoffset="37" transform="rotate(-90 14 14)"/>
-          </svg>
-        </div>
-        <div class="cat-card-title-zh">项目状态</div>
-        <div class="cat-card-title-en">Project State</div>
-        <div class="cat-card-desc">Current tasks, deadlines, priorities — always evolving context</div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <div class="card-name">Analyst</div>
+        <div class="card-desc">Data processing, insight extraction, report generation at scale</div>
       </div>
-      <div class="cat-card">
-        <div class="cat-card-icon">
-          <svg width="32" height="32" viewBox="0 0 32 32">
-            <circle cx="16" cy="16" r="10" fill="none" stroke="#8B7355" stroke-width="1.5"/>
-            <line x1="16" y1="10" x2="16" y2="16" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="16" y1="16" x2="21" y2="19" stroke="#8B7355" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="cat-prop">
-          <svg width="28" height="28" viewBox="0 0 28 28">
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#E8E4DC" stroke-width="1"/>
-            <circle cx="14" cy="14" r="12" fill="none" stroke="#8B7355" stroke-width="2" stroke-dasharray="75" stroke-dashoffset="60" transform="rotate(-90 14 14)"/>
-          </svg>
-        </div>
-        <div class="cat-card-title-zh">日志流水</div>
-        <div class="cat-card-title-en">Daily Logs</div>
-        <div class="cat-card-desc">Session records — never auto-loaded, retrieved on demand only</div>
+      <div class="card">
+        <div class="card-icon">🏢</div>
+        <div class="card-name">Enterprise</div>
+        <div class="card-desc">Workflow orchestration, multi-agent coordination, compliance</div>
       </div>
     </div>
   </div>
 
-  <!-- Flow Diagram -->
-  <div class="flow-section">
-    <div class="section-label"><span class="section-num">02</span>System Flow</div>
-    <div class="flow-diagram">
-      <!-- SVG organic curves connecting nodes — art-piece treatment -->
-      <svg width="920" height="260" viewBox="0 0 920 260" style="position: absolute; top: 0; left: 0;">
-        <!-- Background guide line (very subtle) -->
-        <line x1="50" y1="130" x2="870" y2="130" stroke="#E8E4DC" stroke-width="0.3" stroke-dasharray="2,8" opacity="0.4"/>
+  <!-- Stats -->
+  <div class="stat-row">
+    <div class="stat-card">
+      <div class="stat-val">82%</div>
+      <div class="stat-label">Developers using AI agents</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">3.2M</div>
+      <div class="stat-label">Active agent deployments</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val">47x</div>
+      <div class="stat-label">Productivity multiplier</div>
+    </div>
+  </div>
 
-        <!-- Curve from Input to Route -->
-        <path d="M 116,50 C 165,50 195,120 246,120" fill="none" stroke="#D4CFC6" stroke-width="1"/>
-        <!-- Curve from Route to Load -->
-        <path d="M 316,120 C 370,120 380,50 460,50" fill="none" stroke="#D4CFC6" stroke-width="1"/>
-        <!-- Curve from Load to Execute (highlighted — key transition) -->
-        <path d="M 530,50 C 585,50 600,160 660,160" fill="none" stroke="#6B8F71" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.6"/>
-        <!-- Curve from Execute to Update -->
-        <path d="M 730,160 C 785,160 800,80 830,80" fill="none" stroke="#D4CFC6" stroke-width="1"/>
-
-        <!-- Connection dots — varying size for depth -->
-        <circle cx="116" cy="50" r="2.5" fill="#D4CFC6"/>
-        <circle cx="246" cy="120" r="2.5" fill="#D4CFC6"/>
-        <circle cx="316" cy="120" r="2.5" fill="#D4CFC6"/>
-        <circle cx="460" cy="50" r="3" fill="#6B8F71" opacity="0.5"/>
-        <circle cx="530" cy="50" r="3" fill="#6B8F71" opacity="0.5"/>
-        <circle cx="660" cy="160" r="2.5" fill="#D4CFC6"/>
-        <circle cx="730" cy="160" r="2.5" fill="#D4CFC6"/>
-        <circle cx="830" cy="80" r="2.5" fill="#D4CFC6"/>
-
-        <!-- Annotation: step numbers along curve -->
-        <text x="170" y="75" font-family="Inter" font-size="7" fill="#C8C2B8" letter-spacing="0.5">step 1</text>
-        <text x="350" y="100" font-family="Inter" font-size="7" fill="#C8C2B8" letter-spacing="0.5">step 2</text>
-        <text x="565" y="95" font-family="Inter" font-size="7" fill="#6B8F71" opacity="0.5" letter-spacing="0.5">step 3</text>
-        <text x="770" y="130" font-family="Inter" font-size="7" fill="#C8C2B8" letter-spacing="0.5">step 4</text>
-      </svg>
-
-      <!-- Node 1: User Input -->
-      <div class="flow-node" style="left: 44px; top: 8px;">
-        <div class="flow-node-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <circle cx="12" cy="9" r="4" fill="none" stroke="#8B7355" stroke-width="1.2"/>
-            <path d="M4,21 C4,16 7,14 12,14 C17,14 20,16 20,21" fill="none" stroke="#8B7355" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <span class="flow-node-label">Input</span>
-        <span class="flow-node-text">User</span>
+  <!-- Section 2: Infrastructure -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">02</div>
+      <div class="section-title">Infrastructure Layer</div>
+    </div>
+    <div class="cards-row">
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <div class="card-name">Memory</div>
+        <div class="card-desc">Persistent context, long-term recall, semantic search across sessions</div>
       </div>
-
-      <!-- Node 2: Route -->
-      <div class="flow-node" style="left: 210px; top: 78px;">
-        <div class="flow-node-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <path d="M4,12 L10,6 L10,10 L20,10 L20,14 L10,14 L10,18 Z" fill="none" stroke="#8B7355" stroke-width="1.2"/>
-          </svg>
-        </div>
-        <span class="flow-node-label">Route</span>
-        <span class="flow-node-text">Workspace</span>
+      <div class="card">
+        <div class="card-icon">🔌</div>
+        <div class="card-name">Skills</div>
+        <div class="card-desc">Modular capabilities — install, compose, and share agent abilities</div>
       </div>
-
-      <!-- Node 3: Load Memory (active) -->
-      <div class="flow-node" style="left: 420px; top: 8px;">
-        <div class="flow-node-circle active">
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <rect x="4" y="4" width="16" height="16" rx="2" fill="none" stroke="#A8B5A0" stroke-width="1.2"/>
-            <line x1="8" y1="9" x2="16" y2="9" stroke="#A8B5A0" stroke-width="1.2" stroke-linecap="round"/>
-            <line x1="8" y1="13" x2="14" y2="13" stroke="#A8B5A0" stroke-width="1.2" stroke-linecap="round"/>
-            <line x1="8" y1="17" x2="12" y2="17" stroke="#A8B5A0" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <span class="flow-node-label">Load</span>
-        <span class="flow-node-text">Memory</span>
+      <div class="card">
+        <div class="card-icon">🛡️</div>
+        <div class="card-name">Safety</div>
+        <div class="card-desc">Guardrails, approval flows, sandboxed execution, audit trails</div>
       </div>
-
-      <!-- Node 4: Execute -->
-      <div class="flow-node" style="left: 624px; top: 118px;">
-        <div class="flow-node-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <polygon points="8,4 20,12 8,20" fill="none" stroke="#8B7355" stroke-width="1.2" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <span class="flow-node-label">Execute</span>
-        <span class="flow-node-text">Task</span>
-      </div>
-
-      <!-- Node 5: Update -->
-      <div class="flow-node" style="left: 800px; top: 40px;">
-        <div class="flow-node-circle">
-          <svg width="24" height="24" viewBox="0 0 24 24">
-            <path d="M12,4 L12,16" stroke="#8B7355" stroke-width="1.2" stroke-linecap="round"/>
-            <path d="M8,12 L12,16 L16,12" fill="none" stroke="#8B7355" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <line x1="6" y1="20" x2="18" y2="20" stroke="#8B7355" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <span class="flow-node-label">Update</span>
-        <span class="flow-node-text">Write</span>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <div class="card-name">Channels</div>
+        <div class="card-desc">Telegram, Discord, Slack, WhatsApp — meet users where they are</div>
       </div>
     </div>
   </div>
 
-  <!-- Insight -->
-  <div class="insight-section">
-    <div class="insight-card">
-      <div class="insight-quote">
-        Like <span class="green">Marie Kondo</span> for AI memory —<br>
-        keep only what <span class="brown">sparks joy</span>.
+  <!-- Section 3: Flow -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">03</div>
+      <div class="section-title">Agent Lifecycle</div>
+    </div>
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="step-icon">💡</div>
+        <div class="step-name">Perceive</div>
+        <div class="step-desc">Receive input</div>
       </div>
-      <div class="results-row">
-        <div class="result-item">
-          <div class="result-leaf">
-            <svg width="14" height="14" viewBox="0 0 14 14">
-              <path d="M2,12 C2,6 6,2 12,2" fill="none" stroke="#A8B5A0" stroke-width="1.5" stroke-linecap="round"/>
-              <circle cx="12" cy="2" r="2" fill="#A8B5A0" opacity="0.4"/>
-            </svg>
-          </div>
-          <span class="result-text">Faster context loading</span>
-        </div>
-        <div class="result-item">
-          <div class="result-leaf">
-            <svg width="14" height="14" viewBox="0 0 14 14">
-              <path d="M2,12 C2,6 6,2 12,2" fill="none" stroke="#A8B5A0" stroke-width="1.5" stroke-linecap="round"/>
-              <circle cx="12" cy="2" r="2" fill="#A8B5A0" opacity="0.4"/>
-            </svg>
-          </div>
-          <span class="result-text">More relevant responses</span>
-        </div>
-        <div class="result-item">
-          <div class="result-leaf">
-            <svg width="14" height="14" viewBox="0 0 14 14">
-              <path d="M2,12 C2,6 6,2 12,2" fill="none" stroke="#A8B5A0" stroke-width="1.5" stroke-linecap="round"/>
-              <circle cx="12" cy="2" r="2" fill="#A8B5A0" opacity="0.4"/>
-            </svg>
-          </div>
-          <span class="result-text">Zero information loss</span>
-        </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">🤔</div>
+        <div class="step-name">Reason</div>
+        <div class="step-desc">Plan actions</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">⚡</div>
+        <div class="step-name">Act</div>
+        <div class="step-desc">Execute tools</div>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <div class="step-icon">📝</div>
+        <div class="step-name">Learn</div>
+        <div class="step-desc">Update memory</div>
       </div>
     </div>
   </div>
 
-  <!-- Footer -->
-  <div class="footer">
-    <span class="footer-text">Takram Style</span>
-    <span class="footer-text">CLAUDE.md Optimization</span>
-    <span class="footer-text">2026</span>
+  <!-- Bottom CTA -->
+  <div class="bottom-cta">
+    <h3>Build Your Own <span>Agent</span></h3>
+    <p>MyClaw gives you a full server with complete code control.<br>Your AI, your rules, your data.</p>
+    <div class="cta-btn">Get Started →</div>
   </div>
 
+  <div class="footer">MYCLAW.AI — THE AI AGENT ECOSYSTEM</div>
 </div>
 </body>
 </html>
