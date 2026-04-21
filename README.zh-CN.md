@@ -80,7 +80,7 @@ git clone https://github.com/LeoYeAI/myclaw-design.git ~/.openclaw/skills/myclaw
   <sub>25fps MP4 (2.8 MB) · 60fps MP4 (2.7 MB) · GIF 预览如上 (4.1 MB) — 全部由 skill 导出管线生成</sub>
 </p>
 
-> 🎵 MP4 版本包含内置 BGM 库的背景音乐（`bgm-tech.mp3`）。下载 MP4 可以听到。
+> 🎵 MP4 包含 BGM + 26 个同步音效。**[▶ 在 GitHub Pages 上带声音播放](https://leoyeai.github.io/myclaw-design/)**
 
 ---
 
