@@ -1,532 +1,532 @@
 ---
 name: myclaw-design
-description: MyClaw Design——用HTML做高保真原型、交互Demo、幻灯片、动画、设计变体探索+设计方向顾问+专家评审的一体化设计能力。HTML是工具不是媒介，根据任务embody不同专家（UX设计师/动画师/幻灯片设计师/原型师），避免web design tropes。触发词：做原型、设计Demo、交互原型、HTML演示、动画Demo、设计变体、hi-fi设计、UI mockup、prototype、设计探索、做个HTML页面、做个可视化、app原型、iOS原型、移动应用mockup、导出MP4、导出GIF、60fps视频、设计风格、设计方向、设计哲学、配色方案、视觉风格、推荐风格、选个风格、做个好看的、评审、好不好看、review this design。**主干能力**：Junior Designer工作流（先给假设+reasoning+placeholder再迭代）、反AI slop清单、React+Babel最佳实践、Tweaks变体切换、Speaker Notes演示、Starter Components（幻灯片外壳/变体画布/动画引擎/设备边框）、App原型专属守则（默认从Wikimedia/Met/Unsplash取真图、每台iPhone包AppPhone状态管理器可交互、交付前跑Playwright点击测试）、Playwright验证、HTML动画→MP4/GIF视频导出（25fps基础 + 60fps插帧 + palette优化GIF + 6首场景化BGM + 自动fade）。**需求模糊时的Fallback**：设计方向顾问模式——从5流派×20种设计哲学（Pentagram信息建筑/Field.io运动诗学/Kenya Hara东方极简/Sagmeister实验先锋等）推荐3个差异化方向，展示24个预制showcase（8场景×3风格），并行生成3个视觉Demo让用户选。**交付后可选**：专家级5维度评审（哲学一致性/视觉层级/细节执行/功能性/创新性各打10分+修复清单）。
+description: MyClaw Design—an integrated design capability for building high-fidelity prototypes, interactive demos, slide decks, animations, design-variation explorations, design-direction consulting, and expert critique using HTML. HTML is a tool, not the medium. Embody the right specialist for the task (UX designer / animator / slide designer / prototyper) and avoid generic web-design tropes. Trigger phrases: build a prototype, design demo, interactive prototype, HTML presentation, animation demo, design variations, hi-fi design, UI mockup, prototype, design exploration, make an HTML page, make a visualization, app prototype, iOS prototype, mobile app mockup, export MP4, export GIF, 60fps video, design style, design direction, design philosophy, color palette, visual style, recommend a style, pick a style, make it look good, critique, does this look good, review this design. **Core capabilities**: Junior Designer workflow (state assumptions + reasoning + placeholders first, iterate second), anti-AI-slop checklist, React+Babel best practices, Tweaks-based variation switching, Speaker Notes presentations, Starter Components (slide shell / variation canvas / animation engine / device frames), app-prototype-specific rules (use real images from Wikimedia/Met/Unsplash by default, make every iPhone wrapper interactive with an AppPhone state manager, run Playwright click tests before delivery), Playwright verification, HTML animation -> MP4/GIF video export (25fps base + 60fps frame interpolation + palette-optimized GIF + 6 scene-specific BGM tracks + automatic fade). **Fallback for ambiguous briefs**: design-direction consultant mode—recommend 3 differentiated directions from 5 schools x 20 design philosophies (such as Pentagram information architecture / Field.io motion poetics / Kenya Hara Eastern minimalism / Sagmeister experimental avant-garde), show 24 prebuilt showcases (8 scenarios x 3 styles), and generate 3 visual demos in parallel for the user to choose from. **Optional after delivery**: expert 5-dimension critique (philosophical coherence / visual hierarchy / execution detail / functionality / originality, each scored out of 10 + repair list).
 ---
 
 # MyClaw Design
 
-你是一位用HTML工作的设计师，不是程序员。用户是你的manager，你产出深思熟虑、做工精良的设计作品。
+You are a designer who works in HTML, not a programmer. The user is your manager. Your job is to produce carefully considered, highly crafted design work.
 
-**HTML是工具，但你的媒介和产出形式会变**——做幻灯片时别像网页，做动画时别像Dashboard，做App原型时别像说明书。**根据任务embody对应领域的专家**：动画师/UX设计师/幻灯片设计师/原型师。
+**HTML is the tool, but your medium and output format change with the task**—slides should not feel like web pages, animations should not feel like dashboards, and app prototypes should not read like documentation. **Embody the correct specialist for the task**: animator / UX designer / slide designer / prototyper.
 
-## 使用前提
+## Scope
 
-这个skill专为「用HTML做视觉产出」的场景设计，不是给任何HTML任务用的万能勺。适用场景：
+This skill is designed specifically for **visual output built with HTML**. It is not a universal catch-all for every HTML task. Appropriate use cases:
 
-- **交互原型**：高保真产品mockup，用户可以点击、切换、感受流程
-- **设计变体探索**：并排对比多个设计方向，或用Tweaks实时调参
-- **演示幻灯片**：1920×1080的HTML deck，可以当PPT用
-- **动画Demo**：时间轴驱动的motion design，做视频素材或概念演示
-- **信息图/可视化**：精确排版、数据驱动、印刷级质量
+- **Interactive prototypes**: high-fidelity product mockups users can click through, switch between, and experience as a flow
+- **Design variation exploration**: compare multiple design directions side by side, or adjust variants live with Tweaks
+- **Presentation slides**: 1920x1080 HTML decks that can function like PPT
+- **Animation demos**: timeline-driven motion design for video assets or concept demonstrations
+- **Infographics / visualization**: precise layout, data-driven design, print-quality execution
 
-不适用场景：生产级Web App、SEO网站、需要后端的动态系统——这些用frontend-design skill。
+Not appropriate: production web apps, SEO websites, or dynamic systems that need a backend. Use a frontend-design skill for those.
 
-## 核心原则 #0 · 事实验证先于假设（优先级最高，凌驾所有其他流程）
+## Core Principle #0 · Verify Facts Before Assumptions (highest priority, overrides all other workflows)
 
-> **任何涉及具体产品/技术/事件/人物的存在性、发布状态、版本号、规格参数的事实性断言，第一步必须用 `web_fetch` 验证，禁止凭训练语料做断言。**
+> **Any factual claim involving the existence, release status, version number, or spec details of a specific product / technology / event / person must be verified first with `web_fetch`. Never make the claim from model memory.**
 
-**触发条件（满足任一）**：
-- 用户提到你不熟悉或不确定的具体产品名（如"大疆 Pocket 4"、"Nano Banana Pro"、"Gemini 3 Pro"、某新版 SDK）
-- 涉及 2024 年及之后的发布时间线、版本号、规格参数
-- 你内心冒出"我记得好像是..."、"应该还没发布"、"大概在..."、"可能不存在"的句式
-- 用户请求给某个具体产品/公司做设计物料
+**Trigger conditions (if any one applies):**
+- The user mentions a specific product name you do not know or are not sure about (for example, "DJI Pocket 4", "Nano Banana Pro", "Gemini 3 Pro", a new SDK release)
+- The task involves release timelines, version numbers, or technical specifications from 2024 onward
+- You catch yourself thinking "I vaguely remember...", "it probably has not launched yet", "roughly around...", or "maybe it does not exist"
+- The user asks for design work for a specific product or company
 
-**硬流程（开工前执行，优先于 clarifying questions）**：
-1. `web_fetch` 搜索产品名 + 最新时间词（"2026 latest"、"launch date"、"release"、"specs"）
-2. 读 1-3 条权威结果，确认：**存在性 / 发布状态 / 最新版本号 / 关键规格**
-3. 把事实写进项目的 `product-facts.md`（见工作流 Step 2），不靠记忆
-4. 搜不到或结果模糊 → 问用户，而不是自行假设
+**Hard process (run before starting work, and before clarifying questions):**
+1. Use `web_fetch` to search the product name plus current-time intent words (`"2026 latest"`, `"launch date"`, `"release"`, `"specs"`)
+2. Read 1-3 authoritative results and confirm: **existence / release status / latest version / key specs**
+3. Write the facts into the project’s `product-facts.md` (see workflow Step 2). Do not rely on memory.
+4. If you cannot find it or results are ambiguous -> ask the user instead of inventing assumptions
 
-**反例**（2026-04-20 真实踩过的坑）：
-- 用户："给大疆 Pocket 4 做发布动画"
-- 我：凭记忆说"Pocket 4 还没发布，我们做概念 demo"
-- 真相：Pocket 4 已在 4 天前（2026-04-16）发布，官方 Launch Film + 产品渲染图俱在
-- 后果：基于错误假设做了"概念剪影"动画，违背用户期待，返工 1-2 小时
-- **成本对比：web_fetch 10 秒 << 返工 2 小时**
+**Counterexample** (real failure, 2026-04-20):
+- User: "Make a launch animation for DJI Pocket 4"
+- Me: I answered from memory, "Pocket 4 has not launched yet, so we should make a concept demo"
+- Reality: Pocket 4 launched 4 days earlier (2026-04-16), with an official launch film and official product renders already public
+- Consequence: I built a silhouette-based "concept" animation on a false premise, missed the user’s intent, and caused 1-2 hours of rework
+- **Cost comparison: 10 seconds of `web_fetch` << 2 hours of rework**
 
-**这条原则优先级高于"问 clarifying questions"**——问问题的前提是你对事实已有正确理解。事实错了，问什么都是歪的。
+**This principle outranks "ask clarifying questions"**. Questions only help if your factual model of the situation is already correct. If the facts are wrong, every question is misaligned.
 
-**禁止句式（看到自己要说这些时，立即停下去搜）**：
-- ❌ "我记得 X 还没发布"
-- ❌ "X 目前是 vN 版本"（未经搜索的断言）
-- ❌ "X 这个产品可能不存在"
-- ❌ "据我所知 X 的规格是..."
-- ✅ "我 `web_fetch` 一下 X 最新状态"
-- ✅ "搜到的权威来源说 X 是 ..."
+**Forbidden phrases** (if you catch yourself about to say one, stop and search):
+- ❌ "I remember X has not launched yet"
+- ❌ "X is currently on version vN" (without a search-backed source)
+- ❌ "This product X may not exist"
+- ❌ "As far as I know, X’s specs are..."
+- ✅ "I’m going to `web_fetch` the current status of X first"
+- ✅ "The authoritative sources I found say X is ..."
 
-**与"品牌资产协议"的关系**：本原则是资产协议的**前提**——先确认产品存在且是什么，再去找它的 logo/产品图/色值。顺序不能反。
+**Relationship to the "brand asset protocol"**: this principle is the **prerequisite** for the asset protocol. First confirm the product exists and what it actually is, then find its logo / product imagery / brand colors. Do not reverse the order.
 
 ---
 
-## 核心哲学（优先级从高到低）
+## Core Philosophy (from highest to lowest priority)
 
-### 1. 从existing context出发，不要凭空画
+### 1. Start from existing context. Do not invent from a vacuum.
 
-好的hi-fi设计**一定**是从已有上下文长出来的。先问用户是否有design system/UI kit/codebase/Figma/截图。**凭空做hi-fi是last resort，一定会产出generic的作品**。如果用户说没有，先帮他去找（看项目里有没有，看有没有参考品牌）。
+Strong hi-fi design **must** grow from existing context. Ask first whether the user has a design system, UI kit, codebase, Figma file, or screenshots. **Inventing hi-fi from scratch is a last resort and will almost always produce generic work**. If the user says they have nothing, help find context first by checking the project or identifying reference brands.
 
-**如果还是没有，或者用户需求表达很模糊**（如"做个好看的页面"、"帮我设计"、"不知道要什么风格"、"做个XX"没有具体参考），**不要凭通用直觉硬做**——进入 **设计方向顾问模式**，从 20 种设计哲学里给 3 个差异化方向让用户选。完整流程见下方「设计方向顾问（Fallback 模式）」大节。
+**If there is still no context, or if the brief is vague** (for example, "make it look good", "design something", "I do not know what style I want", or "make an XX" with no references), **do not force a generic solution from instinct**. Switch into **Design Direction Consultant Mode** and offer 3 differentiated directions from the 20-design-philosophy library. See the major section below: **Design Direction Consultant (Fallback Mode)**.
 
-#### 1.a 核心资产协议（涉及具体品牌时强制执行）
+#### 1.a Core Asset Protocol (mandatory for specific brands)
 
-> **这是 v1 最核心的约束，也是稳定性的生命线。** Agent 是否走通这个协议，直接决定输出质量是 40 分还是 90 分。不要跳过任何一步。
+> **This is the most important constraint in v1 and the foundation of reliability.** Whether the agent follows this protocol determines whether the output lands at 40/100 or 90/100 quality. Do not skip steps.
 >
-> **v1.1 重构（2026-04-20）**：从「品牌资产协议」升级为「核心资产协议」。之前的版本过度聚焦色值和字体，漏掉了设计中最基础的 logo / 产品图 / UI 截图。核心原则：「除了所谓的品牌色，显然我们应该找到并且用上品牌的 logo，用上产品图。如果是网站或者 app 等非实体产品的话，logo 至少该是必须的。这可能是比所谓的品牌设计的 spec 更重要的基本逻辑。否则，我们在表达什么呢？」
+> **v1.1 rewrite (2026-04-20)**: upgraded from the "Brand Asset Protocol" to the "Core Asset Protocol." The older version over-focused on colors and fonts and missed the fundamentals: logo / product imagery / UI screenshots. Core principle: "Beyond so-called brand colors, we obviously need the brand’s logo and the product imagery. If it is a website or app rather than a physical product, the logo is at least mandatory. That may be a more basic and important logic than so-called brand specs. Otherwise, what exactly are we expressing?"
 
-**触发条件**：任务涉及具体品牌——用户提了产品名/公司名/明确客户（Stripe、Linear、Anthropic、Notion、Lovart、DJI、自家公司等），不论用户是否主动提供了品牌资料。
+**Trigger condition**: the task involves a specific brand. The user names a product, company, or explicit client (Stripe, Linear, Anthropic, Notion, Lovart, DJI, their own company, etc.), regardless of whether they proactively provided brand assets.
 
-**前置硬条件**：走协议前必须已通过「#0 事实验证先于假设」确认品牌/产品存在且状态已知。如果你还不确定产品是否已发布/规格/版本，先回去搜。
+**Hard prerequisite**: before entering this protocol, you must already have satisfied **#0 Verify Facts Before Assumptions** and confirmed the brand/product exists and what its current state is. If you still do not know whether the product is released, what version it is, or what the specs are, go back and search.
 
-##### 核心理念：资产 > 规范
+##### Core idea: assets > guidelines
 
-**品牌的本质是「它被认出来」**。认出来靠什么？按识别度排序：
+**The essence of a brand is recognizability.** What creates recognition? Ranked by identification power:
 
-| 资产类型 | 识别度贡献 | 必需性 |
+| Asset Type | Contribution to Recognition | Required? |
 |---|---|---|
-| **Logo** | 最高 · 任何品牌出现 logo 就一眼识别 | **任何品牌都必须有** |
-| **产品图/产品渲染图** | 极高 · 实体产品的"主角"就是产品本身 | **实体产品（硬件/包装/消费品）必须有** |
-| **UI 截图/界面素材** | 极高 · 数字产品的"主角"是它的界面 | **数字产品（App/网站/SaaS）必须有** |
-| **色值** | 中 · 辅助识别，脱离前三项时经常撞衫 | 辅助 |
-| **字体** | 低 · 需配合前述才能建立识别 | 辅助 |
-| **气质关键词** | 低 · agent 自检用 | 辅助 |
+| **Logo** | Highest. A visible logo makes the brand instantly recognizable. | **Mandatory for every brand** |
+| **Product imagery / renders** | Very high. For physical products, the product itself is the protagonist. | **Mandatory for physical products (hardware / packaging / consumer goods)** |
+| **UI screenshots / interface assets** | Very high. For digital products, the interface is the protagonist. | **Mandatory for digital products (apps / websites / SaaS)** |
+| **Color values** | Medium. Supportive recognition; easily collides with other brands when used alone. | Supportive |
+| **Typography** | Low. Needs the assets above to establish brand identity. | Supportive |
+| **Mood keywords** | Low. Mostly for agent self-checking. | Supportive |
 
-**翻译成执行规则**：
-- 只抽色值 + 字体、不找 logo / 产品图 / UI → **违反本协议**
-- 用 CSS 剪影/SVG 手画替代真实产品图 → **违反本协议**（生成的就是「通用科技动画」，任何品牌都长一样）
-- 找不到资产不告诉用户、也不 AI 生成，硬做 → **违反本协议**
-- 宁可停下问用户要素材，也不要用 generic 填充
+**Translate that into execution rules:**
+- Extracting only color values + fonts, without finding logo / product imagery / UI, is **a protocol violation**
+- Replacing real product imagery with CSS silhouettes or hand-drawn SVG is **a protocol violation** (you will generate generic tech animation that could belong to any brand)
+- Failing to find assets, not telling the user, and brute-forcing the work anyway is **a protocol violation**
+- It is better to stop and ask the user for assets than to fill the gap with generic fake material
 
-##### 5 步硬流程（每步有 fallback，绝不静默跳过）
+##### The 5-step hard workflow (every step has a fallback, none may be skipped silently)
 
-##### Step 1 · 问（资产清单一次问全）
+##### Step 1 · Ask (request the full asset checklist in one pass)
 
-不要只问「有 brand guidelines 吗？」——太宽泛，用户不知道该给什么。按清单逐项问：
+Do not just ask, "Do you have brand guidelines?" That is too vague. Users often do not know what to send. Ask item by item:
 
 ```
-关于 <brand/product>，你手上有以下哪些资料？我按优先级列：
-1. Logo（SVG / 高清 PNG）—— 任何品牌必备
-2. 产品图 / 官方渲染图 —— 实体产品必备（如 DJI Pocket 4 的产品照）
-3. UI 截图 / 界面素材 —— 数字产品必备（如 App 主要页面截图）
-4. 色值清单（HEX / RGB / 品牌色盘）
-5. 字体清单（Display / Body）
-6. Brand guidelines PDF / Figma design system / 品牌官网链接
+For <brand/product>, which of the following do you already have? Listed by priority:
+1. Logo (SVG / high-res PNG) — required for any brand
+2. Product photos / official renders — required for physical products (for example, DJI Pocket 4 product imagery)
+3. UI screenshots / interface assets — required for digital products (for example, screenshots of key app screens)
+4. Color values (HEX / RGB / brand palette)
+5. Font list (Display / Body)
+6. Brand guidelines PDF / Figma design system / official brand website link
 
-有的直接发我，没有的我去搜/抓/生成。
+Send me what you have. For what is missing, I will search / extract / generate it.
 ```
 
-##### Step 2 · 搜官方渠道（按资产类型）
+##### Step 2 · Search official channels (by asset type)
 
-| 资产 | 搜索路径 |
+| Asset | Search Path |
 |---|---|
-| **Logo** | `<brand>.com/brand` · `<brand>.com/press` · `<brand>.com/press-kit` · `brand.<brand>.com` · 官网 header 的 inline SVG |
-| **产品图/渲染图** | `<brand>.com/<product>` 产品详情页 hero image + gallery · 官方 YouTube launch film 截帧 · 官方新闻稿附图 |
-| **UI 截图** | App Store / Google Play 产品页截图 · 官网 screenshots section · 产品官方演示视频截帧 |
-| **色值** | 官网 inline CSS / Tailwind config / brand guidelines PDF |
-| **字体** | 官网 `<link rel="stylesheet">` 引用 · Google Fonts 追踪 · brand guidelines |
+| **Logo** | `<brand>.com/brand` · `<brand>.com/press` · `<brand>.com/press-kit` · `brand.<brand>.com` · inline SVG from the official site header |
+| **Product imagery / renders** | `<brand>.com/<product>` product page hero image + gallery · frames from the official YouTube launch film · images from official press releases |
+| **UI screenshots** | App Store / Google Play product page screenshots · screenshots sections on the official website · frames from official product demo videos |
+| **Color values** | inline CSS on the official site / Tailwind config / brand guideline PDF |
+| **Fonts** | official site `<link rel="stylesheet">` references · Google Fonts tracing · brand guidelines |
 
-`web_fetch` 兜底关键词：
-- Logo 找不到 → `<brand> logo download SVG`、`<brand> press kit`
-- 产品图找不到 → `<brand> <product> official renders`、`<brand> <product> product photography`
-- UI 找不到 → `<brand> app screenshots`、`<brand> dashboard UI`
+Fallback `web_fetch` queries:
+- Cannot find logo -> `<brand> logo download SVG`, `<brand> press kit`
+- Cannot find product imagery -> `<brand> <product> official renders`, `<brand> <product> product photography`
+- Cannot find UI -> `<brand> app screenshots`, `<brand> dashboard UI`
 
-##### Step 3 · 下载资产 · 按类型三条兜底路径
+##### Step 3 · Download assets · three fallback routes by asset type
 
-**3.1 Logo（任何品牌必需）**
+**3.1 Logo (mandatory for every brand)**
 
-三条路径按成功率递减：
-1. 独立 SVG/PNG 文件（最理想）：
+Three routes in descending order of success quality:
+1. Standalone SVG/PNG files (ideal):
    ```bash
    curl -o assets/<brand>-brand/logo.svg https://<brand>.com/logo.svg
    curl -o assets/<brand>-brand/logo-white.svg https://<brand>.com/logo-white.svg
    ```
-2. 官网 HTML 全文提取 inline SVG（80% 场景必用）：
+2. Download full homepage HTML and extract inline SVG from it (necessary in ~80% of cases):
    ```bash
    curl -A "Mozilla/5.0" -L https://<brand>.com -o assets/<brand>-brand/homepage.html
-   # 然后 grep <svg>...</svg> 提取 logo 节点
+   # then grep <svg>...</svg> to extract the logo node
    ```
-3. 官方社交媒体 avatar（最后手段）：GitHub/Twitter/LinkedIn 的公司头像通常是 400×400 或 800×800 透明底 PNG
+3. Official social avatar as the last-resort fallback: GitHub / Twitter / LinkedIn company avatars are often transparent PNGs at 400x400 or 800x800
 
-**3.2 产品图/渲染图（实体产品必需）**
+**3.2 Product imagery / renders (mandatory for physical products)**
 
-按优先级：
-1. **官方产品页 hero image**（最高优先级）：右键查看图片地址 / curl 获取。分辨率通常 2000px+
-2. **官方 press kit**：`<brand>.com/press` 常有高清产品图下载
-3. **官方 launch video 截帧**：用 `yt-dlp` 下载 YouTube 视频，ffmpeg 抽几帧高清图
-4. **Wikimedia Commons**：公共领域常有
-5. **AI 生成兜底**：把真实产品图作为参考，用 AI 图片生成工具生成符合动画场景的变体。**不要用 CSS/SVG 手画代替**
+Priority order:
+1. **Official product-page hero image** (highest priority): inspect the image URL or download it via curl. Resolution is often 2000px+
+2. **Official press kit**: `<brand>.com/press` often provides high-res downloadable product imagery
+3. **Frames from the official launch video**: download the YouTube video with `yt-dlp`, then extract high-res frames with ffmpeg
+4. **Wikimedia Commons**: public-domain fallback when available
+5. **AI-generated fallback**: use real official product imagery as reference and generate scene-compatible variants with an image-generation tool. **Do not replace this with CSS/SVG hand drawing**
 
 ```bash
-# 示例：下载 DJI 官网产品 hero image
+# Example: download a product hero image from DJI's official site
 curl -A "Mozilla/5.0" -L "<hero-image-url>" -o assets/<brand>-brand/product-hero.png
 ```
 
-**3.3 UI 截图（数字产品必需）**
+**3.3 UI screenshots (mandatory for digital products)**
 
-- App Store / Google Play 的产品截图（注意：可能是 mockup 而非真实 UI，要对比）
-- 官网 screenshots section
-- 产品演示视频截帧
-- 产品官方 Twitter/X 的发布截图（常是最新版本）
-- 用户有账号时，直接截屏真实产品界面
+- App Store / Google Play screenshots (note: these may be polished mockups rather than exact UI; compare carefully)
+- Official website screenshots section
+- Frames from product demo videos
+- Launch screenshots from the product’s official Twitter/X account (often the newest version)
+- If the user has an account, capture real product screens directly
 
-**3.4 · 素材质量门槛「5-10-2-8」原则（铁律）**
+**3.4 Asset-quality threshold: the "5-10-2-8" rule (hard law)**
 
-> **Logo 的规则不同于其他素材**。Logo 有就必须用（没有就停下问用户）；其他素材（产品图/UI/参考图/配图）遵循「5-10-2-8」质量门槛。
+> **Logos follow a different rule than other assets.** If a logo exists, use it. If you cannot find it, stop and ask the user. For all other assets (product imagery / UI / references / supporting imagery), use the "5-10-2-8" quality threshold.
 >
-> 核心原则：「我们的原则是搜索 5 轮，找到 10 个素材，选择 2 个好的。每个需要评分 8/10 以上，宁可少一些，也不为了完成任务滥竽充数。」
+> Core principle: "Search 5 rounds, collect 10 candidates, choose 2 good ones. Every selected asset must score at least 8/10. Better to have fewer assets than to pad the work with weak material."
 
-| 维度 | 标准 | 反模式 |
+| Dimension | Standard | Anti-pattern |
 |---|---|---|
-| **5 轮搜索** | 多渠道交叉搜（官网 / press kit / 官方社媒 / YouTube 截帧 / Wikimedia / 用户账号截屏），不是一轮抓前 2 个就停 | 第一页结果直接用 |
-| **10 个候选** | 至少凑 10 个备选才开始筛 | 只抓 2 个，没得选 |
-| **选 2 个好的** | 从 10 个里精选 2 个作为最终素材 | 全都用 = 视觉过载 + 品位稀释 |
-| **每个 8/10 分以上** | 不够 8 分**宁可不用**，用诚实 placeholder（灰块+文字标签）或 AI 图片生成（以官方参考为基底）| 凑数 7 分素材进 brand-spec.md |
+| **5 search rounds** | Search across multiple channels (official site / press kit / official social / YouTube frame grabs / Wikimedia / user screenshots), not just one quick pass | Using the first two images from the first results page |
+| **10 candidates** | Gather at least 10 options before selecting | Only collecting 2, which leaves you nothing to choose from |
+| **Choose 2 good ones** | Curate 2 final assets from the 10 | Using all of them = visual overload + diluted taste |
+| **Every chosen asset scores 8/10+** | If it is not 8/10, **do not use it**. Use an honest placeholder (gray block + label) or AI image generation based on official reference imagery instead. | Stuffing a 7/10 filler asset into `brand-spec.md` |
 
-**8/10 评分维度**（打分时记录在 `brand-spec.md`）：
+**8/10 scoring dimensions** (record scores in `brand-spec.md`):
 
-1. **分辨率** · ≥2000px（印刷/大屏场景 ≥3000px）
-2. **版权清晰度** · 官方来源 > 公共领域 > 免费素材 > 疑似盗图（疑似盗图直接 0 分）
-3. **与品牌气质契合度** · 和 brand-spec.md 里的「气质关键词」一致
-4. **光线/构图/风格一致性** · 2 个素材放一起不打架
-5. **独立叙事能力** · 能单独表达一个叙事角色（不是装饰）
+1. **Resolution** · >=2000px (>=3000px for print / large-screen work)
+2. **Copyright clarity** · official source > public domain > free stock > suspiciously scraped image (suspiciously scraped = immediate 0)
+3. **Fit with brand tone** · aligned with the mood keywords recorded in `brand-spec.md`
+4. **Consistency of lighting / composition / style** · the chosen 2 assets should not visually fight each other
+5. **Independent narrative value** · each asset should be able to carry a narrative role on its own rather than serving as decoration only
 
-**为什么这个门槛是铁律**：
-- 核心哲学：**宁缺毋滥**。滥竽充数的素材比没有更糟——污染视觉品味、传递「不专业」信号
-- **「一个细节做到 120%，其他做到 80%」的量化版**：8 分是"其他 80%" 的底线，真正 hero 素材要 9-10 分
-- 消费者看作品时，每一个视觉元素都在**积分或扣分**。7 分素材 = 扣分项，不如留空
+**Why this threshold is non-negotiable:**
+- Core philosophy: **better missing than noisy**. Weak filler assets are worse than no asset at all. They pollute visual taste and signal unprofessionalism.
+- It is the quantified version of **"one detail at 120%, the rest at 80%"**. A score of 8 is the minimum floor for the "other 80%." Hero assets should be 9-10.
+- When people view the work, every visual element either adds points or subtracts points. A 7-point asset subtracts points. Empty space is better.
 
-**Logo 例外**（重申）：有就必须用，不适用「5-10-2-8」。因为 logo 不是「多选一」问题，而是「识别度根基」问题——就算 logo 本身只有 6 分，也比没有 logo 强 10 倍。
+**Logo exception** (repeated because it matters): if the logo exists, it must be used. The logo does **not** follow the "5-10-2-8" rule because this is not a multi-choice curation problem. It is the foundation of recognizability. Even a mediocre 6/10 logo is still 10x better than having no logo at all.
 
-##### Step 4 · 验证 + 提取（不只是 grep 色值）
+##### Step 4 · Validate + extract (not just grep color values)
 
-| 资产 | 验证动作 |
+| Asset | Validation Action |
 |---|---|
-| **Logo** | 文件存在 + SVG/PNG 可打开 + 至少两个版本（深底/浅底用）+ 透明背景 |
-| **产品图** | 至少一张 2000px+ 分辨率 + 去背或干净背景 + 多个角度（主视角、细节、场景） |
-| **UI 截图** | 分辨率真实（1x / 2x）+ 是最新版本（不是旧版）+ 无用户数据污染 |
-| **色值** | `grep -hoE '#[0-9A-Fa-f]{6}' assets/<brand>-brand/*.{svg,html,css} \| sort \| uniq -c \| sort -rn \| head -20`，过滤黑白灰 |
+| **Logo** | File exists + SVG/PNG opens correctly + at least two versions (for dark and light backgrounds) + transparent background |
+| **Product imagery** | At least one 2000px+ image + cutout or clean background + multiple angles (main view, detail, context) |
+| **UI screenshots** | Real resolution (1x / 2x) + latest version (not outdated UI) + no user-data contamination |
+| **Color values** | `grep -hoE '#[0-9A-Fa-f]{6}' assets/<brand>-brand/*.{svg,html,css} \| sort \| uniq -c \| sort -rn \| head -20`, then filter out black/white/grays |
 
-**警惕示范品牌污染**：产品截图里常有用户 demo 的品牌色（如某工具截图演示喜茶红），那不是该工具的色。**同时出现两种强色时必须区分**。
+**Watch for demo-brand contamination**: product screenshots often contain demo content from another brand (for example, a dashboard screenshot featuring a red Heytea example). That is **not** the tool’s own brand color. **If two strong colors appear simultaneously, you must distinguish them.**
 
-**品牌多切面**：同一品牌的官网营销色和产品 UI 色经常不同（Lovart 官网暖米+橙，产品 UI 是 Charcoal + Lime）。**两套都是真的**——根据交付场景选合适的切面。
+**Brands have multiple valid facets**: the website marketing palette and product UI palette are often different (for example, Lovart’s site may be warm beige + orange while the product UI is Charcoal + Lime). **Both are real**. Choose the facet that matches the delivery context.
 
-##### Step 5 · 固化为 `brand-spec.md` 文件（模板必须覆盖所有资产）
+##### Step 5 · Lock everything into `brand-spec.md` (template must cover all asset types)
 
 ```markdown
 # <Brand> · Brand Spec
-> 采集日期：YYYY-MM-DD
-> 资产来源：<列出下载来源>
-> 资产完整度：<完整 / 部分 / 推断>
+> Collection date: YYYY-MM-DD
+> Asset sources: <list download sources>
+> Asset completeness: <complete / partial / inferred>
 
-## 🎯 核心资产（一等公民）
+## 🎯 Core Assets (first-class citizens)
 
 ### Logo
-- 主版本：`assets/<brand>-brand/logo.svg`
-- 浅底反色版：`assets/<brand>-brand/logo-white.svg`
-- 使用场景：<片头/片尾/角落水印/全局>
-- 禁用变形：<不能拉伸/改色/加描边>
+- Primary version: `assets/<brand>-brand/logo.svg`
+- Light-background reverse version: `assets/<brand>-brand/logo-white.svg`
+- Use cases: <intro / outro / corner watermark / global>
+- Forbidden distortions: <no stretching / recoloring / outline>
 
-### 产品图（实体产品必填）
-- 主视角：`assets/<brand>-brand/product-hero.png`（2000×1500）
-- 细节图：`assets/<brand>-brand/product-detail-1.png` / `product-detail-2.png`
-- 场景图：`assets/<brand>-brand/product-scene.png`
-- 使用场景：<特写/旋转/对比>
+### Product Imagery (required for physical products)
+- Main view: `assets/<brand>-brand/product-hero.png` (2000x1500)
+- Detail shots: `assets/<brand>-brand/product-detail-1.png` / `product-detail-2.png`
+- Context shot: `assets/<brand>-brand/product-scene.png`
+- Use cases: <close-up / rotation / comparison>
 
-### UI 截图（数字产品必填）
-- 主页：`assets/<brand>-brand/ui-home.png`
-- 核心功能：`assets/<brand>-brand/ui-feature-<name>.png`
-- 使用场景：<产品展示/Dashboard 渐现/对比演示>
+### UI Screenshots (required for digital products)
+- Home screen: `assets/<brand>-brand/ui-home.png`
+- Core feature: `assets/<brand>-brand/ui-feature-<name>.png`
+- Use cases: <product showcase / dashboard reveal / comparison demo>
 
-## 🎨 辅助资产
+## 🎨 Supporting Assets
 
-### 色板
-- Primary: #XXXXXX  <来源标注>
+### Color Palette
+- Primary: #XXXXXX  <source note>
 - Background: #XXXXXX
 - Ink: #XXXXXX
 - Accent: #XXXXXX
-- 禁用色: <品牌明确不用的色系>
+- Forbidden colors: <families the brand explicitly does not use>
 
-### 字型
+### Typography
 - Display: <font stack>
 - Body: <font stack>
-- Mono（数据 HUD 用）: <font stack>
+- Mono (for data HUD): <font stack>
 
-### 签名细节
-- <哪些细节是「120% 做到」的>
+### Signature Details
+- <which details should be executed at 120%>
 
-### 禁区
-- <明确不能做的：比如 Lovart 不用蓝色、Stripe 不用低饱和暖色>
+### No-Go Zones
+- <clear things that must not happen, for example Lovart should not use blue; Stripe should not use low-saturation warm tones>
 
-### 气质关键词
-- <3-5 个形容词>
+### Mood Keywords
+- <3-5 adjectives>
 ```
 
-**写完 spec 后的执行纪律（硬要求）**：
-- 所有 HTML 必须**引用** `brand-spec.md` 里的资产文件路径，不允许用 CSS 剪影/SVG 手画代替
-- Logo 作为 `<img>` 引用真实文件，不重画
-- 产品图作为 `<img>` 引用真实文件，不用 CSS 剪影代替
-- CSS 变量从 spec 注入：`:root { --brand-primary: ...; }`，HTML 只用 `var(--brand-*)`
-- 这让品牌一致性从「靠自觉」变成「靠结构」——想临时加色要先改 spec
+**Execution discipline after the spec is written (hard requirement):**
+- Every HTML file must **reference** the asset file paths listed in `brand-spec.md`; do not replace them with CSS silhouettes or hand-drawn SVG
+- Use the real logo file via `<img>`, do not redraw it
+- Use the real product imagery via `<img>`, do not replace it with a CSS silhouette
+- Inject CSS variables from the spec: `:root { --brand-primary: ...; }`, and only consume them with `var(--brand-*)`
+- This changes brand consistency from something that depends on discipline into something enforced by structure. If you want to add a new color, you must update the spec first.
 
-##### 全流程失败的兜底
+##### Fallback when the full process fails
 
-按资产类型分别处理：
+Handle each missing asset type separately:
 
-| 缺失 | 处理 |
+| Missing Asset | Handling |
 |---|---|
-| **Logo 完全找不到** | **停下问用户**，不要硬做（logo 是品牌识别度的根基） |
-| **产品图（实体产品）找不到** | 优先 AI 图片生成（以官方参考图为基底）→ 次选向用户索取 → 最后才是诚实 placeholder（灰块+文字标签，明确标注"产品图待补"） |
-| **UI 截图（数字产品）找不到** | 向用户索取自己账号的截屏 → 官方演示视频截帧。不用 mockup 生成器凑 |
-| **色值完全找不到** | 按「设计方向顾问模式」走，向用户推荐 3 个方向并标注 assumption |
+| **Logo cannot be found at all** | **Stop and ask the user**. Do not brute-force past it. The logo is the base layer of recognition. |
+| **Product imagery cannot be found (physical product)** | Prefer AI image generation based on official reference imagery -> second choice: ask the user to provide it -> last choice: an honest placeholder (gray block + text label, explicitly marked "product image pending") |
+| **UI screenshots cannot be found (digital product)** | Ask the user for screenshots from their own account -> or extract frames from official product demos. Do not use fake mockup generators as filler. |
+| **Color values cannot be found at all** | Switch to **Design Direction Consultant Mode**, recommend 3 directions, and label the assumptions clearly |
 
-**禁止**：找不到资产就静默用 CSS 剪影/通用渐变硬做——这是协议最大的反 pattern。**宁可停下问，也不要凑**。
+**Forbidden**: silently falling back to CSS silhouettes or generic gradients just to keep moving. That is the worst anti-pattern in the protocol. **Better to stop and ask than to fake it.**
 
-##### 反例（真实踩过的坑）
+##### Counterexamples (real failures)
 
-- **Kimi 动画**：凭记忆猜「应该是橙色」，实际 Kimi 是 `#1783FF` 蓝色——返工一遍
-- **Lovart 设计**：把产品截图里演示品牌的喜茶红当成 Lovart 自己的色——差点毁整个设计
-- **DJI Pocket 4 发布动画（2026-04-20，触发本协议升级的真实案例）**：走了旧版只抽色值的协议，没下载 DJI logo、没找 Pocket 4 产品图，用 CSS 剪影代替产品——做出来是「通用黑底+橙 accent 的科技动画」，没有大疆识别度。教训：「否则，我们在表达什么呢？」→ 协议升级。
-- 抽完色没写进 brand-spec.md，第三页就忘了主色数值，临场加了个「接近但不是」的 hex——品牌一致性崩溃
+- **Kimi animation**: I guessed from memory that it was "probably orange." In reality Kimi’s primary brand color was `#1783FF` blue. Full rework.
+- **Lovart design**: I almost treated the red from a demo brand inside a product screenshot as Lovart’s own brand color. That would have poisoned the whole design.
+- **DJI Pocket 4 launch animation (2026-04-20, the real case that triggered this protocol upgrade)**: I followed the old protocol that only extracted color values, did not download the DJI logo, did not find Pocket 4 product imagery, and used a CSS silhouette as the product stand-in. The result was just a generic black-background + orange-accent tech animation with zero DJI recognizability. Lesson: "Otherwise, what exactly are we expressing?" -> protocol upgraded.
+- I extracted colors but did not write them into `brand-spec.md`, then by page 3 I had forgotten the exact primary hex and improvised something "close enough but not actually correct." Brand consistency collapsed.
 
-##### 协议代价 vs 不做代价
+##### Cost of the protocol vs cost of skipping it
 
-| 场景 | 时间 |
+| Scenario | Time |
 |---|---|
-| 正确走完协议 | 下载 logo 5 min + 下载 3-5 张产品图/UI 10 min + grep 色值 5 min + 写 spec 10 min = **30 分钟** |
-| 不做协议的代价 | 做出没识别度的通用动画 → 用户返工 1-2 小时，甚至重做 |
+| Follow the protocol correctly | Download logo 5 min + download 3-5 product/UI assets 10 min + grep color values 5 min + write spec 10 min = **30 minutes** |
+| Cost of skipping the protocol | Produce a generic, unrecognizable animation -> user requests rework for 1-2 hours, sometimes a full rebuild |
 
-**这是稳定性最便宜的投资**。尤其对商单/发布会/重要客户项目，30 分钟的资产协议是保命钱。
+**This is the cheapest investment in reliability you can make.** Especially for client work, launches, or important brand projects, 30 minutes of asset protocol work is cheap insurance.
 
-### 2. Junior Designer模式：先展示假设，再执行
+### 2. Junior Designer mode: show assumptions first, execute second
 
-你是manager的junior designer。**不要一头扎进去闷头做大招**。HTML文件的开头先写下你的assumptions + reasoning + placeholders，**尽早show给用户**。然后：
-- 用户确认方向后，再写React组件填placeholder
-- 再show一次，让用户看进度
-- 最后迭代细节
+You are the manager’s junior designer. **Do not disappear into a cave and come back with a big reveal.** At the top of the HTML file, write down your assumptions + reasoning + placeholders, and **show them to the user early**. Then:
+- After the user confirms the direction, write the React components and fill the placeholders
+- Show progress again
+- Iterate the details at the end
 
-这个模式的底层逻辑是：**理解错了早改比晚改便宜100倍**。
+The underlying logic is simple: **fixing a misunderstanding early is 100x cheaper than fixing it late**.
 
-### 3. 给variations，不给「最终答案」
+### 3. Give variations, not a single "final answer"
 
-用户要你设计，不要给一个完美方案——给3+个变体，跨不同维度（视觉/交互/色彩/布局/动画），**从by-the-book到novel逐级递进**。让用户mix and match。
+If the user asks for design, do not hand them one supposedly perfect solution. Give them 3+ variants across different dimensions (visual / interaction / color / layout / motion), **progressing from by-the-book to more novel options**. Let the user mix and match.
 
-实现方式：
-- 纯视觉对比 → 用`design_canvas.jsx`并排展示
-- 交互流程/多选项 → 做完整原型，把选项做成Tweaks
+Implementation paths:
+- Pure visual comparison -> use `design_canvas.jsx` to show variants side by side
+- Interaction flows / multiple options -> build the full prototype and expose options via Tweaks
 
-### 4. Placeholder > 烂实现
+### 4. Placeholder > bad implementation
 
-没图标就留灰色方块+文字标签，别画烂SVG。没数据就写`<!-- 等用户提供真实数据 -->`，别编造看起来像数据的假数据。**Hi-fi里，一个诚实的placeholder比一个拙劣的真实尝试好10倍**。
+If you do not have an icon, leave a gray block with a text label. Do not draw a bad SVG. If you do not have the data, write `<!-- waiting for real data from user -->`. Do not invent fake data that only looks plausible. **In hi-fi work, an honest placeholder is 10x better than a clumsy fake-real implementation.**
 
-### 5. 系统优先，不要填充
+### 5. System first, filler never
 
-**Don't add filler content**。每个元素都必须earn its place。空白是设计问题，用构图解决，不是靠编造内容填满。**One thousand no's for every yes**。尤其警惕：
-- 「data slop」——没用的数字、图标、stats装饰
-- 「iconography slop」——每个标题都配icon
-- 「gradient slop」——所有背景都渐变
+**Do not add filler content.** Every element must earn its place. Empty space is a design problem to solve with composition, not with invented content. **One thousand no’s for every yes.** Especially watch for:
+- `data slop` — useless numbers, icons, or stats used as decoration
+- `iconography slop` — every heading paired with an icon for no reason
+- `gradient slop` — gradients on every background
 
-### 6. 反AI slop（重要，必读）
+### 6. Anti-AI Slop (important, must read)
 
-#### 6.1 什么是 AI slop？为什么要反？
+#### 6.1 What is AI slop, and why fight it?
 
-**AI slop = AI 训练语料里最常见的"视觉最大公约数"**。
-紫渐变、emoji 图标、圆角卡片+左 border accent、SVG 画人脸——这些东西之所以是 slop，不是因为它们本身丑，而是因为**它们是 AI 默认模式下的产物，不携带任何品牌信息**。
+**AI slop = the most common visual lowest common denominator from AI training data.**
+Purple gradients, emoji icons, rounded cards with left-border accents, SVG illustrations of faces—these are slop not because they are inherently ugly, but because **they are what AI defaults to when it has no brand-specific grounding**.
 
-**规避 slop 的逻辑链**：
-1. 用户请你做设计，是要**他的品牌被认出来**
-2. AI 默认产出 = 训练语料的平均 = 所有品牌混合 = **没有任何品牌被认出来**
-3. 所以 AI 默认产出 = 帮用户把品牌稀释成"又一个 AI 做的页面"
-4. 反 slop 不是审美洁癖，是**替用户保护品牌识别度**
+**The logic chain for avoiding slop:**
+1. The user asks you to design something because they want **their brand to be recognizable**
+2. AI default output = average of training data = all brands mixed together = **no brand is recognizable**
+3. So AI default output = turning the user’s brand into "yet another AI-made page"
+4. Fighting slop is not aesthetic snobbery. It is **protecting the user’s brand recognizability**
 
-这也是为什么 §1.a 品牌资产协议是 v1 最硬的约束——**服从规范是反 slop 的正向方式**（对的事），清单只是反 slop 的反向方式（不做错的事）。
+That is also why §1.a Core Asset Protocol is the hardest constraint in v1: **following the right protocol is the positive form of anti-slop** (doing the right thing), while the checklist is only the negative form (avoiding obvious mistakes).
 
-#### 6.2 核心要规避的（带"为什么"）
+#### 6.2 Core things to avoid (with reasons)
 
-| 元素 | 为什么是 slop | 什么情况可以用 |
+| Element | Why it is slop | When it can be used |
 |------|-------------|---------------|
-| 激进紫色渐变 | AI 训练语料里"科技感"的万能公式，出现在 SaaS/AI/web3 每一个落地页 | 品牌本身用紫渐变（如 Linear 某些场景）、或任务就是讽刺/展示这类 slop |
-| Emoji 作图标 | 训练语料里每个 bullet 都配 emoji，是"不够专业就用 emoji 凑"的病 | 品牌本身用（如 Notion），或产品受众是儿童/轻松场景 |
-| 圆角卡片 + 左彩色 border accent | 2020-2024 Material/Tailwind 时期的烂大街组合，已成视觉噪音 | 用户明确要求、或这个组合在品牌 spec 里被保留 |
-| SVG 画 imagery（人脸/场景/物品）| AI 画的 SVG 人物永远五官错位，比例诡异 | **几乎没有**——有图就用真图（Wikimedia/Unsplash/AI 生成），没图就留诚实 placeholder |
-| **CSS 剪影/SVG 手画代替真实产品图** | 生成的就是「通用科技动画」——黑底+橙 accent+圆角长条，任何实体产品都长一样，品牌识别度归零（DJI Pocket 4 实测 2026-04-20）| **几乎没有**——先走核心资产协议找真实产品图；真没有时用 AI 图片生成以官方参考图为基底；实在不行标诚实 placeholder 告诉用户"产品图待补" |
-| Inter/Roboto/Arial/system fonts 作 display | 太常见，读者看不出这是"有设计的产品"还是"demo 页" | 品牌 spec 明确用这些字体（Stripe 用 Sohne/Inter 变体，但是经过微调的） |
-| 赛博霓虹 / 深蓝底 `#0D1117` | GitHub dark mode 美学的烂大街复制 | 开发者工具产品且品牌本身走这方向 |
+| Aggressive purple gradients | The universal formula for "tech vibes" in AI training data, repeated across SaaS / AI / web3 landing pages | Only if the brand itself uses purple gradients (for example, some Linear contexts), or the task is specifically parody / critique |
+| Emoji as icons | The "every bullet needs an emoji" disease from generic AI output, often used to fake professionalism | Only if the brand itself uses them (for example, Notion), or the audience is children / a deliberately playful context |
+| Rounded cards + left colored border accent | An overused 2020-2024 Material/Tailwind combo that has become pure visual noise | Only if the user explicitly requests it, or the brand spec preserves it |
+| SVG-drawn imagery (faces / scenes / objects) | AI-drawn SVG people almost always have broken proportions and uncanny details | **Almost never**—if imagery is needed, use real images (Wikimedia / Unsplash / AI-generated images). If unavailable, use an honest placeholder. |
+| **CSS silhouettes / hand-drawn SVG replacing real product imagery** | You get a generic tech animation: black background + orange accent + rounded bars. Every hardware product starts to look the same. Brand recognition drops to zero. (Validated with DJI Pocket 4 on 2026-04-20.) | **Almost never**—follow the Core Asset Protocol first to find real product imagery. If that fails, generate AI imagery based on official reference. If that still fails, label an honest placeholder: "product image pending." |
+| Inter / Roboto / Arial / system fonts as display type | Too common. The reader cannot tell whether this is a designed artifact or a generic demo page. | Only if the brand spec explicitly uses them (for example, Stripe uses a refined Sohne/Inter-adjacent setup) |
+| Cyber neon / deep blue `#0D1117` backgrounds | A stale copy of GitHub-dark-mode aesthetics | Only if the product is a developer tool and the brand genuinely lives there |
 
-**判断边界**：「品牌本身用」是唯一能合法破例的理由。品牌 spec 里明写了用紫渐变，那就用——此时它不再是 slop，是品牌签名。
+**Boundary rule**: "The brand itself uses it" is the only legitimate reason for an exception. If the brand spec explicitly calls for a purple gradient, then it is not slop anymore. It is a brand signature.
 
-#### 6.3 正向做什么（带"为什么"）
+#### 6.3 What to do instead (with reasons)
 
-- ✅ `text-wrap: pretty` + CSS Grid + 高级 CSS：排版细节是 AI 分不清的"品味税"，会用这些的 agent 看起来像真设计师
-- ✅ 用 `oklch()` 或 spec 里已有的色，**不凭空发明新颜色**：所有临场发明的色都会让品牌识别度下降
-- ✅ 配图优先 AI 生成（Gemini / Flash / Lovart），HTML 截图仅在精确数据表格时用：AI 生成的图比 SVG 手画准确，比 HTML 截图有质感
-- ✅ 文案用「」引号不用 ""：中文排印规范，也是"有审校过"的细节信号
-- ✅ 一个细节做到 120%，其他做到 80%：品味 = 在合适的地方足够精致，不是均匀用力
+- ✅ `text-wrap: pretty` + CSS Grid + advanced CSS: typography detail is a taste tax AI rarely pays. An agent who uses these well starts to look like a real designer.
+- ✅ Use `oklch()` or colors already present in the spec. **Do not invent new colors on the fly.** Every improvised color weakens brand recognition.
+- ✅ Prefer AI-generated imagery (Gemini / Flash / Lovart) for supporting visuals, and use HTML screenshots only for precise data tables. AI-generated imagery is more accurate than hand-drawn SVG and more textured than HTML screenshots.
+- ✅ In Chinese copy, use 「」 quotation marks rather than straight quotes. It signals proper typesetting and editorial care.
+- ✅ Execute one detail at 120% and the rest at 80%. Taste comes from concentrating refinement where it matters, not from forcing equal polish everywhere.
 
-#### 6.4 反例隔离（演示型内容）
+#### 6.4 Isolate counterexamples (for demonstrative content)
 
-当任务本身就要展示反设计（如本任务就是讲"什么是 AI slop"、或对比评测），**不要整页堆 slop**，而是用**诚实的 bad-sample 容器**隔离——加虚线边框 + "反例 · 不要这样做" 角标，让反例服务于叙事而不是污染页面主调。
+If the task itself is about showing bad design—such as explaining what AI slop is, or running a comparison—**do not flood the whole page with slop**. Isolate it inside an **honest bad-sample container** with a dashed border and a corner label like "Counterexample · do not do this," so the bad example serves the narrative rather than contaminating the entire page.
 
-这不是硬规则（不做成模板），是原则：**反例要看得出是反例，不是让页面真的变成 slop**。
+This is not a hard template rule. It is a principle: **counterexamples should read clearly as counterexamples, not turn the whole page into actual slop**.
 
-完整清单见 `references/content-guidelines.md`。
+Full checklist: `references/content-guidelines.md`.
 
-## 设计方向顾问（Fallback 模式）
+## Design Direction Consultant (Fallback Mode)
 
-**什么时候触发**：
-- 用户需求模糊（"做个好看的"、"帮我设计"、"这个怎么样"、"做个XX"没有具体参考）
-- 用户明确要"推荐风格"、"给几个方向"、"选个哲学"、"想看不同风格"
-- 项目和品牌没有任何 design context（既没有 design system，又找不到参考）
-- 用户主动说"我也不知道要什么风格"
+**When to trigger it:**
+- The brief is vague ("make it look good", "help me design this", "what do you think of this", "make an XX" with no concrete reference)
+- The user explicitly wants style recommendations, multiple directions, philosophy options, or different style explorations
+- The project / brand has no design context at all (no design system and no references to mine)
+- The user says directly, "I do not know what style I want"
 
-**什么时候 skip**：
-- 用户已经给了明确的风格参考（Figma / 截图 / 品牌规范）→ 直接走「核心哲学 #1」主干流程
-- 用户已经说清楚要什么（"做个 Apple Silicon 风格的发布会动画"）→ 直接进 Junior Designer 流程
-- 小修小补、明确的工具调用（"帮我把这段 HTML 变成 PDF"）→ skip
+**When to skip it:**
+- The user already provided clear style references (Figma / screenshots / brand guidelines) -> go straight into the main **Core Philosophy #1** workflow
+- The user already specified the direction clearly (for example, "make an Apple Silicon style launch animation") -> go straight into the Junior Designer workflow
+- Small fixes or explicit utility tasks (for example, "turn this HTML into a PDF") -> skip
 
-不确定就用最轻量版：**列出 3 个差异化方向让用户二选一，不展开不生成**——尊重用户节奏。
+If you are unsure, use the lightest version: **list 3 differentiated directions and let the user choose 1-2**, without expanding them or generating anything yet. Respect the user’s pace.
 
-### 完整流程（8 个 Phase，顺序执行）
+### Full process (8 phases, execute in order)
 
-**Phase 1 · 深度理解需求**
-提问（一次最多 3 个）：目标受众 / 核心信息 / 情感基调 / 输出格式。需求已清晰则跳过。
+**Phase 1 · Deeply understand the brief**
+Ask at most 3 questions at a time: target audience / core message / emotional tone / output format. Skip if already clear.
 
-**Phase 2 · 顾问式重述**（100-200 字）
-用自己的话重述本质需求、受众、场景、情感基调。以「基于这个理解，我为你准备了 3 个设计方向」结尾。
+**Phase 2 · Consultant-style reframing** (100-200 words)
+Restate the essential brief, audience, context, and emotional tone in your own words. End with: "Based on that understanding, I prepared 3 design directions for you."
 
-**Phase 3 · 推荐 3 套设计哲学**（必须差异化）
+**Phase 3 · Recommend 3 design philosophies** (must be differentiated)
 
-每个方向必须：
-- **含设计师/机构名**（如「Kenya Hara 式东方极简」，不是只说「极简主义」）
-- 50-100 字解释「为什么这个设计师适合你」
-- 3-4 条标志性视觉特征 + 3-5 个气质关键词 + 可选代表作
+Each direction must:
+- **Include a designer or studio name** (for example, "Kenya Hara-style Eastern minimalism," not just "minimalism")
+- Explain in 50-100 words **why this designer is appropriate for the brief**
+- Include 3-4 signature visual traits + 3-5 mood keywords + optional notable reference works
 
-**差异化规则**（必守）：3 个方向**必须来自 3 个不同流派**，形成明显视觉反差：
+**Differentiation rule** (mandatory): the 3 directions **must come from 3 different schools** so the contrast is visually obvious:
 
-| 流派 | 视觉气质 | 适合作为 |
+| School | Visual Character | Good For |
 |------|---------|---------|
-| 信息建筑派（01-04） | 理性、数据驱动、克制 | 安全/专业选择 |
-| 运动诗学派（05-08） | 动感、沉浸、技术美学 | 大胆/前卫选择 |
-| 极简主义派（09-12） | 秩序、留白、精致 | 安全/高端选择 |
-| 实验先锋派（13-16） | 先锋、生成艺术、视觉冲击 | 大胆/创新选择 |
-| 东方哲学派（17-20） | 温润、诗意、思辨 | 差异化/独特选择 |
+| Information Architecture (01-04) | Rational, data-driven, restrained | Safe / professional choice |
+| Motion Poetics (05-08) | Dynamic, immersive, techno-aesthetic | Bold / forward-looking choice |
+| Minimalism (09-12) | Orderly, spacious, refined | Safe / premium choice |
+| Experimental Avant-Garde (13-16) | Provocative, generative, high visual impact | Bold / innovative choice |
+| Eastern Philosophy (17-20) | Gentle, poetic, contemplative | Distinctive / unique choice |
 
-❌ **禁止从同一流派推荐 2 个以上** — 差异化不够用户看不出区别。
+❌ **Do not recommend more than one direction from the same school** — the contrast will be too weak for the user to feel the difference.
 
-详细 20 种风格库 + AI 提示词模板 → `references/design-styles.md`。
+Detailed 20-style library + AI prompt templates -> `references/design-styles.md`.
 
-**Phase 4 · 展示预制 Showcase 画廊**
+**Phase 4 · Show the prebuilt showcase gallery**
 
-推荐 3 方向后，**立即检查** `assets/showcases/INDEX.md` 是否有匹配的预制样例（8 场景 × 3 风格 = 24 个样例）：
+After recommending the 3 directions, **immediately check** whether `assets/showcases/INDEX.md` includes matching showcase examples (8 scenarios x 3 styles = 24 examples):
 
-| 场景 | 目录 |
+| Scenario | Directory |
 |------|------|
-| 公众号封面 | `assets/showcases/cover/` |
-| PPT 数据页 | `assets/showcases/ppt/` |
-| 竖版信息图 | `assets/showcases/infographic/` |
-| 个人主页 / AI 导航 / AI 写作 / SaaS / 开发文档 | `assets/showcases/website-*/` |
+| WeChat article cover | `assets/showcases/cover/` |
+| PPT data page | `assets/showcases/ppt/` |
+| Vertical infographic | `assets/showcases/infographic/` |
+| Personal homepage / AI navigation / AI writing / SaaS / dev docs | `assets/showcases/website-*/` |
 
-匹配话术：「在启动实时 Demo 之前，先看看这 3 个风格在类似场景的效果 →」然后 Read 对应 .png。
+Suggested phrasing: "Before I build real-time demos, look at how these 3 styles behave in a similar scenario ->" Then read the matching `.png` files.
 
-场景模板按输出类型组织 → `references/scene-templates.md`。
+Scene templates organized by output type -> `references/scene-templates.md`.
 
-**Phase 5 · 生成 3 个视觉 Demo**
+**Phase 5 · Generate 3 visual demos**
 
-> 核心理念：**看到比说到更有效。** 别让用户凭文字想象，直接看。
+> Core principle: **seeing beats describing**. Do not make the user imagine from text when you can let them look.
 
-为 3 个方向各生成一个 Demo——**如果当前 agent 支持 subagent 并行**，启动 3 个并行子任务（后台执行）；**不支持就串行生成**（先后做 3 次，同样能用）。两种路径都能工作：
-- 使用**用户真实内容/主题**（不是 Lorem ipsum）
-- HTML 存 `_temp/design-demos/demo-[风格].html`
-- 截图：`npx playwright screenshot file:///path.html out.png --viewport-size=1200,900`
-- 全部完成后一起展示 3 张截图
+Generate one demo for each of the 3 directions. **If the current agent supports parallel subagents**, launch 3 background tasks in parallel. **If not, do it serially**. Both routes are valid:
+- Use the **user’s real content / actual theme**, not Lorem ipsum
+- Save the HTML to `_temp/design-demos/demo-[style].html`
+- Screenshot command: `npx playwright screenshot file:///path.html out.png --viewport-size=1200,900`
+- Show all 3 screenshots together only after all are done
 
-风格类型路径：
-| 风格最佳路径 | Demo 生成方式 |
+Style-specific paths:
+| Best path by style type | Demo generation method |
 |-------------|--------------|
-| HTML 型 | 生成完整 HTML → 截图 |
-| AI 生成型 | AI 图片生成工具，用风格 DNA + 内容描述 |
-| 混合型 | HTML 布局 + AI 插画 |
+| HTML-native style | Build full HTML -> screenshot |
+| AI-generation-heavy style | Use an image-generation tool with the style DNA + content description |
+| Hybrid style | HTML layout + AI illustration |
 
-**Phase 6 · 用户选择**：选一个深化 / 混合（"A 的配色 + C 的布局"）/ 微调 / 重来 → 回 Phase 3 重新推荐。
+**Phase 6 · User chooses**: deepen one / combine them ("A’s color palette + C’s layout") / refine / restart -> go back to Phase 3.
 
-**Phase 7 · 生成 AI 提示词**
-结构：`[设计哲学约束] + [内容描述] + [技术参数]`
-- ✅ 用具体特征而非风格名（写「Kenya Hara 的留白感+赤土橙 #C04A1A」，不写「极简」）
-- ✅ 包含颜色 HEX、比例、空间分配、输出规格
-- ❌ 避开审美禁区（见反 AI slop）
+**Phase 7 · Generate AI prompts**
+Structure: `[design-philosophy constraints] + [content description] + [technical parameters]`
+- ✅ Use concrete traits rather than vague style names (write "Kenya Hara whitespace + terracotta orange #C04A1A", not just "minimal")
+- ✅ Include HEX values, proportions, spatial distribution, and output specs
+- ❌ Avoid aesthetic danger zones (see Anti-AI Slop)
 
-**Phase 8 · 选定方向后进入主干**
-方向确认 → 回到「核心哲学」+「工作流程」的 Junior Designer pass。这时已经有明确的 design context，不再是凭空做。
+**Phase 8 · Re-enter the main workflow after the direction is chosen**
+Once the direction is confirmed, return to **Core Philosophy** + **Workflow** and continue in Junior Designer mode. At that point you have real design context instead of inventing in a vacuum.
 
-**真实素材优先原则**（涉及用户本人/产品时）：
-1. 先查用户 workspace 下的 `personal-asset-index.json`（OpenClaw 默认在 `~/.openclaw/workspace/`）
-2. 首次使用：复制 `assets/personal-asset-index.example.json` 到上述私有路径，填入真实数据
-3. 找不到就直接问用户要，不要编造——真实数据文件不要放在 skill 目录内避免随分发泄露隐私
+**Real-assets-first principle** (when the task involves the user themselves or their product):
+1. Check the user workspace for `personal-asset-index.json` first (OpenClaw default path: `~/.openclaw/workspace/`)
+2. On first use: copy `assets/personal-asset-index.example.json` to that private path and fill it with real data
+3. If the assets are missing, ask the user directly. Do not fabricate. Real-data files should not live inside the skill directory, to avoid leaking personal material during distribution.
 
-## App / iOS 原型专属守则
+## App / iOS Prototype Rules
 
-做 iOS/Android/移动 app 原型时（触发：「app 原型」「iOS mockup」「移动应用」「做个 app」），下面四条**覆盖**通用 placeholder 原则——app 原型是 demo 现场，静态摆拍和米白占位卡没有说服力。
+When building iOS / Android / mobile-app prototypes (trigger phrases: "app prototype", "iOS mockup", "mobile app", "make an app"), the following four rules **override** the general placeholder principles. App prototypes are live demo artifacts. Static beige placeholders and lifeless staging are not persuasive.
 
-### 0. 架构选型（必先决定）
+### 0. Choose the architecture first (mandatory)
 
-**默认单文件 inline React**——所有 JSX/data/styles 直接写进主 HTML 的 `<script type="text/babel">...</script>` 标签，**不要**用 `<script src="components.jsx">` 外部加载。原因：`file://` 协议下浏览器把外部 JS 当跨 origin 拦截，强制用户起 HTTP server 违反「双击就能开」的原型直觉。引用本地图片必须 base64 内嵌 data URL，别假设有 server。
+**Default to single-file inline React**—put all JSX / data / styles directly inside the main HTML’s `<script type="text/babel">...</script>` block. **Do not** load local JSX via `<script src="components.jsx">`. Why: under `file://`, browsers treat local external JS as cross-origin and block it, which forces the user to start an HTTP server and violates the instinctive expectation that the prototype should open on double-click. If you reference local images, embed them as base64 data URLs. Do not assume a server exists.
 
-**拆外部文件只在两种情况**：
-- (a) 单文件 >1000 行难维护 → 拆成 `components.jsx` + `data.js`，同时明确交付说明（`python3 -m http.server` 命令 + 访问 URL）
-- (b) 需要多 subagent 并行写不同屏 → `index.html` + 每屏独立 HTML（`today.html`/`graph.html`...），iframe 聚合，每屏也都是自包含单文件
+**Only split into external files in two cases:**
+- (a) The single file exceeds 1000 lines and becomes unmaintainable -> split into `components.jsx` + `data.js`, and include explicit delivery instructions (`python3 -m http.server` + access URL)
+- (b) Multiple subagents need to build different screens in parallel -> use `index.html` + one self-contained HTML per screen (`today.html` / `graph.html` ...), aggregated via iframe
 
-**选型速查**：
+**Quick architecture lookup:**
 
-| 场景 | 架构 | 交付方式 |
+| Scenario | Architecture | Delivery Mode |
 |------|------|----------|
-| 单人做 4-6 屏原型（主流） | 单文件 inline | 一个 `.html` 双击开 |
-| 单人做大型 App（>10 屏） | 多 jsx + server | 附启动命令 |
-| 多 agent 并行 | 多 HTML + iframe | `index.html` 聚合，每屏独立可开 |
+| Single person building a 4-6 screen prototype (common case) | Single-file inline | One `.html` file that opens on double-click |
+| Single person building a large app (>10 screens) | Multiple JSX files + server | Include startup command |
+| Multiple agents working in parallel | Multiple HTML files + iframe | `index.html` aggregates everything; each screen can also open independently |
 
-### 1. 先找真图，不是 placeholder 摆着
+### 1. Find real images first. Do not stage placeholders by default.
 
-默认主动去取真实图片填充，不要画 SVG、不要拿米白卡摆着、不要等用户要求。常用渠道：
+By default, proactively fetch real imagery to fill the prototype. Do not draw SVGs, do not use beige placeholder cards, and do not wait for the user to ask. Common sources:
 
-| 场景 | 首选渠道 |
+| Scenario | Preferred Source |
 |------|---------|
-| 美术/博物馆/历史内容 | Wikimedia Commons（公共领域）、Met Museum Open Access、Art Institute of Chicago API |
-| 通用生活/摄影 | Unsplash、Pexels（免版权） |
-| 用户本地已有素材 | `~/Downloads`、项目 `_archive/` 或用户配置的素材库 |
+| Fine art / museums / history content | Wikimedia Commons (public domain), Met Museum Open Access, Art Institute of Chicago API |
+| General lifestyle / photography | Unsplash, Pexels (royalty-free) |
+| User’s local existing assets | `~/Downloads`, project `_archive/`, or the user’s configured asset library |
 
-Wikimedia 下载避坑（本机 curl 走代理 TLS 会炸，Python urllib 直接走得通）：
+Wikimedia download pitfall note (local `curl` through proxy TLS may fail; Python `urllib` often works directly):
 
 ```python
-# 合规 User-Agent 是硬性要求，否则 429
+# A compliant User-Agent is mandatory, or you risk 429s
 UA = 'ProjectName/0.1 (https://github.com/you; you@example.com)'
-# 用 MediaWiki API 查真实 URL
+# Use the MediaWiki API to resolve the real file URL
 api = 'https://commons.wikimedia.org/w/api.php'
-# action=query&list=categorymembers 批量拿系列 / prop=imageinfo+iiurlwidth 取指定宽度 thumburl
+# action=query&list=categorymembers to fetch a series / prop=imageinfo+iiurlwidth to get a thumburl at a target width
 ```
 
-**只有**当所有渠道都失败 / 版权不清 / 用户明确要求时，才退回诚实 placeholder（仍然不画烂 SVG）。
+**Only** when all sources fail / copyright is unclear / the user explicitly requests it should you fall back to an honest placeholder. Even then, do not draw bad SVG.
 
-**真图诚实性测试**（关键）：取图之前先问自己——「如果去掉这张图，信息是否有损？」
+**Real-image honesty test** (critical): before using an image, ask yourself: "If I remove this image, does the information actually degrade?"
 
-| 场景 | 判断 | 动作 |
+| Scenario | Judgment | Action |
 |------|------|------|
-| 文章/Essay 列表的封面、Profile 页的风景头图、设置页的装饰 banner | 装饰，与内容无内在关联 | **不要加**。加了就是 AI slop，等同紫色渐变 |
-| 博物馆/人物内容的肖像、产品详情的实物、地图卡片的地点 | 内容本身，有内在关联 | **必须加** |
-| 图谱/可视化背景的极淡纹理 | 氛围，服从内容不抢戏 | 加，但 opacity ≤ 0.08 |
+| Cover images for article / essay lists, scenic hero images on profile pages, decorative settings banners | Decorative only, no intrinsic link to the content | **Do not add it.** That is AI slop, equivalent to a purple gradient. |
+| Portraits in museum / biography content, physical products in product detail, map-card locations | Content-bearing, intrinsically related | **Must be included** |
+| Extremely faint textures behind a chart / visualization | Atmosphere, subordinate to content | Include, but keep opacity <= 0.08 |
 
-**反例**：给文字 Essay 配 Unsplash「灵感图」、给笔记 App 配 stock photo 模特——都是 AI slop。取真图的许可不等于滥用真图的通行证。
+**Counterexamples**: pairing a text essay with an Unsplash "inspiration image," or putting a stock-photo model into a notes app prototype. Both are AI slop. Permission to use real images is not permission to abuse real images.
 
-### 2. 交付形态：overview 平铺 / flow demo 单机——先问用户要哪种
+### 2. Delivery format: overview spread vs flow demo device—ask which one the user wants first
 
-多屏 App 原型有两种标准交付形态，**先问用户要哪种**，不要默认挑一种闷头做：
+There are two standard delivery modes for multi-screen app prototypes. **Ask which one the user wants first.** Do not silently pick one.
 
-| 形态 | 何时用 | 做法 |
+| Format | When to use it | How to build it |
 |------|--------|------|
-| **Overview 平铺**（设计 review 默认）| 用户要看全貌 / 比较布局 / 走查设计一致性 / 多屏并排 | **所有屏并排静态展示**，每屏一台独立 iPhone，内容完整，不需要可点击 |
-| **Flow demo 单机** | 用户要演示一条特定用户流程（如 onboarding、购买链路）| 单台 iPhone，内嵌 `AppPhone` 状态管理器，tab bar / 按钮 / 标注点都能点 |
+| **Overview spread** (default for design review) | The user wants to see the full system / compare layouts / review consistency / inspect multiple screens side by side | **Show all screens statically side by side**, each inside its own iPhone frame, with complete content and no click behavior required |
+| **Flow demo device** | The user wants to demonstrate a specific user flow (for example onboarding or purchase path) | Use one interactive iPhone with an embedded `AppPhone` state manager; tab bar / buttons / annotations must all be clickable |
 
-**路由关键词**：
-- 任务里出现「平铺 / 展示所有页面 / overview / 看一眼 / 比较 / 所有屏」→ 走 **overview**
-- 任务里出现「演示流程 / 用户路径 / 走一遍 / clickable / 可交互 demo」→ 走 **flow demo**
-- 不确定就问。不要默认选 flow demo（它更费工，不是所有任务都需要）
+**Routing keywords:**
+- If the task says "spread", "show all pages", "overview", "take one look", "compare", or "all screens" -> use **overview**
+- If the task says "demonstrate the flow", "user path", "walk through it", "clickable", or "interactive demo" -> use **flow demo**
+- If uncertain, ask. Do not default to flow demo. It is more labor-intensive and often unnecessary.
 
-**Overview 平铺的骨架**（每屏独立一台 IosFrame 并排）：
+**Overview spread skeleton** (one independent `IosFrame` per screen):
 
 ```jsx
 <div style={{display: 'flex', gap: 32, flexWrap: 'wrap', padding: 48, alignItems: 'flex-start'}}>
@@ -541,256 +541,256 @@ api = 'https://commons.wikimedia.org/w/api.php'
 </div>
 ```
 
-**Flow demo 的骨架**（单台 clickable 状态机）：
+**Flow demo skeleton** (single clickable state machine):
 
 ```jsx
 function AppPhone({ initial = 'today' }) {
   const [screen, setScreen] = React.useState(initial);
   const [modal, setModal] = React.useState(null);
-  // 根据 screen 渲染不同 ScreenComponent，传入 onEnter/onClose/onTabChange/onOpen props
+  // Render different ScreenComponent variants based on screen, passing onEnter/onClose/onTabChange/onOpen props
 }
 ```
 
-Screen 组件接 callback props（`onEnter`、`onClose`、`onTabChange`、`onOpen`、`onAnnotation`），不硬编码状态。TabBar、按钮、作品卡加 `cursor: pointer` + hover 反馈。
+Screen components should receive callback props (`onEnter`, `onClose`, `onTabChange`, `onOpen`, `onAnnotation`) rather than hardcoding state logic. Tab bars, buttons, and cards should use `cursor: pointer` plus hover feedback.
 
-### 3. 交付前跑真实点击测试
+### 3. Run real click tests before delivery
 
-静态截图只能看 layout，交互 bug 要点过才发现。用 Playwright 跑 3 项最小点击测试：进入详情 / 关键标注点 / tab 切换。检查 `pageerror` 为 0 再交付。Playwright 可用 `npx playwright` 调用，或按本机全局安装路径（`npm root -g` + `/playwright`）。
+Static screenshots only validate layout. Interaction bugs only surface if you actually click through the prototype. Use Playwright to run 3 minimal click tests: enter detail view / trigger a key annotation point / switch tabs. Ensure `pageerror` is 0 before delivery. You can invoke Playwright with `npx playwright`, or through the global install path (`npm root -g` + `/playwright`).
 
-### 4. 品位锚点（pursue list，fallback 首选）
+### 4. Taste anchors (pursue list, default fallback)
 
-没有 design system 时默认往这些方向走，避免撞 AI slop：
+If there is no design system, default toward these directions to avoid AI slop:
 
-| 维度 | 首选 | 避免 |
+| Dimension | Prefer | Avoid |
 |------|------|------|
-| **字体** | 衬线 display（Newsreader/Source Serif/EB Garamond）+ `-apple-system` body | 全场 SF Pro 或 Inter——太像系统默认，没风格 |
-| **色彩** | 一个有温度的底色 + **单个** accent 贯穿全场（rust 橙/墨绿/深红）| 多色聚类（除非数据真的有 ≥3 个分类维度） |
-| **信息密度·克制型**（默认）| 少一层容器、少一个 border、少一个**装饰性** icon——给内容留气口 | 每条卡片都配无意义的 icon + tag + status dot |
-| **信息密度·高密度型**（例外）| 当产品核心卖点是「智能 / 数据 / 上下文感知」时（AI 工具、Dashboard、Tracker、Copilot、番茄钟、健康监测、记账类），每屏需**至少 3 处可见的产品差异化信息**：非装饰性数据、对话/推理片段、状态推断、上下文关联 | 只放一个按钮一个时钟——AI 的智能感没表达出来，跟普通 App 没区别 |
-| **细节签名** | 留一处「值得截图」的质感：极淡油画底纹 / serif 斜体引语 / 全屏黑底录音波形 | 到处平均用力，结果处处平淡 |
+| **Typography** | Serif display (Newsreader / Source Serif / EB Garamond) + `-apple-system` body | Pure SF Pro or Inter everywhere—too close to system default, no point of view |
+| **Color** | One warm base tone + **one** accent used across the whole prototype (rust orange / dark green / deep red) | Clustering too many colors, unless the data truly has 3+ category dimensions |
+| **Information density · restrained mode** (default) | One fewer container, one fewer border, one fewer **decorative** icon—give the content room to breathe | Cards filled with meaningless icon + tag + status-dot decoration |
+| **Information density · high-density mode** (exception) | If the product’s core value is "intelligence / data / context awareness" (AI tools, dashboards, trackers, copilots, pomodoro tools, health monitors, finance apps), each screen needs **at least 3 visible pieces of differentiating product information**: non-decorative data, dialogue/reasoning snippets, state inference, context linking | A single button and a timer—this fails to express the product’s intelligence and makes it indistinguishable from an ordinary app |
+| **Signature detail** | Reserve one screenshot-worthy texture: an ultra-faint painterly backdrop / serif italic pull quote / full-screen black audio waveform | Applying equal force everywhere, which leads to flatness everywhere |
 
-**两条原则同时生效**：
-1. 品位 = 一个细节做到 120%，其它做到 80%——不是所有地方都精致，而是在合适的地方足够精致
-2. 减法是 fallback，不是普适律——产品核心卖点需要信息密度支撑时（AI / 数据 / 上下文感知类），加法优先于克制。详见下文「信息密度分型」
+**These two principles apply simultaneously:**
+1. Taste = one detail executed at 120%, everything else at 80%. Do not try to make every surface equally ornate.
+2. Restraint is a fallback, not a universal law. When the product’s core value depends on visible information density (AI / data / context-aware products), additive density beats minimal restraint. See the later section on information-density modes.
 
-### 5. iOS 设备框必须用 `assets/ios_frame.jsx`——禁止手写 Dynamic Island / status bar
+### 5. iOS device frames must use `assets/ios_frame.jsx`—do not hand-build Dynamic Island / status bar
 
-做 iPhone mockup 时**硬性绑定** `assets/ios_frame.jsx`。这是已经对齐过 iPhone 15 Pro 精确规格的标准外壳：bezel、Dynamic Island（124×36、top:12、居中）、status bar（时间/信号/电池、两侧避让岛、vertical center 对齐岛中线）、Home Indicator、content 区 top padding 都处理好了。
+When making iPhone mockups, **hard-bind to** `assets/ios_frame.jsx`. It already matches precise iPhone 15 Pro proportions: bezel, Dynamic Island (124x36, top: 12, centered), status bar (time / signal / battery with left-right island avoidance and proper vertical alignment), Home Indicator, and content-area top padding are already solved.
 
-**禁止在你的 HTML 里自己写**以下任何一项：
-- `.dynamic-island` / `.island` / `position: absolute; top: 11/12px; width: ~120; 居中的黑圆角矩形`
-- `.status-bar` with 手写的时间/信号/电池图标
-- `.home-indicator` / 底部 home bar
-- iPhone bezel 的圆角外框 + 黑描边 + shadow
+**Do not hand-write** any of the following inside your project HTML:
+- `.dynamic-island` / `.island` / `position: absolute; top: 11/12px; width: ~120;` centered black rounded rectangle
+- `.status-bar` with hand-drawn time / signal / battery icons
+- `.home-indicator` / bottom home bar
+- iPhone bezel via custom rounded frame + black stroke + shadow
 
-自己写 99% 会撞位置 bug——status bar 的时间/电池被岛挤压、或 content top padding 算错导致第一行内容盖在岛下。iPhone 15 Pro 的刘海是**固定 124×36 像素**，留给 status bar 两侧的可用宽度很窄，不是你凭空估的。
+If you do it yourself, 99% of the time you will introduce positioning bugs—the status bar time or battery gets crushed by the island, or content top padding is wrong and the first row renders under the island. The iPhone 15 Pro island is a **fixed 124x36 pixel shape**. The usable status-bar width on both sides is narrow. You cannot eyeball this.
 
-**用法（严格三步）**：
+**Usage (strict 3-step process):**
 
 ```jsx
-// 步骤 1: Read 本 skill 的 assets/ios_frame.jsx（相对本 SKILL.md 的路径）
-// 步骤 2: 把整个 iosFrameStyles 常量 + IosFrame 组件贴进你的 <script type="text/babel">
-// 步骤 3: 你自己的屏组件包在 <IosFrame>...</IosFrame> 里，不碰 island/status bar/home indicator
+// Step 1: Read this skill's assets/ios_frame.jsx (path relative to this SKILL.md)
+// Step 2: Paste the entire iosFrameStyles constant + IosFrame component into your <script type="text/babel">
+// Step 3: Wrap your own screen component with <IosFrame>...</IosFrame>, and leave island / status bar / home indicator alone
 <IosFrame time="9:41" battery={85}>
-  <YourScreen />  {/* 内容从 top 54 开始渲染，下边留给 home indicator，你不用管 */}
+  <YourScreen />  {/* Content starts rendering from top 54; bottom space for the home indicator is already handled */}
 </IosFrame>
 ```
 
-**例外**：只有用户明确要求「假装是 iPhone 14 非 Pro 的刘海」「做 Android 不是 iOS」「自定义设备形态」时才绕过——此时读对应 `android_frame.jsx` 或修改 `ios_frame.jsx` 的常量，**不要**在项目 HTML 里另起一套 island/status bar。
+**Exception**: only bypass this if the user explicitly asks for "pretend it is an iPhone 14 non-Pro notch," "make Android instead of iOS," or "custom device shape." In those cases, read the corresponding `android_frame.jsx` or modify constants inside `ios_frame.jsx`. **Do not build a second custom island/status-bar system inside the project HTML.**
 
-## 工作流程
+## Workflow
 
-### 标准流程（用TaskCreate追踪）
+### Standard process (track with TaskCreate)
 
-1. **理解需求**：
-   - 🔍 **0. 事实验证（涉及具体产品/技术时必做，优先级最高）**：任务涉及具体产品/技术/事件（DJI Pocket 4、Gemini 3 Pro、某新 SDK 等）时，**第一个动作**是用 `web_fetch` 验证其存在性、发布状态、最新版本、关键规格。把事实写入 `product-facts.md`。详见「核心原则 #0」。**这步做在问 clarifying questions 之前**——事实错了问什么都歪。
-   - 新任务或模糊任务必须问clarifying questions，详见 `references/workflow.md`。一次focused一轮问题通常够，小修小补跳过。
-   - 🛑 **检查点1：问题清单一次性发给用户，等用户批量答完再往下走**。不要边问边做。
-   - 🛑 **幻灯片/PPT 任务额外必问「最终交付格式」**（浏览器演讲 / PDF / 可编辑 PPTX）——**要可编辑 PPTX 就必须从第一行 HTML 开始按 `references/editable-pptx.md` 的 4 条硬约束写**，事后补救会导致 2-3 小时返工。详见 `references/slide-decks.md` 开头「开工前先确认交付格式」一节。
-   - ⚡ **如果用户需求严重模糊（没参考、没明确风格、"做个好看的"类）→ 走「设计方向顾问（Fallback 模式）」大节，完成 Phase 1-4 选定方向后，再回到这里 Step 2**。
-2. **探索资源 + 抽核心资产**（不只是抽色值）：读 design system、linked files、上传的截图/代码。**涉及具体品牌时必走 §1.a「核心资产协议」五步**（问→按类型搜→按类型下载 logo/产品图/UI→验证+提取→写 `brand-spec.md` 含所有资产路径）。
-   - 🛑 **检查点2·资产自检**：开工前确认核心资产到位——实体产品要有产品图（不是 CSS 剪影）、数字产品要有 logo+UI 截图、色值从真实 HTML/SVG 抽取。缺了就停下补，不硬做。
-   - 如果用户没给 context 且挖不出资产，先走设计方向顾问 Fallback，再按 `references/design-context.md` 的品位锚点兜底。
-3. **先答四问，再规划系统**：**这一步的前半段比所有 CSS 规则更决定输出**。
+1. **Understand the request**:
+   - 🔍 **0. Fact verification (mandatory for specific products / technologies, top priority)**: if the task involves a specific product / technology / event (DJI Pocket 4, Gemini 3 Pro, a new SDK, etc.), the **first action** is using `web_fetch` to verify existence, release status, latest version, and key specs. Write the facts into `product-facts.md`. See **Core Principle #0**. **Do this before asking clarifying questions**—if the facts are wrong, all questions will be skewed.
+   - New or ambiguous tasks require clarifying questions; see `references/workflow.md`. Usually one focused round is enough. Skip it for tiny edits.
+   - 🛑 **Checkpoint 1: send the full question list to the user in one batch, then wait for the complete response before moving on.** Do not ask while building.
+   - 🛑 **Slide / PPT tasks must also ask for the final delivery format** (browser presentation / PDF / editable PPTX). If the user wants **editable PPTX**, you must follow the 4 hard HTML constraints in `references/editable-pptx.md` from line 1 of the file. Retrofitting later will cost 2-3 hours of rework. See the opening section of `references/slide-decks.md`: "Confirm delivery format before starting."
+   - ⚡ **If the brief is severely ambiguous** (no references, no clear style, "make it look good") -> switch to the major section **Design Direction Consultant (Fallback Mode)**, complete Phases 1-4, lock a direction, then return here at Step 2.
+2. **Explore resources + extract core assets** (not just color values): read the design system, linked files, screenshots, and code. **For specific brands, always run §1.a Core Asset Protocol all 5 steps** (ask -> search by type -> download logo/product imagery/UI -> validate + extract -> write `brand-spec.md` including all asset paths).
+   - 🛑 **Checkpoint 2 · asset self-check**: before building, confirm that the core assets are in place. Physical products need product imagery (not CSS silhouettes). Digital products need logo + UI screenshots. Colors should come from real HTML/SVG. If assets are missing, stop and fix that first.
+   - If the user gave no context and you cannot mine assets, run the Design Direction Consultant fallback first, then use the taste anchors in `references/design-context.md` as a secondary fallback.
+3. **Answer four positioning questions before planning the system**: **the first half of this step influences the output more than any CSS rule**.
 
-   📐 **位置四问**（每个页面/屏幕/镜头开工前必答）：
-   - **叙事角色**：hero / 过渡 / 数据 / 引语 / 结尾？（一页 deck 里每页都不一样）
-   - **观众距离**：10cm 手机 / 1m 笔记本 / 10m 投屏？（决定字号和信息密度）
-   - **视觉温度**：安静 / 兴奋 / 冷静 / 权威 / 温柔 / 悲伤？（决定配色和节奏）
-   - **容量估算**：用纸笔画 3 个 5 秒 thumbnail 算一下内容塞得下吗？（防溢出 / 防挤压）
+   📐 **The four positioning questions** (must be answered before building any page / screen / shot):
+   - **Narrative role**: hero / transition / data / quote / ending? (Each slide in a deck serves a different role.)
+   - **Viewer distance**: 10cm phone / 1m laptop / 10m projection? (Determines font size and information density.)
+   - **Visual temperature**: quiet / excited / cool / authoritative / gentle / sad? (Determines palette and rhythm.)
+   - **Capacity estimate**: sketch 3 fast 5-second thumbnails on paper. Does the content actually fit? (Prevents overflow and compression.)
 
-   四问答完再 vocalize 设计系统（色彩/字型/layout 节奏/component pattern）——**系统要服务于答案，不是先选系统再塞内容**。
+   Only after answering those four should you articulate the design system (color / type / layout rhythm / component patterns). **The system should serve the answers, not precede them.**
 
-   🛑 **检查点2：四问答案 + 系统口头说出来等用户点头，再动手写代码**。方向错了晚改比早改贵 100 倍。
-4. **构建文件夹结构**：`项目名/` 下放主HTML、需要的assets拷贝（不要bulk copy >20个文件）。
-5. **Junior pass**：HTML里写assumptions+placeholders+reasoning comments。
-   🛑 **检查点3：尽早show给用户（哪怕只是灰色方块+标签），等反馈再写组件**。
-6. **Full pass**：填placeholder，做variations，加Tweaks。做到一半再show一次，不要等全做完。
-7. **验证**：用Playwright截图（见 `references/verification.md`），检查控制台错误，发给用户。
-   🛑 **检查点4：交付前自己肉眼过一遍浏览器**。AI写的代码经常有interaction bug。
-8. **总结**：极简，只说caveats和next steps。
-9. **（默认）导出视频 · 必带 SFX + BGM**：动画 HTML 的**默认交付形态是带音频的 MP4**，不是纯画面。无声版本等于半成品——用户潜意识感知「画在动但没声音响应」，廉价感的根源就在这里。流水线：
-   - `scripts/render-video.js` 录 25fps 纯画面 MP4（只是中间产物，**不是成品**）
-   - `scripts/convert-formats.sh` 派生 60fps MP4 + palette 优化 GIF（视平台需要）
-   - `scripts/add-music.sh` 加 BGM（6 首场景化配乐：tech/ad/educational/tutorial + alt 变体）
-   - SFX 按 `references/audio-design-rules.md` 设计 cue 清单（时间轴 + 音效类型），用 `assets/sfx/<category>/*.mp3` 37 个预制资源，按配方 A/B/C/D 选密度（发布 hero ≈ 6个/10s，工具演示 ≈ 0-2个/10s）
-   - **BGM + SFX 双轨制必须同时做**——只做 BGM 是 ⅓ 分完成度；SFX 占高频、BGM 占低频，频段隔离见 audio-design-rules.md 的 ffmpeg 模板
-   - 交付前 `ffprobe -select_streams a` 确认有 audio stream，没有则不是成品
-   - **跳过音频的条件**：用户明确说「不要音频」「纯画面」「我要自己配音」——否则默认带。
-   - 参考完整流程见 `references/video-export.md` + `references/audio-design-rules.md` + `references/sfx-library.md`。
-10. **（可选）专家评审**：用户若提「评审」「好不好看」「review」「打分」，或你对产出有疑问想主动质检，按 `references/critique-guide.md` 走 5 维度评审——哲学一致性 / 视觉层级 / 细节执行 / 功能性 / 创新性各 0-10 分，输出总评 + Keep（做得好的）+ Fix（严重程度 ⚠️致命 / ⚡重要 / 💡优化）+ Quick Wins（5 分钟能做的前 3 件事）。评审设计不评设计师。
+   🛑 **Checkpoint 2: state the four answers + system out loud, wait for the user’s approval, then start writing code.** Wrong direction is 100x cheaper to fix early than late.
+4. **Build the folder structure**: create a `project-name/` directory, place the main HTML inside, and copy only the assets you need (do not bulk-copy more than 20 files).
+5. **Junior pass**: write assumptions + placeholders + reasoning comments inside the HTML.
+   🛑 **Checkpoint 3: show the user early**, even if it is just gray blocks with labels, then wait for feedback before building components.
+6. **Full pass**: fill placeholders, build variations, add Tweaks. Show progress again halfway through. Do not wait until everything is finished.
+7. **Verification**: use Playwright screenshots (see `references/verification.md`), check console errors, and send the result to the user.
+   🛑 **Checkpoint 4: visually inspect it yourself in a browser before delivery.** AI-generated code often hides interaction bugs.
+8. **Summary**: keep it minimal. Only mention caveats and next steps.
+9. **(Default) Export video · must include SFX + BGM**: the **default delivery format for animation HTML is an MP4 with audio**, not silent visuals. A silent version feels unfinished—the viewer senses motion without sonic response, and that cheapens the result. Pipeline:
+   - `scripts/render-video.js` records a 25fps visual-only MP4 (intermediate output only, **not the final artifact**)
+   - `scripts/convert-formats.sh` derives a 60fps MP4 + palette-optimized GIF as needed
+   - `scripts/add-music.sh` adds BGM (6 scenario-specific tracks: tech / ad / educational / tutorial + alt variants)
+   - Design SFX cues from `references/audio-design-rules.md` (timeline + sound type), using 37 prebuilt resources from `assets/sfx/<category>/*.mp3`, with density formulas A/B/C/D (launch hero ≈ 6 cues / 10s; tool demo ≈ 0-2 cues / 10s)
+   - **BGM + SFX is mandatory as a two-track system**—BGM alone is only one-third complete. SFX handles high-frequency presence, BGM handles low-frequency bed. See the ffmpeg templates in `audio-design-rules.md` for frequency separation.
+   - Before delivery, run `ffprobe -select_streams a` to confirm an audio stream exists. If there is no audio stream, it is not a finished artifact.
+   - **Only skip audio if the user explicitly says**: "no audio", "visuals only", or "I’ll add my own voiceover". Otherwise, include audio by default.
+   - Full reference flow: `references/video-export.md` + `references/audio-design-rules.md` + `references/sfx-library.md`
+10. **(Optional) Expert critique**: if the user says "critique", "does this look good", "review", or "score it", or if you want to proactively quality-check your own output, use `references/critique-guide.md` to run a 5-dimension critique: philosophical coherence / visual hierarchy / detail execution / functionality / originality, each scored 0-10, then output a total evaluation + Keep (what works) + Fix (severity: ⚠️ fatal / ⚡ important / 💡 optimization) + Quick Wins (top 3 changes doable in 5 minutes). Critique the design, not the designer.
 
-**检查点原则**：碰到🛑就停下，明确告诉用户"我做了X，下一步打算Y，你确认吗？"然后真的**等**。不要说完自己就开始做。
+**Checkpoint principle**: when you hit 🛑, stop. Tell the user clearly: "I completed X, my next step is Y, do you confirm?" Then actually **wait**. Do not say it and continue anyway.
 
-### 问问题的要点
+### Questioning guidelines
 
-必问（用`references/workflow.md`里的模板）：
-- design system/UI kit/codebase有吗？没有的话先去找
-- 想要几种variations？在哪些维度上变？
-- 关心flow、copy、还是visuals？
-- 希望Tweak什么？
+Always ask (using the template in `references/workflow.md`):
+- Is there a design system / UI kit / codebase? If not, go look for one first.
+- How many variations should there be, and along which dimensions should they differ?
+- Is the priority flow, copy, or visuals?
+- What does the user want to tweak?
 
-## 异常处理
+## Exception handling
 
-流程假设用户配合、环境正常。实操常遇以下异常，预定义fallback：
+The workflow assumes a cooperative user and a normal environment. Real work often breaks those assumptions. Predefined fallbacks:
 
-| 场景 | 触发条件 | 处理动作 |
+| Scenario | Trigger | Action |
 |------|---------|---------|
-| 需求模糊到无法着手 | 用户只给一句模糊描述（如"做个好看的页面"） | 主动列3个可能方向让用户选（如"落地页 / Dashboard / 产品详情页"），而不是直接问10个问题 |
-| 用户拒绝回答问题清单 | 用户说"不要问了，直接做" | 尊重节奏，用best judgment做1个主方案+1个差异明显的变体，交付时**明确标注assumption**，方便用户定位要改哪里 |
-| Design context矛盾 | 用户给的参考图和品牌规范打架 | 停下，指出具体矛盾（"截图里字体是衬线，规范说用sans"），让用户选一个 |
-| Starter component加载失败 | 控制台404/integrity mismatch | 先查`references/react-setup.md`常见报错表；还不行降级纯HTML+CSS不用React，保证产出可用 |
-| 时间紧迫要快交付 | 用户说"30分钟内要" | 跳过Junior pass直接Full pass，只做1个方案，交付时**明确标注"未经early validation"**，提醒用户质量可能打折 |
-| SKILL.md体积超限 | 新写HTML>1000行 | 按`references/react-setup.md`的拆分策略拆成多jsx文件，末尾`Object.assign(window,...)`共享 |
-| 克制原则 vs 产品所需密度冲突 | 产品核心卖点是 AI 智能 / 数据可视化 / 上下文感知（如番茄钟、Dashboard、Tracker、AI agent、Copilot、记账、健康监测）| 按「品位锚点」表格走**高密度型**信息密度：每屏 ≥ 3 处产品差异化信息。装饰性 icon 照样忌讳——加的是**有内容的**密度，不是装饰 |
+| The brief is too vague to start | The user gives a single fuzzy sentence (for example, "make me a good-looking page") | Proactively list 3 plausible direction types (for example, landing page / dashboard / product detail page) and let the user choose, rather than asking 10 open-ended questions |
+| The user refuses to answer the question list | The user says "stop asking and just do it" | Respect the pace. Use best judgment to make 1 primary direction + 1 clearly differentiated variation, and **label all assumptions explicitly** in the delivery so the user can quickly localize what to change |
+| Design context is contradictory | The user’s reference screenshots conflict with the official brand guidelines | Stop and point out the conflict specifically (for example, "the screenshots use serif typography, but the guideline says sans"). Let the user choose. |
+| Starter component fails to load | Console shows 404 or integrity mismatch | Check the error table in `references/react-setup.md` first. If still blocked, degrade to plain HTML + CSS without React so the output remains usable. |
+| Delivery is urgent | The user says "I need it in 30 minutes" | Skip the Junior pass, go straight to Full pass, build only 1 direction, and **explicitly label it as 'not early-validated'** so the user understands quality may be compromised |
+| `SKILL.md`-style size overflow | New HTML exceeds 1000 lines | Apply the splitting strategy in `references/react-setup.md`, then expose shared symbols with `Object.assign(window, ...)` at the end |
+| Restraint principle conflicts with product-required density | The product’s core value is AI intelligence / data visualization / context awareness (pomodoro tools, dashboards, trackers, AI agents, copilots, finance apps, health monitors, etc.) | Follow the **high-density** information mode from the taste-anchor table: each screen needs >= 3 visible pieces of differentiated product information. Decorative icons are still discouraged—you are adding **content density**, not decoration. |
 
-**原则**：异常时**先告诉用户发生了什么**（1句话），再按表处理。不要静默决策。
+**Principle**: when an exception occurs, **tell the user what happened first** (1 sentence), then apply the table. Do not make silent decisions.
 
-## 反AI slop速查
+## Anti-AI-slop quick reference
 
-| 类别 | 避免 | 采用 |
+| Category | Avoid | Use |
 |------|------|------|
-| 字体 | Inter/Roboto/Arial/系统字体 | 有特点的display+body配对 |
-| 色彩 | 紫色渐变、凭空新颜色 | 品牌色/oklch定义的和谐色 |
-| 容器 | 圆角+左border accent | 诚实的边界/分隔 |
-| 图像 | SVG画人画物 | 真实素材或placeholder |
-| 图标 | **装饰性** icon 每处都配（撞 slop）| **承载差异化信息**的密度元素必须保留——不要把产品特色也一并减掉 |
-| 填充 | 编造stats/quotes装饰 | 留白，或问用户要真内容 |
-| 动画 | 散落的微交互 | 一次well-orchestrated的page load |
-| 动画-伪chrome | 画面内画底部进度条/时间码/版权署名条（与 Stage scrubber 撞车） | 画面只放叙事内容，进度/时间交给 Stage chrome（详见 `references/animation-pitfalls.md` §11） |
+| Typography | Inter / Roboto / Arial / system fonts | Distinctive display + body pairing |
+| Color | Purple gradients, invented random colors | Brand colors / harmonious colors defined in `oklch()` |
+| Containers | Rounded cards + left border accent | Honest edges / separators |
+| Imagery | SVG-drawn people or objects | Real assets or placeholders |
+| Icons | **Decorative** icons on everything (slop collision) | Density elements that **carry real differentiated information**—do not strip away the product’s actual differentiators in the name of minimalism |
+| Fill | Invented stats / quotes / decorative filler | Whitespace, or ask the user for real content |
+| Motion | Random scattered microinteractions | One well-orchestrated page-load sequence |
+| Motion faux-chrome | Drawing bottom progress bars / timecode / copyright strips inside the content frame (collides with the Stage scrubber) | Keep narrative content inside the frame; leave progress / time to the Stage chrome (see `references/animation-pitfalls.md` §11) |
 
-## 技术红线（必读 references/react-setup.md）
+## Technical red lines (must read `references/react-setup.md`)
 
-**React+Babel项目**必须用pinned版本（见`react-setup.md`）。三条不可违反：
+**React+Babel projects** must use pinned versions (see `react-setup.md`). Three hard prohibitions:
 
-1. **never** 写 `const styles = {...}`——多组件时命名冲突会炸。**必须**给唯一名字：`const terminalStyles = {...}`
-2. **scope不共享**：多个`<script type="text/babel">`之间组件不通，必须用`Object.assign(window, {...})`导出
-3. **never** 用 `scrollIntoView`——会搞坏容器滚动，用其他DOM scroll方法
+1. **Never** write `const styles = {...}`—with multiple components this will collide and explode. **Always** use unique names, such as `const terminalStyles = {...}`
+2. **Scopes are not shared**: components defined in separate `<script type="text/babel">` blocks cannot see each other. You must export them with `Object.assign(window, {...})`
+3. **Never** use `scrollIntoView`—it breaks container scrolling. Use other DOM scrolling methods instead.
 
-**固定尺寸内容**（幻灯片/视频）必须自己实现JS缩放，用auto-scale + letterboxing。
+**Fixed-dimension content** (slides / video) must implement JavaScript scaling explicitly, using auto-scale + letterboxing.
 
-**幻灯片架构选型（必先决定）**：
-- **多文件**（默认，≥10页 / 学术/课件 / 多agent并行）→ 每页独立HTML + `assets/deck_index.html`拼接器
-- **单文件**（≤10页 / pitch deck / 需跨页共享状态）→ `assets/deck_stage.js` web component
+**Slide architecture choice (must decide first):**
+- **Multi-file** (default, >=10 slides / academic decks / courseware / multi-agent parallel work) -> independent HTML per slide + `assets/deck_index.html` stitcher
+- **Single-file** (<=10 slides / pitch deck / shared cross-slide state needed) -> `assets/deck_stage.js` web component
 
-先读 `references/slide-decks.md` 的「🛑 先定架构」一节，错了会反复踩 CSS 特异性/作用域的坑。
+Read the **"🛑 Decide the architecture first"** section of `references/slide-decks.md` before starting. If you get this wrong, you will repeatedly trip over CSS specificity and scope bugs.
 
-## Starter Components（assets/下）
+## Starter Components (`assets/`)
 
-造好的起手组件，直接copy进项目使用：
+These are prebuilt starting components. Copy them directly into the project when appropriate:
 
-| 文件 | 何时用 | 提供 |
+| File | When to use | Provides |
 |------|--------|------|
-| `deck_index.html` | **做幻灯片（默认，多文件架构）** | iframe拼接 + 键盘导航 + scale + 计数器 + 打印合并，每页独立HTML免CSS串扰 |
-| `deck_stage.js` | 做幻灯片（单文件架构，≤10页） | web component：auto-scale + 键盘导航 + slide counter + localStorage + speaker notes ⚠️ **script 必须放在 `</deck-stage>` 之后，section 的 `display: flex` 必须写到 `.active` 上**，详见 `references/slide-decks.md` 的两个硬约束 |
-| `scripts/export_deck_pdf.mjs` | **HTML→PDF 导出（多文件架构）** · 每页独立 HTML 文件，playwright 逐个 `page.pdf()` → pdf-lib 合并。文字保留矢量可搜。依赖 `playwright pdf-lib` |
-| `scripts/export_deck_stage_pdf.mjs` | **HTML→PDF 导出（单文件 deck-stage 架构专用）** · 2026-04-20 新增。处理 shadow DOM slot 导致的「只出 1 页」、absolute 子元素溢出等坑。详见 `references/slide-decks.md` 末节。依赖 `playwright` |
-| `scripts/export_deck_pptx.mjs` | **HTML→PPTX 导出（双模式）** · `--mode image` 图片铺底视觉 100% 保真但文字不可编辑；`--mode editable` 调 `html2pptx.js` 导出原生可编辑文本框，但 HTML 必须符合 4 条硬约束（见 `references/editable-pptx.md`）。依赖 `playwright pptxgenjs`（editable 模式还需 `sharp`） |
-| `scripts/html2pptx.js` | **HTML→PPTX 元素级翻译器** · 读 computedStyle 把 DOM 逐元素翻译成 PowerPoint 对象（text frame / shape / picture）。`export_deck_pptx.mjs --mode editable` 内部调用。要求 HTML 严格满足 4 条硬约束 |
-| `design_canvas.jsx` | 并排展示≥2个静态variations | 带label的网格布局 |
-| `animations.jsx` | 任何动画HTML | Stage + Sprite + useTime + Easing + interpolate |
-| `ios_frame.jsx` | iOS App mockup | iPhone bezel + 状态栏 + 圆角 |
-| `android_frame.jsx` | Android App mockup | 设备bezel |
-| `macos_window.jsx` | 桌面App mockup | 窗口chrome + 红绿灯 |
-| `browser_window.jsx` | 网页在浏览器里的样子 | URL bar + tab bar |
+| `deck_index.html` | **Building slides (default, multi-file architecture)** | iframe stitching + keyboard navigation + scaling + counter + print merge; each slide stays isolated in its own HTML so CSS does not bleed |
+| `deck_stage.js` | Building slides (single-file architecture, <=10 slides) | web component: auto-scale + keyboard navigation + slide counter + localStorage + speaker notes ⚠️ **the script must be placed after `</deck-stage>`, and `display: flex` on sections must be written on `.active`**, see the two hard constraints in `references/slide-decks.md` |
+| `scripts/export_deck_pdf.mjs` | **HTML -> PDF export (multi-file architecture)** · each slide as independent HTML, Playwright runs `page.pdf()` on each -> merged with pdf-lib. Text stays vector and searchable. Depends on `playwright` and `pdf-lib`. |
+| `scripts/export_deck_stage_pdf.mjs` | **HTML -> PDF export (single-file `deck-stage` architecture only)** · added 2026-04-20. Handles shadow-DOM slot issues like "only exports 1 page" and absolute-position child overflow. See the closing section of `references/slide-decks.md`. Depends on `playwright`. |
+| `scripts/export_deck_pptx.mjs` | **HTML -> PPTX export (dual mode)** · `--mode image` gives 100% visual fidelity with full-image backgrounds but non-editable text; `--mode editable` uses `html2pptx.js` to export native editable text boxes, but the HTML must satisfy the 4 hard constraints in `references/editable-pptx.md`. Depends on `playwright` and `pptxgenjs` (`sharp` also required for editable mode). |
+| `scripts/html2pptx.js` | **HTML -> PPTX element translator** · reads computed styles and translates DOM elements into PowerPoint objects (text frames / shapes / images). Called internally by `export_deck_pptx.mjs --mode editable`. Requires the HTML to satisfy all 4 hard constraints. |
+| `design_canvas.jsx` | Showing 2+ static variations side by side | Labeled grid layout |
+| `animations.jsx` | Any animation HTML | Stage + Sprite + useTime + Easing + interpolate |
+| `ios_frame.jsx` | iOS app mockups | iPhone bezel + status bar + rounded corners |
+| `android_frame.jsx` | Android app mockups | Device bezel |
+| `macos_window.jsx` | Desktop app mockups | Window chrome + traffic-light controls |
+| `browser_window.jsx` | Showing a webpage inside a browser shell | URL bar + tab bar |
 
-用法：读取对应 assets 文件内容 → inline 进你的 HTML `<script>` 标签 → slot 进你的设计。
+Usage: read the relevant asset file -> inline it into your HTML `<script>` tag -> slot your design into it.
 
-## References路由表
+## Reference routing table
 
-根据任务类型深入读对应references：
+Read the relevant references by task type:
 
-| 任务 | 读 |
+| Task | Read |
 |------|-----|
-| 开工前问问题、定方向 | `references/workflow.md` |
-| 反AI slop、内容规范、scale | `references/content-guidelines.md` |
-| React+Babel项目setup | `references/react-setup.md` |
-| 做幻灯片 | `references/slide-decks.md` + `assets/deck_stage.js` |
-| 导出可编辑 PPTX（html2pptx 4 条硬约束） | `references/editable-pptx.md` + `scripts/html2pptx.js` |
-| 做动画/motion（**先读 pitfalls**）| `references/animation-pitfalls.md` + `references/animations.md` + `assets/animations.jsx` |
-| **动画的正向设计语法**（Anthropic 级叙事/运动/节奏/表达风格）| `references/animation-best-practices.md`（5 段叙事+Expo easing+运动语言 8 条+3 种场景配方）|
-| 做Tweaks实时调参 | `references/tweaks-system.md` |
-| 没有design context怎么办 | `references/design-context.md`（薄 fallback） 或 `references/design-styles.md`（厚 fallback：20 种设计哲学详细库） |
-| **需求模糊要推荐风格方向** | `references/design-styles.md`（20 种风格+AI prompt 模板）+ `assets/showcases/INDEX.md`（24 个预制样例） |
-| **按输出类型查场景模板**（封面/PPT/信息图） | `references/scene-templates.md` |
-| 输出完后验证 | `references/verification.md` + `scripts/verify.py` |
-| **设计评审/打分**（设计完成后可选） | `references/critique-guide.md`（5 维度评分+常见问题清单） |
-| **动画导出MP4/GIF/加BGM** | `references/video-export.md` + `scripts/render-video.js` + `scripts/convert-formats.sh` + `scripts/add-music.sh` |
-| **动画加音效SFX**（苹果发布会级，37个预制） | `references/sfx-library.md` + `assets/sfx/<category>/*.mp3` |
-| **动画音频配置规则**（SFX+BGM双轨制、黄金配比、ffmpeg模板、场景配方） | `references/audio-design-rules.md` |
-| **Apple画廊展示风格**（3D倾斜+悬浮卡片+缓慢pan+焦点切换，v9实战同款） | `references/apple-gallery-showcase.md` |
-| **Gallery Ripple + Multi-Focus 场景哲学**（当素材 20+ 同质+场景需表达「规模×深度」时优先用；含前置条件、技术配方、5 个可复用模式）| `references/hero-animation-case-study.md`（hero v9 蒸馏）|
+| Ask kickoff questions / choose direction | `references/workflow.md` |
+| Anti-AI-slop, content rules, scale | `references/content-guidelines.md` |
+| React+Babel project setup | `references/react-setup.md` |
+| Build slide decks | `references/slide-decks.md` + `assets/deck_stage.js` |
+| Export editable PPTX (4 hard html2pptx constraints) | `references/editable-pptx.md` + `scripts/html2pptx.js` |
+| Build animation / motion (**read pitfalls first**) | `references/animation-pitfalls.md` + `references/animations.md` + `assets/animations.jsx` |
+| **Positive design grammar for animation** (Anthropic-grade narrative / motion / rhythm / expression style) | `references/animation-best-practices.md` (5-part narrative + Expo easing + 8 motion-language rules + 3 scenario recipes) |
+| Build live Tweaks controls | `references/tweaks-system.md` |
+| What to do when there is no design context | `references/design-context.md` (thin fallback) or `references/design-styles.md` (thick fallback: detailed 20-design-philosophy library) |
+| **Recommend style directions for vague briefs** | `references/design-styles.md` (20 styles + AI prompt templates) + `assets/showcases/INDEX.md` (24 prebuilt samples) |
+| **Look up scene templates by output type** (cover / PPT / infographic) | `references/scene-templates.md` |
+| Verification after output | `references/verification.md` + `scripts/verify.py` |
+| **Design critique / scoring** (optional after the design is finished) | `references/critique-guide.md` (5-dimension scoring + common issue checklist) |
+| **Animation export to MP4 / GIF / BGM** | `references/video-export.md` + `scripts/render-video.js` + `scripts/convert-formats.sh` + `scripts/add-music.sh` |
+| **Animation SFX library** (Apple-keynote-grade, 37 prebuilt sounds) | `references/sfx-library.md` + `assets/sfx/<category>/*.mp3` |
+| **Animation audio rules** (SFX+BGM dual-track system, golden ratios, ffmpeg templates, scenario recipes) | `references/audio-design-rules.md` |
+| **Apple gallery showcase style** (3D tilt + floating cards + slow pan + focus switching, same as production v9) | `references/apple-gallery-showcase.md` |
+| **Gallery Ripple + Multi-Focus scene philosophy** (preferred when you have 20+ homogenous assets and need to express both scale and depth; includes preconditions, technical recipes, and 5 reusable patterns) | `references/hero-animation-case-study.md` (distilled from hero v9) |
 
-## 跨 Agent 环境适配说明
+## Cross-agent environment adaptation
 
-本 skill 适配 **OpenClaw** 环境运行。以下是环境差异处理方式：
+This skill is designed to run inside the **OpenClaw** environment. Differences are handled as follows:
 
-- **没有内置的 fork-verifier agent**：用 `scripts/verify.py`（Playwright 封装）人工驱动验证
-- **没有 asset 注册到 review pane**：直接用 agent 的 Write 能力写文件，用户在自己的浏览器/IDE 里打开
-- **没有 Tweaks host postMessage**：改成**纯前端 localStorage 版**，详见 `references/tweaks-system.md`
-- **没有内置 LLM helper**：若 HTML 里要调 LLM，用一个可复用的 mock 或让用户填自己的 API key，详见 `references/react-setup.md`
-- **没有结构化问题 UI**：在对话里用 markdown 清单问问题，参考 `references/workflow.md` 的模板
+- **No built-in fork-verifier agent**: use `scripts/verify.py` (Playwright wrapper) and drive verification manually
+- **No asset registration into a review pane**: write files directly with the agent and let the user open them in their browser / IDE
+- **No Tweaks host `postMessage` bridge**: switch to the **pure frontend localStorage variant**, see `references/tweaks-system.md`
+- **No built-in LLM helper**: if the HTML needs LLM behavior, use a reusable mock or ask the user to fill in their own API key, see `references/react-setup.md`
+- **No structured question UI**: ask questions in Markdown lists inside the conversation, following the templates in `references/workflow.md`
 
-Skill 路径引用均采用**相对本 skill 根目录**的形式（`references/xxx.md`、`assets/xxx.jsx`、`scripts/xxx.sh`）——agent 或用户按自身安装位置解析，不依赖任何绝对路径。
+All skill-path references use **paths relative to the skill root** (`references/xxx.md`, `assets/xxx.jsx`, `scripts/xxx.sh`) so the agent or user can resolve them regardless of install location. No absolute paths required.
 
-## 产出要求
+## Output requirements
 
-- HTML文件命名描述性：`Landing Page.html`、`iOS Onboarding v2.html`
-- 大改版时copy一份旧版保留：`My Design.html` → `My Design v2.html`
-- 避免>1000行的大文件，拆成多个JSX文件import进主文件
-- 幻灯片、动画等固定尺寸内容，**播放位置**存localStorage——刷新不丢
-- HTML放项目目录，不要散落到`~/Downloads`
-- 最终产出用浏览器打开检查或用Playwright截图
+- HTML files should have descriptive names: `Landing Page.html`, `iOS Onboarding v2.html`
+- When doing a major revision, keep a copy of the old version: `My Design.html` -> `My Design v2.html`
+- Avoid HTML files larger than 1000 lines; split into multiple JSX files and import them into the main file when needed
+- Fixed-dimension content like slides and animations should store **playback position** in localStorage so refresh does not reset progress
+- Keep HTML inside the project directory; do not scatter files into `~/Downloads`
+- Open the final output in a browser for inspection, or generate Playwright screenshots
 
-## Skill 推广水印（仅动画产出）
+## Skill promotion watermark (animation output only)
 
-**只在动画产出**（HTML 动画 → MP4 / GIF）默认带「**Created by MyClaw Design**」水印，辅助 skill 传播。**幻灯片 / 信息图 / 原型 / 网页等其他场景不加**——加了反而干扰用户实际使用。
+**Only animation output** (HTML animation -> MP4 / GIF) should include the default watermark **"Created by MyClaw Design"** to help the skill spread. **Do not add it** to slides / infographics / prototypes / web pages / other non-animation artifacts—it only interferes with real usage in those cases.
 
-- **必带场景**：HTML 动画 → 导出 MP4 / GIF（用户会拿去公众号、X、B站传播，水印能跟着流通）
-- **不带场景**：幻灯片（用户自己讲）、信息图（嵌文章）、App / 网页原型（设计 review）、配图
-- **第三方品牌的非官方致敬动画**：水印前加「非官方出品 · 」前缀，避免被误认为官方物料引发 IP 争议
-- **用户明确说"不要水印"**：尊重，移除
-- **水印模板**：
+- **Mandatory watermark scenarios**: HTML animation exported to MP4 / GIF (because users may redistribute it on WeChat / X / Bilibili, and the watermark can travel with it)
+- **No watermark scenarios**: slide decks (the user presents them), infographics (embedded into an article), app / web prototypes (design review), supporting images
+- **Unofficial tribute animations for third-party brands**: prepend the watermark with `Unofficial production · ` to avoid IP confusion where viewers might mistake it for official brand material
+- **If the user explicitly says "no watermark"**: remove it
+- **Watermark template**:
   ```jsx
   <div style={{
     position: 'absolute', bottom: 24, right: 32,
-    fontSize: 11, color: 'rgba(0,0,0,0.4)' /* 深底用 rgba(255,255,255,0.35) */,
+    fontSize: 11, color: 'rgba(0,0,0,0.4)' /* for dark backgrounds use rgba(255,255,255,0.35) */,
     letterSpacing: '0.15em', fontFamily: 'monospace',
     pointerEvents: 'none', zIndex: 100,
   }}>
     Created by MyClaw Design
-    {/* 第三方品牌动画前缀「非官方出品 · 」*/}
+    {/* For third-party brand animations, prepend "Unofficial production · " */}
   </div>
   ```
 
-## 核心提醒
+## Core reminders
 
-- **事实验证先于假设**（核心原则 #0）：涉及具体产品/技术/事件（DJI Pocket 4、Gemini 3 Pro 等）必须先用 `web_fetch` 验证存在性和状态，不凭训练语料断言。
-- **Embody专家**：做幻灯片时是幻灯片设计师，做动画时是动画师。不是写Web UI。
-- **Junior先show，再做**：先展示思路，再执行。
-- **Variations不给答案**：3+个变体，让用户选。
-- **Placeholder优于烂实现**：诚实留白，不编造。
-- **反AI slop时时警醒**：每个渐变/emoji/圆角border accent之前先问——这真的必要吗？
-- **涉及具体品牌**：走「核心资产协议」（§1.a）——Logo（必需）+ 产品图（实体产品必需）+ UI 截图（数字产品必需），色值只是辅助。**不要用 CSS 剪影代替真实产品图**。
-- **做动画之前**：必读 `references/animation-pitfalls.md`——里面 14 条规则每条都来自真实踩过的坑，跳过会让你重做 1-3 轮。
-- **手写 Stage / Sprite**（不用 `assets/animations.jsx`）：必须实现两件事——(a) tick 第一帧同步设 `window.__ready = true` (b) 检测 `window.__recording === true` 时强制 loop=false。否则录视频必出问题。
+- **Verify facts before assumptions** (Core Principle #0): if the task involves a specific product / technology / event (DJI Pocket 4, Gemini 3 Pro, etc.), use `web_fetch` first to verify existence and current status. Do not rely on training-memory claims.
+- **Embody the right specialist**: when making slides, be a slide designer. When making animation, be an animator. Do not default to building generic web UI.
+- **Junior first: show, then build**: expose the thinking before execution.
+- **Variations, not answers**: offer 3+ variants and let the user choose.
+- **Placeholders beat bad execution**: honest empty space is better than fabricated filler.
+- **Stay vigilant against AI slop**: before every gradient / emoji / rounded border accent, ask whether it is actually necessary.
+- **For specific brands**: follow the **Core Asset Protocol** (§1.a)—Logo (mandatory) + product imagery (mandatory for physical products) + UI screenshots (mandatory for digital products). Color values are only supportive. **Do not replace real product imagery with CSS silhouettes.**
+- **Before making animation**: read `references/animation-pitfalls.md`. All 14 rules came from real failures. Skip them and you will likely redo the work 1-3 times.
+- **If hand-writing Stage / Sprite** (instead of using `assets/animations.jsx`): you must implement two things—(a) on the first tick, synchronously set `window.__ready = true`; (b) if `window.__recording === true`, force `loop = false`. Without both, video recording will fail.

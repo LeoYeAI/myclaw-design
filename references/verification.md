@@ -1,189 +1,189 @@
-# Verification：输出验证流程
+# Verification: Output Validation Workflow
 
-一些 design-agent 原生环境有内置的截图检查能力。OpenClaw 环境里用 Playwright 手动做就能覆盖相同的验证场景。
+Some native design-agent environments have built-in screenshot validation. In OpenClaw, doing it manually with Playwright covers the same verification cases.
 
-## 验证清单
+## Verification Checklist
 
-每次产出HTML后，按这个清单做一遍：
+Every time you produce HTML, run through this checklist once:
 
-### 1. 浏览器渲染检查（必做）
+### 1. Browser Render Check (required)
 
-最基础：**HTML能不能打开**？在macOS上：
+The most basic test: **does the HTML open at all**? On macOS:
 
 ```bash
 open -a "Google Chrome" "/path/to/your/design.html"
 ```
 
-或者用Playwright截图（下一节）。
+Or use Playwright screenshots (next section).
 
-### 2. 控制台错误检查
+### 2. Console Error Check
 
-HTML文件里最常见的问题是JS报错导致白屏。用Playwright跑一遍：
+The most common issue in HTML files is JS errors causing a blank screen. Run it once with Playwright:
 
 ```bash
 python scripts/verify.py path/to/design.html
 ```
 
-这个脚本会：
-1. 用headless chromium打开HTML
-2. 截图保存到项目目录
-3. 抓取控制台错误
-4. 报告status
+This script will:
+1. Open the HTML in headless Chromium
+2. Save a screenshot into the project directory
+3. Capture console errors
+4. Report status
 
-详见`scripts/verify.py`。
+See `scripts/verify.py` for details.
 
-### 3. 多视口检查
+### 3. Multi-Viewport Check
 
-如果是响应式设计，抓多个viewport：
+If it's a responsive design, capture multiple viewports:
 
 ```bash
 python verify.py design.html --viewports 1920x1080,1440x900,768x1024,375x667
 ```
 
-### 4. 交互检查
+### 4. Interaction Check
 
-Tweaks、动画、按钮切换——默认的静态截图看不到。**建议让用户自己开浏览器点一遍**，或者用Playwright录屏：
+Tweaks, animations, button toggles — static screenshots won't show them. **Recommended: let the user open the browser and click through it themselves**, or use Playwright to record video:
 
 ```python
 page.video.record('interaction.mp4')
 ```
 
-### 5. 幻灯片逐页检查
+### 5. Slide-by-Slide Check for Decks
 
-Deck类HTML，一张张截：
+For deck-style HTML, capture slide by slide:
 
 ```bash
-python verify.py deck.html --slides 10  # 截前10张
+python verify.py deck.html --slides 10  # capture the first 10 slides
 ```
 
-生成 `deck-slide-01.png`、`deck-slide-02.png`... 方便快速浏览。
+This generates `deck-slide-01.png`, `deck-slide-02.png`... for quick review.
 
 ## Playwright Setup
 
-首次使用需要：
+First-time setup requires:
 
 ```bash
-# 如果还没装
+# If not installed yet
 npm install -g playwright
 npx playwright install chromium
 
-# 或者Python版
+# Or Python version
 pip install playwright
 playwright install chromium
 ```
 
-如果用户已经全局安装 Playwright，直接用即可。
+If the user already has Playwright installed globally, just use it.
 
-## 截图最佳实践
+## Screenshot Best Practices
 
-### 截完整页面
+### Capture Full Page
 
 ```python
 page.screenshot(path='full.png', full_page=True)
 ```
 
-### 截viewport
+### Capture Viewport
 
 ```python
-page.screenshot(path='viewport.png')  # 默认只截可见区域
+page.screenshot(path='viewport.png')  # by default only captures visible area
 ```
 
-### 截特定元素
+### Capture Specific Element
 
 ```python
 element = page.query_selector('.hero-section')
 element.screenshot(path='hero.png')
 ```
 
-### 高清截图
+### High-Resolution Screenshots
 
 ```python
 page = browser.new_page(device_scale_factor=2)  # retina
 ```
 
-### 等动画结束再截
+### Wait for Animations to Settle
 
 ```python
-page.wait_for_timeout(2000)  # 等2秒让动画settle
+page.wait_for_timeout(2000)  # wait 2s for animation to settle
 page.screenshot(...)
 ```
 
-## 把截图发给用户
+## Sending Screenshots to the User
 
-### 本地截图直接打开
+### Open Local Screenshot Directly
 
 ```bash
 open screenshot.png
 ```
 
-用户会在自己的 Preview/Figma/VSCode/浏览器 里看。
+The user can inspect it in Preview/Figma/VSCode/browser.
 
-### 上传图床分享链接
+### Upload to an image host and share the link
 
-如果需要给远程协作者看（比如 Slack/飞书/微信），让用户用自己的图床工具或 MCP 上传：
+If you need to share it with remote collaborators (e.g. Slack/Feishu/WeChat), let the user use their own image-hosting tool or MCP uploader:
 
 ```bash
-python ~/Documents/写作/tools/upload_image.py screenshot.png
+python upload_image.py screenshot.png
 ```
 
-返回ImgBB的永久链接，可以粘贴到任何地方。
+This returns a permanent ImgBB link that can be pasted anywhere.
 
-## 验证出错时
+## When Verification Fails
 
-### 页面白屏
+### Blank Page
 
-控制台一定有错。先检查：
+There is definitely a console error. Check these first:
 
-1. React+Babel script tag的integrity hash对不对（见`react-setup.md`）
-2. 是不是`const styles = {...}`命名冲突
-3. 跨文件的组件有没有export到`window`
-4. JSX语法错误（babel.min.js不报错，换babel.js非压缩版）
+1. Are the React+Babel script tag integrity hashes correct (see `react-setup.md`)
+2. Is there a `const styles = {...}` naming collision
+3. Were cross-file components exported to `window`
+4. JSX syntax error (`babel.min.js` may not report clearly; switch to unminified `babel.js`)
 
-### 动画卡
+### Choppy Animation
 
-- 用Chrome DevTools Performance tab录一段
-- 找layout thrashing（频繁的reflow）
-- 动效优先用`transform`和`opacity`（GPU加速）
+- Record a session in Chrome DevTools Performance tab
+- Look for layout thrashing (frequent reflow)
+- Prefer `transform` and `opacity` for motion (GPU-accelerated)
 
-### 字体不对
+### Wrong Fonts
 
-- 检查`@font-face`的url是否可访问
-- 检查fallback字体
-- 中文字体加载慢：先显示fallback，加载完再切换
+- Check whether the `@font-face` URL is accessible
+- Check fallback fonts
+- Chinese fonts load slowly: show fallback first, switch after loading
 
-### 布局错位
+### Misaligned Layout
 
-- 检查`box-sizing: border-box`是否全局应用
-- 检查`*  margin: 0; padding: 0`reset
-- Chrome DevTools里打开gridlines看实际布局
+- Check whether `box-sizing: border-box` is applied globally
+- Check the `*  margin: 0; padding: 0` reset
+- Turn on gridlines in Chrome DevTools to inspect the real layout
 
-## 验证=设计师的第二双眼
+## Verification = Designer's Second Pair of Eyes
 
-**永远要自己过一遍**。AI写代码时经常出现：
+**Always review it yourself once**. AI-written code often has issues like:
 
-- 看起来对但interaction有bug
-- 静态截图好但scroll时错位
-- 宽屏好看但窄屏崩
-- Dark mode忘了测
-- Tweaks切换后某些组件没响应
+- Looks correct, but interaction is broken
+- Static screenshot is fine, but scroll causes misalignment
+- Wide screens look good, narrow screens break
+- Dark mode was never tested
+- Some components don't respond after Tweaks changes
 
-**最后1分钟的验证可以省1小时的返工**。
+**The last 1 minute of verification can save 1 hour of rework**.
 
-## 常用验证脚本命令
+## Common Verification Script Commands
 
 ```bash
-# 基础：打开+截图+抓错
+# Basic: open + screenshot + capture errors
 python verify.py design.html
 
-# 多viewport
+# Multi-viewport
 python verify.py design.html --viewports 1920x1080,375x667
 
-# 多slide
+# Multi-slide
 python verify.py deck.html --slides 10
 
-# 输出到指定目录
+# Output to a specified directory
 python verify.py design.html --output ./screenshots/
 
-# headless=false，打开真实浏览器给你看
+# headless=false, open a real browser for inspection
 python verify.py design.html --show
 ```
