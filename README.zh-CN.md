@@ -47,6 +47,27 @@ git clone https://github.com/LeoYeAI/myclaw-design.git ~/.openclaw/skills/myclaw
 
 ---
 
+## 风格画廊
+
+同样的内容，6 种不同的设计语言——全部由 MyClaw Design 从一句话生成：
+
+<table>
+<tr>
+<td align="center" width="33%"><img src="docs/style-apple.png" alt="Apple 风格" width="100%"><br><sub>Apple — 纯黑、大字、极简数据</sub></td>
+<td align="center" width="33%"><img src="docs/style-stripe.png" alt="Stripe 风格" width="100%"><br><sub>Stripe — 深海蓝、棱镜渐变</sub></td>
+<td align="center" width="33%"><img src="docs/style-linear.png" alt="Linear 风格" width="100%"><br><sub>Linear — 暗色 UI、靛蓝光晕、锐利</sub></td>
+</tr>
+<tr>
+<td align="center" width="33%"><img src="docs/style-vercel.png" alt="Vercel 风格" width="100%"><br><sub>Vercel — 纯黑白、零色彩</sub></td>
+<td align="center" width="33%"><img src="docs/style-notion.png" alt="Notion 风格" width="100%"><br><sub>Notion — 暖白、侧边栏、数据库表格</sub></td>
+<td align="center" width="33%"><img src="docs/style-claude.png" alt="Claude 风格" width="100%"><br><sub>Claude — 象牙暖色、衬线字体、赤陶橙</sub></td>
+</tr>
+</table>
+
+> 每种风格都基于真实品牌的设计语言——颜色从官网提取、字体匹配、布局忠于原作。不是简单的「深色模式」或「浅色模式」切换。
+
+---
+
 ## 能做什么
 
 <p align="center">
