@@ -23,7 +23,7 @@ Fornisci alla skill i tuoi asset del brand (logo, palette, screenshot UI) e legg
 ---
 
 <p align="center">
-  <a href="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/hero-animation-v10-en.gif"><img src="docs/hero-preview.jpg" alt="MyClaw Design Hero — Scrivi → Scegli direzione → Galleria → Focus → Rivelazione brand" width="100%"></a>
+  <img src="docs/hero-animation-v10-en.gif" alt="MyClaw Design Hero — Scrivi → Scegli direzione → Galleria → Focus → Rivelazione brand" width="100%">
 </p>
 
 <p align="center"><sub>

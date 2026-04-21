@@ -23,7 +23,7 @@ Dale a la skill tus assets de marca (logo, paleta, capturas de UI) y leerá el A
 ---
 
 <p align="center">
-  <a href="https://github.com/LeoYeAI/myclaw-design/releases/download/v1.0.0/hero-animation-v10-en.gif"><img src="docs/hero-preview.jpg" alt="MyClaw Design Hero — Escribe → Elige dirección → Galería → Enfoque → Revelación de marca" width="100%"></a>
+  <img src="docs/hero-animation-v10-en.gif" alt="MyClaw Design Hero — Escribe → Elige dirección → Galería → Enfoque → Revelación de marca" width="100%">
 </p>
 
 <p align="center"><sub>
