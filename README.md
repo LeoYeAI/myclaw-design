@@ -84,6 +84,20 @@ A 40-second product showcase — 5 scenes, animated with the built-in Stage + Sp
 
 > 🎵 The MP4 includes BGM + 26 synced sound effects. **[▶ Watch with sound on GitHub Pages](https://leoyeai.github.io/myclaw-design/)**
 
+### Narrated Brand Video (30s)
+
+TTS narration (Edge TTS) + BGM + SFX — all mixed automatically from declarative `<audio>` tags by `render-seekable.js`:
+
+<p align="center">
+  <a href="https://leoyeai.github.io/myclaw-design/">
+    <img src="docs/showcase-hero.png" alt="MyClaw.ai 30s narrated brand video" width="600">
+  </a>
+</p>
+
+<p align="center">
+  <sub><b><a href="https://leoyeai.github.io/myclaw-design/">▶ Watch the narrated demo with sound</a></b> · <a href="docs/myclaw-brand-30s-source.html">View HTML source</a></sub>
+</p>
+
 ---
 
 ## What It Can Do

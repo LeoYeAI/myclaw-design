@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920">
+<title>MyClaw.ai — 30s Brand Video with Narration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; overflow: hidden; }
+  #root { width: 1920px; height: 1080px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+/**
+ * animations.jsx — 时间轴动画引擎
+ *
+ * Stage + Sprite 模式，借鉴Remotion但轻量化。
+ *
+ * 导出（挂到 window.Animations）：
+ * - Stage: 整个动画容器，提供时间+控制
+ * - Sprite: 时间片段，start/end内显示，提供本地进度
+ * - useTime(): 读全局时间（秒）
+ * - useSprite(): 读本地进度 {t: 0→1, elapsed: seconds, duration: seconds}
+ * - Easing: {linear, easeIn, easeOut, easeInOut, spring, anticipation}
+ * - interpolate(t, [input0, input1], [output0, output1], easing?)
+ *
+ * 用法：
+ *   <Stage duration={10}>
+ *     <Sprite start={0} end={3}>
+ *       <Title />
+ *     </Sprite>
+ *     <Sprite start={2} end={5}>
+ *       <Subtitle />
+ *     </Sprite>
+ *   </Stage>
+ *
+ * 在Sprite子组件里用 useSprite() 读当前片段进度。
+ */
+
+(function() {
+  const { createContext, useContext, useState, useEffect, useRef, useCallback } = React;
+
+  const TimeContext = createContext({ time: 0, duration: 10, playing: false });
+  const SpriteContext = createContext(null);
+
+  const Easing = {
+    linear: t => t,
+    easeIn: t => t * t,
+    easeOut: t => 1 - (1 - t) * (1 - t),
+    easeInOut: t => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2,
+    // expoOut: Anthropic-level 主 easing (cubic-bezier(0.16, 1, 0.3, 1))
+    // 迅速启动 + 缓慢刹车，给数字元素物理重量感
+    expoOut: t => t === 1 ? 1 : 1 - Math.pow(2, -10 * t),
+    // overshoot: 带弹性的 toggle/按钮弹出 (cubic-bezier(0.34, 1.56, 0.64, 1))
+    overshoot: t => {
+      const c1 = 1.70158, c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    },
+    spring: t => {
+      const c = (2 * Math.PI) / 3;
+      return t === 0 ? 0 : t === 1 ? 1 : Math.pow(2, -10 * t) * Math.sin((t * 10 - 0.75) * c) + 1;
+    },
+    anticipation: t => {
+      if (t < 0.2) return -0.3 * (t / 0.2) * (t / 0.2);
+      const adjusted = (t - 0.2) / 0.8;
+      return -0.012 + 1.012 * adjusted * adjusted * (3 - 2 * adjusted);
+    },
+  };
+
+  function interpolate(t, input, output, easing) {
+    const [inStart, inEnd] = input;
+    const [outStart, outEnd] = output;
+
+    if (t <= inStart) return outStart;
+    if (t >= inEnd) return outEnd;
+
+    let progress = (t - inStart) / (inEnd - inStart);
+    if (easing) {
+      progress = easing(progress);
+    }
+
+    return outStart + (outEnd - outStart) * progress;
+  }
+
+  function useTime() {
+    const ctx = useContext(TimeContext);
+    return ctx.time;
+  }
+
+  function useSprite() {
+    const sprite = useContext(SpriteContext);
+    if (!sprite) {
+      return { t: 0, elapsed: 0, duration: 0 };
+    }
+    return sprite;
+  }
+
+  const stageStyles = {
+    wrapper: {
+      position: 'fixed',
+      inset: 0,
+      background: '#000',
+      display: 'flex',
+      flexDirection: 'column',
+      fontFamily: '-apple-system, sans-serif',
+    },
+    stageHolder: {
+      flex: 1,
+      position: 'relative',
+      overflow: 'hidden',
+    },
+    canvas: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transformOrigin: 'center center',
+      background: '#111',
+      overflow: 'hidden',
+    },
+    controls: {
+      position: 'fixed',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      background: 'rgba(0, 0, 0, 0.8)',
+      backdropFilter: 'blur(10px)',
+      padding: '12px 20px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 16,
+      color: '#fff',
+      fontSize: 12,
+      zIndex: 100,
+    },
+    button: {
+      background: 'none',
+      border: '1px solid rgba(255,255,255,0.3)',
+      color: '#fff',
+      padding: '6px 14px',
+      borderRadius: 4,
+      cursor: 'pointer',
+      fontSize: 12,
+    },
+    timeDisplay: {
+      fontFamily: 'ui-monospace, monospace',
+      fontVariantNumeric: 'tabular-nums',
+      minWidth: 90,
+    },
+    scrubber: {
+      flex: 1,
+      height: 4,
+      background: 'rgba(255,255,255,0.2)',
+      borderRadius: 2,
+      position: 'relative',
+      cursor: 'pointer',
+    },
+    scrubberFill: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      height: '100%',
+      background: '#fff',
+      borderRadius: 2,
+      pointerEvents: 'none',
+    },
+    scrubberHandle: {
+      position: 'absolute',
+      top: '50%',
+      width: 12,
+      height: 12,
+      background: '#fff',
+      borderRadius: '50%',
+      transform: 'translate(-50%, -50%)',
+      pointerEvents: 'none',
+    },
+  };
+
+  function Stage({ duration = 10, width = 1920, height = 1080, fps = 60, loop = true, children, bgColor = '#fff' }) {
+    const [time, setTime] = useState(0);
+    const [playing, setPlaying] = useState(true);
+    const [scale, setScale] = useState(1);
+    const rafRef = useRef(null);
+    const startTimeRef = useRef(performance.now());
+    const canvasRef = useRef(null);
+
+    // Recording mode: render-video.js injects window.__recording = true before goto.
+    // When set, force loop=false so the export ends on the final frame instead of
+    // wrapping back to t=0 and capturing the start of the next cycle.
+    // (Browsers viewing manually still loop because __recording is undefined there.)
+    const effectiveLoop = (typeof window !== 'undefined' && window.__recording) ? false : loop;
+
+    // ── HyperFrames-compatible seek protocol ──────────────────────────────
+    // Expose window.__hf = { duration, seek } so seekable renderers
+    // (render-seekable.js or any HyperFrames-compatible engine) can drive
+    // the animation frame-by-frame without relying on wall-clock rAF.
+    // Also keeps legacy window.__seek for backward compat with render-video.js.
+    useEffect(() => {
+      if (typeof window === 'undefined') return;
+      const seekFn = (t) => {
+        const clamped = Math.max(0, Math.min(duration - 0.001, t));
+        setTime(clamped);
+        setPlaying(false);
+      };
+      window.__seek = seekFn;
+      window.__hf = { duration, seek: seekFn };
+      return () => {
+        delete window.__seek;
+        delete window.__hf;
+      };
+    }, [duration]);
+
+    useEffect(() => {
+      function updateScale() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight - 56;
+        const s = Math.min(vw / width, vh / height);
+        setScale(s);
+      }
+      updateScale();
+      window.addEventListener('resize', updateScale);
+      return () => window.removeEventListener('resize', updateScale);
+    }, [width, height]);
+
+    useEffect(() => {
+      if (!playing) return;
+      let cancelled = false;
+      let last = null;
+
+      function tick(now) {
+        if (cancelled) return;
+        if (last === null) {
+          // First animation frame. Set last=now so delta starts at 0,
+          // AND announce readiness for video export.
+          // This pairing is critical: window.__ready must flip to true at
+          // the exact moment WebM captures frame 0 of the animation, so
+          // render-video.js's trim offset equals the pre-animation gap.
+          last = now;
+          if (typeof window !== 'undefined') window.__ready = true;
+        }
+        const delta = (now - last) / 1000;
+        last = now;
+        setTime(prev => {
+          const next = prev + delta;
+          if (next >= duration) {
+            // effectiveLoop honors window.__recording (forced non-loop during export).
+            // Stop just shy of duration so the final-frame state stays rendered
+            // (avoids exiting all Sprites that end exactly at `duration`).
+            return effectiveLoop ? 0 : duration - 0.001;
+          }
+          return next;
+        });
+        rafRef.current = requestAnimationFrame(tick);
+      }
+
+      // In seekable mode (__recording + __hf), skip rAF loop entirely.
+      // The external renderer will call __hf.seek() for each frame.
+      if (typeof window !== 'undefined' && window.__recording && window.__hf) {
+        // Signal ready immediately after fonts load
+        const signalReady = () => {
+          if (cancelled) return;
+          window.__ready = true;
+        };
+        if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(signalReady);
+        } else {
+          signalReady();
+        }
+        return () => { cancelled = true; };
+      }
+
+      // Wait for fonts before starting the clock — makes frame 0 the
+      // real "finished-loading" frame users see, not a fallback-font flash.
+      const startAfterFonts = () => {
+        if (cancelled) return;
+        rafRef.current = requestAnimationFrame(tick);
+      };
+      if (typeof document !== 'undefined' && document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(startAfterFonts);
+      } else {
+        startAfterFonts();
+      }
+
+      return () => {
+        cancelled = true;
+        cancelAnimationFrame(rafRef.current);
+      };
+    }, [playing, duration, effectiveLoop]);
+
+    const handleScrub = useCallback((e) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      setTime(Math.max(0, Math.min(duration, ratio * duration)));
+    }, [duration]);
+
+    const handleSeek = useCallback((e) => {
+      handleScrub(e);
+      setPlaying(false);
+    }, [handleScrub]);
+
+    const progress = time / duration;
+
+    const ctx = {
+      time,
+      duration,
+      playing,
+      setPlaying,
+      setTime,
+    };
+
+    const canvasStyle = {
+      ...stageStyles.canvas,
+      width,
+      height,
+      background: bgColor,
+      transform: `translate(-50%, -50%) scale(${scale})`,
+    };
+
+    return (
+      <TimeContext.Provider value={ctx}>
+        <div style={stageStyles.wrapper}>
+          <div style={stageStyles.stageHolder}>
+            <div ref={canvasRef} style={canvasStyle}>
+              {children}
+            </div>
+          </div>
+
+          <div style={stageStyles.controls}>
+            <button
+              style={stageStyles.button}
+              onClick={() => setPlaying(p => !p)}
+            >
+              {playing ? '⏸ 暂停' : '▶ 播放'}
+            </button>
+
+            <button
+              style={stageStyles.button}
+              onClick={() => setTime(0)}
+            >
+              ⏮ 开始
+            </button>
+
+            <div style={stageStyles.timeDisplay}>
+              {time.toFixed(2)}s / {duration.toFixed(2)}s
+            </div>
+
+            <div style={stageStyles.scrubber} onMouseDown={handleSeek}>
+              <div style={{ ...stageStyles.scrubberFill, width: `${progress * 100}%` }} />
+              <div style={{ ...stageStyles.scrubberHandle, left: `${progress * 100}%` }} />
+            </div>
+          </div>
+        </div>
+      </TimeContext.Provider>
+    );
+  }
+
+  function Sprite({ start = 0, end, children, style }) {
+    const { time } = useContext(TimeContext);
+    const actualEnd = end == null ? Infinity : end;
+
+    if (time < start || time >= actualEnd) {
+      return null;
+    }
+
+    const duration = actualEnd - start;
+    const elapsed = time - start;
+    const t = duration === 0 ? 1 : Math.max(0, Math.min(1, elapsed / duration));
+
+    const spriteValue = { t, elapsed, duration, start, end: actualEnd };
+
+    return (
+      <SpriteContext.Provider value={spriteValue}>
+        <div style={{ position: 'absolute', inset: 0, ...style }}>
+          {children}
+        </div>
+      </SpriteContext.Provider>
+    );
+  }
+
+  if (typeof window !== 'undefined') {
+    window.Animations = {
+      Stage,
+      Sprite,
+      useTime,
+      useSprite,
+      Easing,
+      interpolate,
+    };
+  }
+})();
+
+</script>
+<script type="text/babel">
+const { Stage, Sprite, useSprite, Easing, interpolate } = window.Animations;
+
+const C = {
+  bg: '#0a0a0a', accent: '#EF4444', accentGlow: 'rgba(239,68,68,0.3)',
+  white: '#fff', gray: '#a1a1aa', darkGray: '#27272a', card: '#18181b',
+};
+const F = "'Inter', system-ui, sans-serif";
+
+/* Scene 1: Hero (0-8s) */
+function Hero() {
+  const { t } = useSprite();
+  const glowOp = interpolate(t, [0, 0.15], [0, 0.6], Easing.easeOut);
+  const glowS = interpolate(t, [0, 0.3], [0.5, 1], Easing.expoOut);
+  const tagOp = interpolate(t, [0.05, 0.15], [0, 1], Easing.easeOut);
+  const titleOp = interpolate(t, [0.1, 0.25], [0, 1], Easing.easeOut);
+  const titleY = interpolate(t, [0.1, 0.25], [60, 0], Easing.expoOut);
+  const subOp = interpolate(t, [0.2, 0.35], [0, 1], Easing.easeOut);
+  const statsOp = interpolate(t, [0.45, 0.6], [0, 1], Easing.easeOut);
+  const statsY = interpolate(t, [0.45, 0.6], [30, 0], Easing.expoOut);
+  const fade = interpolate(t, [0.87, 1], [1, 0], Easing.easeIn);
+
+  return (
+    <div style={{ width: 1920, height: 1080, background: C.bg, position: 'relative', opacity: fade }}>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', width: 600, height: 600,
+        transform: `translate(-50%,-60%) scale(${glowS})`,
+        background: `radial-gradient(circle, ${C.accentGlow} 0%, transparent 70%)`,
+        opacity: glowOp, filter: 'blur(80px)' }} />
+      <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column',
+        alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+        <div style={{ opacity: tagOp, fontFamily: F, fontSize: 14, fontWeight: 600,
+          color: C.accent, letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 24 }}>
+          AI Personal Assistant Platform
+        </div>
+        <h1 style={{ opacity: titleOp, transform: `translateY(${titleY}px)`,
+          fontFamily: F, fontSize: 120, fontWeight: 700, color: C.white, letterSpacing: '-0.03em' }}>
+          MyClaw<span style={{ color: C.accent }}>.ai</span>
+        </h1>
+        <p style={{ opacity: subOp, fontFamily: F, fontSize: 28, fontWeight: 300,
+          color: C.gray, marginTop: 24 }}>
+          Your AI. Your server. Your rules.
+        </p>
+        <div style={{ opacity: statsOp, transform: `translateY(${statsY}px)`,
+          display: 'flex', gap: 80, marginTop: 56 }}>
+          {[['18,000+', 'Instances'], ['$100K/day', 'Revenue'], ['75%', 'Token Margin']].map(([v, l], i) => (
+            <div key={i} style={{ textAlign: 'center' }}>
+              <div style={{ fontFamily: F, fontSize: 44, fontWeight: 700, color: C.white }}>{v}</div>
+              <div style={{ fontFamily: F, fontSize: 13, color: C.gray, marginTop: 4 }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* Scene 2: Architecture (8-16s) */
+const ARCH = [
+  { icon: '🖥️', title: 'Full Server Per User', desc: 'Complete server with full code control' },
+  { icon: '🤖', title: 'Multi-Model Routing', desc: 'Claude, GPT, Gemini — your choice' },
+  { icon: '🔒', title: 'Guardian Security', desc: 'Isolated containers, encrypted storage' },
+  { icon: '🌐', title: 'Internet Access', desc: 'Browse, email, deploy — unlimited' },
+];
+
+function Arch() {
+  const { t } = useSprite();
+  const headOp = interpolate(t, [0, 0.1], [0, 1], Easing.easeOut);
+  const headY = interpolate(t, [0, 0.1], [30, 0], Easing.expoOut);
+  const fade = interpolate(t, [0.87, 1], [1, 0], Easing.easeIn);
+
+  return (
+    <div style={{ width: 1920, height: 1080, background: C.bg, opacity: fade,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 140 }}>
+      <div style={{ opacity: headOp, transform: `translateY(${headY}px)`, textAlign: 'center', marginBottom: 56 }}>
+        <div style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: C.accent,
+          letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 12 }}>Architecture</div>
+        <div style={{ fontFamily: F, fontSize: 48, fontWeight: 700, color: C.white }}>
+          A <span style={{ color: C.accent }}>digital power amplifier</span>.
+        </div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 400px)', gap: 20 }}>
+        {ARCH.map((item, i) => {
+          const d = 0.12 + i * 0.1;
+          const op = interpolate(t, [d, d + 0.12], [0, 1], Easing.easeOut);
+          const y = interpolate(t, [d, d + 0.12], [40, 0], Easing.expoOut);
+          return (
+            <div key={i} style={{ opacity: op, transform: `translateY(${y}px)`,
+              background: C.card, borderRadius: 14, padding: '28px 24px',
+              border: `1px solid ${C.darkGray}` }}>
+              <div style={{ fontSize: 32, marginBottom: 10 }}>{item.icon}</div>
+              <div style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: C.white, marginBottom: 6 }}>{item.title}</div>
+              <div style={{ fontFamily: F, fontSize: 14, color: C.gray, lineHeight: 1.5 }}>{item.desc}</div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* Scene 3: Third Option (16-23s) */
+function ThirdOption() {
+  const { t } = useSprite();
+  const headOp = interpolate(t, [0, 0.1], [0, 1], Easing.easeOut);
+  const fade = interpolate(t, [0.85, 1], [1, 0], Easing.easeIn);
+
+  const opts = [
+    { label: 'Closed-source agents', status: 'Leaked. Surveilled. Locked in.', color: '#ef4444', sc: '#fca5a5' },
+    { label: 'Self-hosted open source', status: '238 CVEs. "Assume you\'re breached."', color: '#f59e0b', sc: '#fcd34d' },
+    { label: 'MyClaw', status: 'Open source + managed isolation + hardened infra', color: '#22c55e', sc: '#86efac' },
+  ];
+
+  return (
+    <div style={{ width: 1920, height: 1080, background: C.bg, opacity: fade,
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ opacity: headOp, textAlign: 'center', marginBottom: 64 }}>
+        <div style={{ fontFamily: F, fontSize: 14, fontWeight: 600, color: C.accent,
+          letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 12 }}>Security</div>
+        <div style={{ fontFamily: F, fontSize: 44, fontWeight: 700, color: C.white }}>
+          There's a <span style={{ color: C.accent }}>third option</span>.
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20, width: 780 }}>
+        {opts.map((o, i) => {
+          const d = 0.12 + i * 0.18;
+          const op = interpolate(t, [d, d + 0.14], [0, 1], Easing.easeOut);
+          const x = interpolate(t, [d, d + 0.14], [-60, 0], Easing.expoOut);
+          const last = i === 2;
+          return (
+            <div key={i} style={{ opacity: op, transform: `translateX(${x}px)`,
+              background: last ? 'rgba(34,197,94,0.08)' : C.card,
+              border: `1px solid ${last ? 'rgba(34,197,94,0.3)' : C.darkGray}`,
+              borderRadius: 12, padding: '20px 28px', display: 'flex', alignItems: 'center', gap: 20 }}>
+              <div style={{ width: 5, height: 44, borderRadius: 3, background: o.color, flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: F, fontSize: 18, fontWeight: 600, color: C.white }}>{o.label}</div>
+                <div style={{ fontFamily: F, fontSize: 13, color: o.sc, marginTop: 3 }}>{o.status}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* Scene 4: CTA (23-30s) */
+function CTA() {
+  const { t } = useSprite();
+  const titleOp = interpolate(t, [0, 0.18], [0, 1], Easing.easeOut);
+  const titleY = interpolate(t, [0, 0.18], [50, 0], Easing.expoOut);
+  const subOp = interpolate(t, [0.15, 0.35], [0, 1], Easing.easeOut);
+  const btnOp = interpolate(t, [0.3, 0.5], [0, 1], Easing.easeOut);
+  const btnS = interpolate(t, [0.3, 0.5], [0.9, 1], Easing.overshoot);
+  const glowOp = interpolate(t, [0.35, 0.6], [0, 0.5], Easing.easeOut);
+
+  return (
+    <div style={{ width: 1920, height: 1080, background: C.bg, position: 'relative',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ position: 'absolute', top: '45%', left: '50%', width: 500, height: 500,
+        transform: 'translate(-50%,-50%)',
+        background: `radial-gradient(circle, ${C.accentGlow} 0%, transparent 70%)`,
+        opacity: glowOp, filter: 'blur(100px)' }} />
+      <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+        <div style={{ opacity: titleOp, transform: `translateY(${titleY}px)`,
+          fontFamily: F, fontSize: 60, fontWeight: 700, color: C.white, letterSpacing: '-0.02em' }}>
+          Stop renting intelligence.<br/><span style={{ color: C.accent }}>Own it.</span>
+        </div>
+        <p style={{ opacity: subOp, fontFamily: F, fontSize: 20, fontWeight: 300, color: C.gray, marginTop: 20 }}>
+          Full server. Full control. From $19/month.
+        </p>
+        <div style={{ opacity: btnOp, transform: `scale(${btnS})`, marginTop: 44,
+          display: 'inline-block', padding: '14px 44px', borderRadius: 12,
+          background: C.accent, color: C.white, fontFamily: F, fontSize: 22, fontWeight: 600 }}>
+          myclaw.ai
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Stage duration={30} width={1920} height={1080} background="#0a0a0a">
+      <Sprite start={0} end={8}><Hero /></Sprite>
+      <Sprite start={8} end={16}><Arch /></Sprite>
+      <Sprite start={16} end={23}><ThirdOption /></Sprite>
+      <Sprite start={23} end={30}><CTA /></Sprite>
+    </Stage>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+
+<!-- Declarative audio: BGM + SFX + Narration -->
+<audio id="bgm" data-start="0" data-duration="30" data-volume="0.35" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/bgm-ad.mp3"></audio>
+<audio id="sfx-logo" data-start="0.7" data-volume="1.8" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/impact/logo-reveal-v2.mp3"></audio>
+<audio id="sfx-trans1" data-start="8.0" data-volume="1.5" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/transition/whoosh.mp3"></audio>
+<audio id="sfx-card1" data-start="9.0" data-volume="1.2" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/container/card-snap.mp3"></audio>
+<audio id="sfx-card2" data-start="9.8" data-volume="1.2" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/container/card-snap.mp3"></audio>
+<audio id="sfx-card3" data-start="10.6" data-volume="1.2" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/container/card-snap.mp3"></audio>
+<audio id="sfx-card4" data-start="11.4" data-volume="1.2" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/container/card-snap.mp3"></audio>
+<audio id="sfx-trans2" data-start="16.0" data-volume="1.5" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/transition/dissolve.mp3"></audio>
+<audio id="sfx-opt1" data-start="16.8" data-volume="1.5" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/feedback/error-tone.mp3"></audio>
+<audio id="sfx-opt2" data-start="18.1" data-volume="1.5" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/feedback/error-tone.mp3"></audio>
+<audio id="sfx-opt3" data-start="19.4" data-volume="1.8" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/feedback/success-chime.mp3"></audio>
+<audio id="sfx-trans3" data-start="23.0" data-volume="1.5" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/transition/dissolve.mp3"></audio>
+<audio id="sfx-stamp" data-start="23.3" data-volume="2.0" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/impact/brand-stamp.mp3"></audio>
+<audio id="sfx-cta" data-start="25.5" data-volume="1.8" src="/home/ubuntu/.openclaw/skills/myclaw-design/assets/sfx/magic/sparkle.mp3"></audio>
+<!-- Narration -->
+<audio id="narr1" data-start="0.5" data-volume="3.5" src="/home/ubuntu/.openclaw/workspace/myclaw-design-demo/narration/short1.mp3"></audio>
+<audio id="narr2" data-start="8.5" data-volume="3.5" src="/home/ubuntu/.openclaw/workspace/myclaw-design-demo/narration/short2.mp3"></audio>
+<audio id="narr3" data-start="16.5" data-volume="3.5" src="/home/ubuntu/.openclaw/workspace/myclaw-design-demo/narration/short3.mp3"></audio>
+<audio id="narr4" data-start="23.5" data-volume="3.5" src="/home/ubuntu/.openclaw/workspace/myclaw-design-demo/narration/short4.mp3"></audio>
+</body>
+</html>

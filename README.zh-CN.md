@@ -82,6 +82,20 @@ git clone https://github.com/LeoYeAI/myclaw-design.git ~/.openclaw/skills/myclaw
 
 > 🎵 MP4 包含 BGM + 26 个同步音效。**[▶ 在 GitHub Pages 上带声音播放](https://leoyeai.github.io/myclaw-design/)**
 
+### 口播品牌视频 (30秒)
+
+TTS 旁白 (Edge TTS) + BGM + SFX — 全部由 `render-seekable.js` 从声明式 `<audio>` 标签自动混音：
+
+<p align="center">
+  <a href="https://leoyeai.github.io/myclaw-design/">
+    <img src="docs/showcase-hero.png" alt="MyClaw.ai 30秒口播品牌视频" width="600">
+  </a>
+</p>
+
+<p align="center">
+  <sub><b><a href="https://leoyeai.github.io/myclaw-design/">▶ 带声音观看口播 Demo</a></b> · <a href="docs/myclaw-brand-30s-source.html">查看 HTML 源码</a></sub>
+</p>
+
 ---
 
 ## 能做什么
