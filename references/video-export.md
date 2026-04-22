@@ -27,9 +27,45 @@ By default, deliver three formats so the user can choose:
 
 ## Toolchain
 
-Two scripts in `scripts/`:
+Three renderers in `scripts/`, from newest to oldest:
 
-### 1. `render-video.js` — HTML -> MP4
+### 0. `render-seekable.js` — Seekable Frame-Accurate Renderer (RECOMMENDED)
+
+The primary renderer. Uses the `window.__hf` seek protocol to capture frames
+deterministically — seek to exact time, screenshot, pipe to ffmpeg. Supports
+arbitrary frame rates natively (no minterpolate needed).
+
+Also parses `<audio data-start="..." data-volume="...">` tags from the HTML
+and auto-mixes all audio tracks with ffmpeg. No manual adelay chains.
+
+```bash
+node /path/to/scripts/render-seekable.js animation.html \
+  --fps=30 --duration=40 --width=1920 --height=1080
+```
+
+Options:
+- `--fps=30` frame rate (default: 30, supports any value)
+- `--duration=40` override duration (auto-detected from `__hf.duration`)
+- `--width=1920 --height=1080` resolution
+- `--quality=90` JPEG quality (default: 90)
+- `--format=jpeg` jpeg or png (default: jpeg)
+- `--no-audio` skip audio mixing
+- `--audio-gain=1.0` master audio gain
+- `--keep-chrome` don't hide Stage controls
+
+Output: same directory as HTML, same name with `.mp4` extension.
+
+**Declarative audio**: Add `<audio>` tags to your HTML:
+```html
+<audio id="bgm" data-start="0" data-duration="30" data-volume="0.7" src="bgm-tech.mp3"></audio>
+<audio id="sfx-logo" data-start="0.3" data-volume="2.5" src="sfx/logo-reveal.mp3"></audio>
+```
+The renderer parses all `<audio>` tags, extracts `data-start`, `data-volume`,
+and `src`, then builds the ffmpeg filter chain automatically.
+
+Supports both Playwright and Puppeteer (auto-detected).
+
+### 1. `render-video.js` — Wall-Clock Recorder (LEGACY)
 
 Records a 25fps base MP4. Depends on global playwright.
 
@@ -114,18 +150,30 @@ After user says "export video":
 ```bash
 cd <project-directory>
 
-# Assume $SKILL points to this skill's root directory (substitute with your install path)
+# Assume $SKILL points to this skill's root directory
 
+# RECOMMENDED: Seekable renderer (frame-accurate, auto audio mixing)
+node "$SKILL/scripts/render-seekable.js" my-animation.html --fps=30
+
+# Output: my-animation.mp4 (with audio if <audio> tags present)
+
+# For GIF, use convert-formats.sh on the output:
+bash "$SKILL/scripts/convert-formats.sh" my-animation.mp4
+```
+
+### Legacy workflow (render-video.js)
+
+Use only if render-seekable.js is unavailable (e.g. no `window.__hf` support):
+
+```bash
 # 1. Record 25fps base MP4
 NODE_PATH=$(npm root -g) node "$SKILL/scripts/render-video.js" my-animation.html
 
 # 2. Derive 60fps MP4 and GIF
 bash "$SKILL/scripts/convert-formats.sh" my-animation.mp4
 
-# Output manifest:
-# my-animation.mp4         (25fps - 1-2 MB)
-# my-animation-60fps.mp4   (60fps - 1.5-3 MB)
-# my-animation.gif          (15fps - 2-4 MB)
+# 3. Add music
+bash "$SKILL/scripts/add-music.sh" my-animation.mp4 --mood=tech
 ```
 
 ## Technical Details (For Troubleshooting)
